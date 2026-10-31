@@ -1,13 +1,14 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
+import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.steam_saw.SteamSawBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import dev.celestiacraft.steam_letters.common.register.SlParticles;
 import net.createmod.catnip.math.VecHelper;
-import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.element.ElementLink;
-import net.createmod.ponder.api.element.EntityElement;
+import net.createmod.ponder.api.element.WorldSectionElement;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
@@ -15,133 +16,156 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 /**
- *
+ * 蒸汽锯的 Ponder 场景.
+ * <p>
  * 结构文件: {@code assets/steam_letters/ponder/steam_saw.nbt}
- * 等待重写
  */
 public class SteamSawScene {
 	public static void usage(SceneBuilder builder, SceneBuildingUtil util) {
 		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
 		RandomSource random = RandomSource.create();
 
-		scene.title("steam_saw", "Steam Saw");
-		scene.configureBasePlate(0, 0, 5);
+		scene.scaleSceneView(0.9F);
+		scene.title("steam_saw", "蒸汽锯");
 
-		Selection base = util.select().layer(0)
-				.substract(util.select().position(1, 0, 5));
-		scene.world().showSection(base, Direction.UP);
-		scene.idle(5);
-
-		BlockPos sawPos = util.grid().at(2, 1, 2);
-
-		Selection belts = util.select().fromTo(0, 1, 2, 1, 1, 2)
-				.add(util.select().fromTo(3, 1, 2, 4, 1, 2));
-		scene.world().showSection(belts, Direction.DOWN);
-		scene.idle(10);
+		BlockPos sawPos = new BlockPos(3, 1, 2);
+		BlockPos tankController = new BlockPos(5, 1, 5);
+		BlockPos tankCorner = new BlockPos(6, 3, 6);
+		BlockPos burner = new BlockPos(1, 1, 5);
+		BlockPos boiler = new BlockPos(1, 2, 5);
+		BlockPos beltI = new BlockPos(1, 1, 2);
+		BlockPos beltII = new BlockPos(2, 1, 2);
+		BlockPos beltIII = new BlockPos(4, 1, 2);
+		BlockPos beltIV = new BlockPos(5, 1, 2);
+		BlockPos funnel = new BlockPos(5, 2, 2);
+		BlockPos pipe = new BlockPos(3, 2, 5);
 
 		Selection saw = util.select().position(sawPos);
+		Selection tankSelectionForNbt = util.select().position(tankController);
+		Selection tank = util.select().fromTo(tankController, tankCorner);
+		Selection boilerSelection = util.select().fromTo(burner, boiler);
+		Selection pipeI = util.select().fromTo(2, 2, 5, 4, 2, 5)
+				.add(util.select().position(2, 1, 5))
+				.add(util.select().position(4, 1, 5));
+		Selection pipeII = util.select().fromTo(3, 1, 3, 3, 1, 5);
+		Selection beltFront = util.select().fromTo(beltI, beltII);
+		Selection beltBehind = util.select().fromTo(beltIII, beltIV);
+		Selection casing = util.select().position(6, 1, 2);
+		Selection barrel = util.select().fromTo(5, 2, 2, 6, 2, 2);
+
+		ItemStack planksItem = new ItemStack(Items.OAK_PLANKS, 16);
+		ItemStack stoneItem = new ItemStack(Items.STONE, 16);
+
+		scene.world().showSection(util.select().layer(0), Direction.UP);
+		scene.idle(5);
+
 		scene.world().showSection(saw, Direction.DOWN);
+
+		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
+			FluidTank tankContent = new FluidTank(10000);
+			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 10000));
+			nbt.put("Steam", tankContent.writeToNBT(new CompoundTag()));
+		});
+
 		scene.idle(10);
-
-		Vec3 sawSide = util.vector().blockSurface(sawPos, Direction.WEST);
-
 		scene.overlay().showText(70)
-				.pointAt(sawSide)
+				.pointAt(util.vector().centerOf(sawPos))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("The Steam Saw is a mechanical saw that cuts incoming items");
+				.text("蒸汽锯是一台升级过的动力锯");
 		scene.idle(80);
 
-		Selection kinetics = util.select().fromTo(1, 1, 3, 3, 1, 3)
-				.add(util.select().position(2, 1, 4))
-				.add(util.select().position(2, 1, 5))
-				.add(util.select().position(1, 0, 5));
-		scene.world().showSection(kinetics, Direction.UP);
-		scene.idle(10);
-		scene.world().setKineticSpeed(kinetics, 32);
-		scene.effects().rotationDirectionIndicator(sawPos);
-		scene.idle(20);
-
-		scene.overlay().showText(60)
-				.pointAt(util.vector().blockSurface(util.grid().at(2, 1, 3), Direction.EAST))
-				.colored(PonderPalette.BLUE)
-				.placeNearTarget()
-				.attachKeyFrame()
-				.text("It needs rotational force to run");
-		scene.idle(70);
-
-		Selection tank = util.select().fromTo(0, 1, 0, 0, 2, 0);
-		Selection pump = util.select().position(1, 1, 0);
-		Selection pipes = util.select().position(2, 1, 0)
-				.add(util.select().position(2, 1, 1));
-		scene.world().showSection(tank, Direction.DOWN);
-		scene.idle(5);
-		scene.world().showSection(pipes.add(pump), Direction.NORTH);
-		scene.idle(15);
-
 		scene.overlay().showText(70)
-				.pointAt(sawSide)
+				.pointAt(util.vector().centerOf(sawPos))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("It also needs steam and keeps consuming its internal steam while running");
-		scene.idle(20);
+				.text("它不仅需要更高的应力维持工作...");
+		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
-			nbt.put("Steam", new FluidStack(SlFluids.STEAM.get(), 1000)
-					.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntityNBT(saw, KineticBlockEntity.class, (nbt) -> {
+			nbt.putFloat("Speed", 16.0F);
 		});
 		for (int i = 0; i < 8; i++) {
-			scene.effects().emitParticles(util.vector().topOf(sawPos),
-					scene.effects().simpleParticleEmitter(SlParticles.STEAM.get(),
-							VecHelper.offsetRandomly(Vec3.ZERO, random, 0.1f)), 1, 1);
+			scene.effects().emitParticles(
+					util.vector().blockSurface(sawPos, Direction.NORTH),
+					scene.effects().simpleParticleEmitter(SlParticles.STEAM.get(), VecHelper.offsetRandomly(Vec3.ZERO, random, 0.1f)),
+					1, 1
+			);
 		}
-		scene.idle(60);
+		scene.idle(40);
 
-		Vec3 sawTop = util.vector().topOf(sawPos);
-		ElementLink<EntityElement> log = scene.world()
-				.createItemEntity(sawTop.add(0, 2, 0), util.vector().of(0, -0.1, 0), new ItemStack(Items.OAK_LOG, 4));
-
-		scene.overlay().showText(60)
-				.pointAt(sawSide)
+		scene.overlay().showText(80)
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("Take logs: whatever enters the saw is cut into the matching output");
-		scene.idle(30);
+				.text("...还需要源源不断的蒸汽供应");
+		scene.idle(40);
 
-		scene.world().modifyEntity(log, Entity::discard);
-		scene.effects().indicateSuccess(sawPos);
-		scene.world().createItemEntity(sawTop.add(0, 2, 0), util.vector().of(0, -0.1, 0),
-				new ItemStack(Items.OAK_PLANKS, 6));
-		scene.idle(50);
+		scene.world().modifyBlockEntityNBT(tankSelectionForNbt, FluidTankBlockEntity.class, (nbt) -> {
+			FluidTank tankContent = new FluidTank(96000);
+			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
+			nbt.put("TankContent", tankContent.writeToNBT(new CompoundTag()));
+		});
 
-		scene.overlay().showText(60)
-				.pointAt(sawSide)
-				.placeNearTarget()
-				.attachKeyFrame()
-				.text("With enough steam it can process a whole stack in parallel");
+		scene.world().showSection(tank, Direction.WEST);
+		scene.idle(5);
+		scene.world().showSection(boilerSelection, Direction.EAST);
+		scene.idle(5);
+		scene.world().showSection(pipeI, Direction.DOWN);
+		scene.idle(5);
+
+		ElementLink<WorldSectionElement> pipeIILink = scene.world().showIndependentSection(pipeII, Direction.NORTH);
+		scene.idle(35);
+
+		scene.world().showSection(beltFront, Direction.EAST);
+		scene.idle(5);
+		scene.world().showSection(beltBehind, Direction.WEST);
+		scene.idle(5);
+		scene.world().showSection(casing, Direction.DOWN);
+		scene.idle(5);
+		scene.world().showSection(barrel, Direction.DOWN);
 		scene.idle(15);
-		scene.world().createItemEntity(sawTop.add(0, 2, 0), util.vector().of(0, -0.1, 0),
-				new ItemStack(Items.OAK_LOG, 32));
-		scene.idle(50);
 
-		scene.overlay().showText(60)
-				.pointAt(sawSide)
+		scene.overlay().showText(80)
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("When steam runs out the saw stops immediately");
+				.text("作为回报, 它可以一次处理多个物品");
+		scene.idle(40);
+
+		scene.world().createItemOnBelt(beltI, Direction.WEST, planksItem);
+		scene.idle(78);
+
+		scene.world().removeItemsFromBelt(beltIV);
+		scene.world().flapFunnel(funnel, false);
+
 		scene.idle(10);
 		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
-			nbt.put("Steam", FluidStack.EMPTY.writeToNBT(new CompoundTag()));
+			FluidTank tankContent = new FluidTank(0);
+			tankContent.setFluid(new FluidStack(Fluids.EMPTY, 0));
+			nbt.put("Steam", tankContent.writeToNBT(new CompoundTag()));
 		});
-		scene.world().setKineticSpeed(kinetics, 0);
-		scene.idle(50);
+		scene.world().hideIndependentSection(pipeIILink, Direction.SOUTH);
+		scene.world().modifyBlock(pipe, (state) -> state.setValue(PipeBlock.DOWN, false), false);
+
+		scene.idle(10);
+		scene.overlay().showText(70)
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("当蒸汽停止供应时, 蒸汽锯将停止工作, 并会卡住传送带");
+		scene.idle(40);
+
+		scene.world().createItemOnBelt(beltI, Direction.DOWN, stoneItem);
+		scene.idle(9);
+		scene.world().removeItemsFromBelt(beltII);
+		scene.idle(31);
 
 		scene.markAsFinished();
 	}
