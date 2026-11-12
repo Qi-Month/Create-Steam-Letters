@@ -98,4 +98,9 @@ public class SteamEngineBlockBuilder<T extends SteamEngineBlock, P> extends Bloc
 		driveParts.material(material);
 		return this;
 	}
+
+	public SteamEngineBlockBuilder<T, P> material(String material) {
+		material(ResourceLocation.parse(material));
+		return this;
+	}
 }

@@ -243,6 +243,17 @@ public class BoilerDataMixin implements SteamBoilerData {
 	 */
 	@Inject(method = "evaluate", at = @At("RETURN"), remap = false, cancellable = true)
 	private void sl$evaluatePumps(FluidTankBlockEntity controller, CallbackInfoReturnable<Boolean> returnable) {
+		// 结构尺寸一确定就把两个罐的容量算出来: 从没贴过引擎的锅炉不会 tick,
+		// 若等到 tick 才算, 之前灌进来的蒸汽会被当成缓冲容量为 0 而拒收
+		sl$boilerSize = Math.max(controller.getTotalTankSize(), 0);
+
+		if (sl$boilerSize > 0) {
+			sl$steamCapacity = sl$steamCapacity(sl$boilerSize);
+			sl$waterCapacity = sl$waterCapacity(sl$boilerSize);
+			sl$steamBuffer = Math.min(sl$steamBuffer, sl$steamCapacity);
+			sl$waterStored = Math.min(sl$waterStored, sl$waterCapacity);
+		}
+
 		int pumps = sl$countPumps(controller);
 
 		if (pumps == sl$attachedPumps) {
@@ -280,7 +291,12 @@ public class BoilerDataMixin implements SteamBoilerData {
 	 */
 	@Inject(method = "isActive", at = @At("RETURN"), remap = false, cancellable = true)
 	private void sl$keepActiveForPumps(CallbackInfoReturnable<Boolean> returnable) {
-		if (!returnable.getReturnValue() && sl$attachedPumps > 0) {
+		if (returnable.getReturnValue()) {
+			return;
+		}
+
+		// 只挂泵或正在靠灌入的蒸汽运行时锅炉也必须是活的, 否则不会跑 tick, 容量不会更新, 退出判定也不会生效
+		if (sl$attachedPumps > 0 || sl$steamHeatLevel > 0) {
 			returnable.setReturnValue(true);
 		}
 	}
@@ -326,6 +342,13 @@ public class BoilerDataMixin implements SteamBoilerData {
 		}
 
 		sl$updateSteamHeat();
+
+		// activeHeat 只在 updateTemperature 里被覆盖, 结构重算会先把它清成 0,
+		// 而重算只在 needsHeatLevelUpdate 时发生, 所以这里有偏差就补一次标记
+		if (sl$steamHeatLevel > 0 && activeHeat != sl$steamHeatLevel) {
+			needsHeatLevelUpdate = true;
+		}
+
 		sl$produceSteam(boilerSize);
 	}
 
@@ -441,16 +464,19 @@ public class BoilerDataMixin implements SteamBoilerData {
 	}
 
 	/**
-	 * 水罐里有水时, 把 Create 的供水等级顶到满, 否则它会因为采样到 0 而把 activeHeat 拉下去.
+	 * 把 Create 的供水等级顶满, 免得它把 activeHeat 拉下去.
 	 * <p>
-	 * 水罐满之后管网会停注, 若仍按流入量计供水, 等级会在 50 tick 内塌到 0,
+	 * 自产汽模式靠水罐里的存量: 水罐满之后管网会停注, 若仍按流入量计供水, 等级会在 50 tick 内塌到 0,
 	 * 接入的引擎与泵就连缓冲里的存量蒸汽都用不上, 形成死锁.
+	 * <p>
+	 * 蒸汽输入模式没有供水这回事: 等级由缓冲里的蒸汽存量支撑, 而蒸汽不走 Create 的槽位,
+	 * 它的流入量不会进供水采样. 若不在这里一并顶满, getActualHeat 会把等级压成 0, 引擎直接停摆.
 	 *
 	 * @param returnable
 	 */
 	@Inject(method = "getMaxHeatLevelForWaterSupply", at = @At("RETURN"), remap = false, cancellable = true)
 	private void sl$supportWaterHeatLevel(CallbackInfoReturnable<Integer> returnable) {
-		if (sl$waterCapacity > 0 && sl$waterStored > 0) {
+		if (sl$steamHeatLevel > 0 || (sl$waterCapacity > 0 && sl$waterStored > 0)) {
 			returnable.setReturnValue((int) SL_MAX_LEVEL);
 		}
 	}
