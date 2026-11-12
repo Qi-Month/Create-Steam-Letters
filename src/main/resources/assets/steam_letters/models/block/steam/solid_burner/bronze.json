@@ -1,10 +1,28 @@
 {
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "particle": "steam_letters:block/steam/solid_burner/bronze/side",
-    "bottom": "steam_letters:block/steam/solid_burner/bronze/down",
-    "top": "steam_letters:block/steam/solid_burner/bronze/top",
-    "side": "steam_letters:block/steam/solid_burner/bronze/side",
-    "front": "steam_letters:block/steam/solid_burner/bronze/off"
-  }
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"render_type": "cutout",
+	"textures": {
+		"bottom": "steam_letters:block/steam/solid_burner/bronze/down",
+		"top": "steam_letters:block/steam/solid_burner/bronze/top",
+		"particle": "steam_letters:block/steam/solid_burner/bronze/side",
+		"side": "steam_letters:block/steam/solid_burner/bronze/side",
+		"front": "steam_letters:block/steam/solid_burner/bronze/off"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#front"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#side"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#side"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom"}
+			}
+		}
+	]
 }

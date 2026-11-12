@@ -1,7 +1,7 @@
-﻿{
+{
+	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"5": "steam_letters:block/steam/casing/bronze_casing",
 		"1_1": "steam_letters:block/steam/engine/bronze_cylinder"
 	},
 	"elements": [
@@ -10,9 +10,9 @@
 			"from": [0, 0, 9],
 			"to": [16, 16, 14],
 			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#5"},
+				"north": {"uv": [7, 7, 16, 16], "texture": "#1_1"},
 				"east": {"uv": [0, 7, 2.5, 15], "texture": "#1_1"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#5"},
+				"south": {"uv": [7, 7, 16, 16], "texture": "#1_1"},
 				"west": {"uv": [0, 7, 2.5, 15], "texture": "#1_1"},
 				"up": {"uv": [0, 7, 2.5, 15], "rotation": 270, "texture": "#1_1"},
 				"down": {"uv": [0, 7, 2.5, 15], "rotation": 90, "texture": "#1_1"}
@@ -32,13 +32,27 @@
 			}
 		},
 		{
-			"from": [10.5, 0, 0],
-			"to": [14.5, 4, 9],
+			"from": [1.5, 0, 0.01],
+			"to": [5.5, 4, 9.01],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-9, 0, -0.09]},
 			"faces": {
+				"north": {"uv": [2.5, 13, 4.5, 15], "texture": "#1_1"},
 				"east": {"uv": [2.5, 7, 7, 9], "rotation": 180, "texture": "#1_1"},
 				"west": {"uv": [2.5, 7, 7, 9], "rotation": 180, "texture": "#1_1"},
 				"up": {"uv": [2.5, 7, 7, 9], "rotation": 90, "texture": "#1_1"},
 				"down": {"uv": [2.5, 7, 7, 9], "rotation": 270, "texture": "#1_1"}
+			}
+		},
+		{
+			"from": [10.5, 0, 0.01],
+			"to": [14.5, 4, 9.01],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, -0.09]},
+			"faces": {
+				"north": {"uv": [4.5, 13, 2.5, 15], "texture": "#1_1"},
+				"east": {"uv": [2.5, 7, 7, 9], "rotation": 180, "texture": "#1_1"},
+				"west": {"uv": [2.5, 7, 7, 9], "rotation": 180, "texture": "#1_1"},
+				"up": {"uv": [2.5, 7, 7, 9], "rotation": 90, "texture": "#1_1"},
+				"down": {"uv": [2.5, 9, 7, 7], "rotation": 270, "texture": "#1_1"}
 			}
 		},
 		{
@@ -97,7 +111,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 225, 0],
+			"rotation": [0, -135, 0],
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
@@ -109,7 +123,7 @@
 			"scale": [0.625, 0.625, 0.625]
 		},
 		"fixed": {
-			"rotation": [0, 180, 0],
+			"rotation": [0, -180, 0],
 			"scale": [0.5, 0.5, 0.5]
 		}
 	},
@@ -117,7 +131,9 @@
 		{
 			"name": "SteamCylinder",
 			"origin": [8, 8, 8],
-			"children": [0, 1, 2, 3, 4, 5]
+			"scope": 0,
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5, 6]
 		}
 	]
 }
