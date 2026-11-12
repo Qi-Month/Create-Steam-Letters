@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "particle": "steam_letters:block/steam/boiler/bronze/side",
+    "bottom": "steam_letters:block/steam/down",
+    "top": "steam_letters:block/steam/boiler/bronze/top",
+    "side": "steam_letters:block/steam/boiler/bronze/side"
+  }
+}

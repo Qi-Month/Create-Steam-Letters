@@ -4,6 +4,10 @@
 	"package": "dev.celestiacraft.steam_letters.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"basin.BasinBlockEntityMixin",
+		"boiler.BoilerDataMixin",
+		"boiler.FluidTankBlockEntityMixin",
+		"boiler.IFluidTankBlockEntityAccessor"
 	],
 	"client": [
 	],

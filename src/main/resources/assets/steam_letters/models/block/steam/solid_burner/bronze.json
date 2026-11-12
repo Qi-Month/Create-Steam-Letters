@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "particle": "steam_letters:block/steam/solid_burner/bronze/side",
+    "bottom": "steam_letters:block/steam/solid_burner/bronze/down",
+    "top": "steam_letters:block/steam/solid_burner/bronze/top",
+    "side": "steam_letters:block/steam/solid_burner/bronze/side",
+    "front": "steam_letters:block/steam/solid_burner/bronze/off"
+  }
+}

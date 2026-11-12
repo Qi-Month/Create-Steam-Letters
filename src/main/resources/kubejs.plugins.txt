@@ -1,0 +1,1 @@
+dev.celestiacraft.steam_letters.compat.kubejs.CreateLettersSteamKubeJSPlugin
