@@ -193,8 +193,8 @@ publishing {
 }
 
 tasks.named('jar', Jar).configure {
-	// 输出 jar 名: Steam-Letters-<mod_version>-<minecraft_version>.jar
-	archiveVersion = "${mod_version}-${minecraft_version}"
+	// 输出 jar 名: Steam-Letters-<mod_version>-<minecraft_version>-<loader>.jar
+	archiveVersion = "${mod_version}-${minecraft_version}-neoforge"
 
 	manifest {
 		attributes([
