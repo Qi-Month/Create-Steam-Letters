@@ -30,7 +30,6 @@
 	"item.steam_letters.superheated_steam_bucket": "过热蒸汽桶",
 	"item.steam_letters.tin_ingot": "锡锭",
 	"item.steam_letters.tin_nugget": "锡粒",
-	"item.steam_letters.tin_plate": "锡板",
 	"itemGroup.steam_letters.basic": "机械动力: 来自蒸汽的信",
 	"steam_letters.config.advanced_spout": "高级注液器",
 	"steam_letters.config.advanced_spout.capacity": "高级注液器的流体容量(mB)",
