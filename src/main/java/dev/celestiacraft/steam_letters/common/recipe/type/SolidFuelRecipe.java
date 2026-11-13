@@ -19,7 +19,7 @@ public class SolidFuelRecipe extends ProcessingRecipe<RecipeWrapper, FuelRecipeP
 	private static final ThreadLocal<Boolean> DATAGEN_SUPERHEATED = new ThreadLocal<>();
 
 	public SolidFuelRecipe(FuelRecipeParams params) {
-		super(SlRecipeTypes.SOLID_FUEL_INFO, params);
+		super(SlRecipeTypes.SOLID_FUEL.getInfo(), params);
 		params.setSuperheated(consumeSuperheated());
 	}
 
@@ -63,7 +63,7 @@ public class SolidFuelRecipe extends ProcessingRecipe<RecipeWrapper, FuelRecipeP
 
 	@Nullable
 	public Ingredient ingredient() {
-		return ingredients.isEmpty() ? null : ingredients.get(0);
+		return ingredients.isEmpty() ? null : ingredients.getFirst();
 	}
 
 	public boolean matches(ItemStack stack) {

@@ -1,5 +1,6 @@
 package dev.celestiacraft.steam_letters.compat.kubejs;
 
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
@@ -8,13 +9,16 @@ import dev.celestiacraft.steam_letters.compat.kubejs.builder.FluidBurnerBuilder;
 import dev.celestiacraft.steam_letters.compat.kubejs.builder.SolarBoilerBuilder;
 import dev.celestiacraft.steam_letters.compat.kubejs.builder.SolidBurnerBuilder;
 import dev.celestiacraft.steam_letters.compat.kubejs.builder.SteamEngineDeviceBuilder;
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.BurnerSchema;
+import dev.celestiacraft.steam_letters.compat.kubejs.schema.schema.BurnerSchema;
+import dev.celestiacraft.steam_letters.compat.kubejs.schema.component.FuelFluidComponent;
+import dev.celestiacraft.steam_letters.compat.kubejs.schema.component.FuelItemComponent;
+import dev.celestiacraft.steam_letters.compat.kubejs.schema.component.FuelTimeComponent;
 import dev.latvian.mods.kubejs.plugin.KubeJSPlugin;
+import dev.latvian.mods.kubejs.recipe.component.RecipeComponentTypeRegistry;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchemaRegistry;
 import dev.latvian.mods.kubejs.registry.BuilderTypeRegistry;
 import dev.latvian.mods.kubejs.script.BindingRegistry;
 import net.minecraft.core.registries.Registries;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CreateLettersSteamKubeJSPlugin implements KubeJSPlugin {
 	@Override
@@ -39,13 +43,20 @@ public class CreateLettersSteamKubeJSPlugin implements KubeJSPlugin {
 	}
 
 	@Override
+	public void registerRecipeComponents(RecipeComponentTypeRegistry registry) {
+		registry.register(FuelFluidComponent.TYPE);
+		registry.register(FuelItemComponent.TYPE);
+		registry.register(FuelTimeComponent.TYPE);
+	}
+
+	@Override
 	public void registerRecipeSchemas(RecipeSchemaRegistry event) {
 		event.namespace(CreateLettersSteam.MODID)
 				.register(getRecipeType(SlRecipeTypes.SOLID_FUEL), BurnerSchema.SOLID_FUEL)
 				.register(getRecipeType(SlRecipeTypes.FLUID_FUEL), BurnerSchema.FLUID_FUEL);
 	}
 
-	private String getRecipeType(DeferredHolder<?, ?> recipe) {
+	private String getRecipeType(IRecipeTypeInfo recipe) {
 		return recipe.getId().getPath();
 	}
 }

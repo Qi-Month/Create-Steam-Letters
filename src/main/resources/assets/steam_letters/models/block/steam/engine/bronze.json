@@ -2,6 +2,7 @@
 	"format_version": "26.3",
 	"credit": "Made with Blockbench",
 	"textures": {
+		"particle": "steam_letters:block/steam/engine/bronze_cylinder",
 		"1_1": "steam_letters:block/steam/engine/bronze_cylinder"
 	},
 	"elements": [

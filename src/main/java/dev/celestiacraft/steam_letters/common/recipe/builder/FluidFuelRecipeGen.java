@@ -24,7 +24,7 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 
 	@Override
 	protected @NotNull IRecipeTypeInfo getRecipeType() {
-		return SlRecipeTypes.FLUID_FUEL_INFO;
+		return SlRecipeTypes.FLUID_FUEL;
 	}
 
 	@Override

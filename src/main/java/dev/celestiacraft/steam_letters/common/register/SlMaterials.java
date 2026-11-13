@@ -16,7 +16,6 @@ public class SlMaterials {
 			BRONZE_INGOT,
 			BRONZE_PLATE,
 			TIN_INGOT,
-			TIN_PLATE,
 			TIN_NUGGET;
 
 	public static final BlockEntry<Block>
@@ -50,13 +49,6 @@ public class SlMaterials {
 				.tag(Tags.Items.NUGGETS)
 				.tag(SlItemTags.TIN_NUGGET)
 				.lang("Tin Nugget")
-				.register();
-
-		TIN_PLATE = SlApis.REGISTRATE.item("tin_plate", Item::new)
-				.model(ItemModelGen.generated("item/material/tin/plate"))
-				.tag(AllTags.AllItemTags.PLATES.tag)
-				.tag(SlItemTags.TIN_PLATES)
-				.lang("Tin Plate")
 				.register();
 
 		BRONZE_BLOCK = SlApis.REGISTRATE.block("bronze_block", Block::new)

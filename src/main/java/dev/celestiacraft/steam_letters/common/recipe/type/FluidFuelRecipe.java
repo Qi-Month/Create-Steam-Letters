@@ -5,6 +5,7 @@ import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ public class FluidFuelRecipe extends ProcessingRecipe<RecipeWrapper, FuelRecipeP
 	/**
 	 * 一份燃料的固定量, 1000mB
 	 */
-	public static final int FUEL_AMOUNT = 1000;
+	public static final int FUEL_AMOUNT = FluidType.BUCKET_VOLUME;
 
 	/**
 	 * datagen 专用: 标记下一条被构造的配方是否过热, 用法同 {@link SolidFuelRecipe#markNextSuperheated(boolean)}.
@@ -24,7 +25,7 @@ public class FluidFuelRecipe extends ProcessingRecipe<RecipeWrapper, FuelRecipeP
 	private static final ThreadLocal<Boolean> DATAGEN_SUPERHEATED = new ThreadLocal<>();
 
 	public FluidFuelRecipe(FuelRecipeParams params) {
-		super(SlRecipeTypes.FLUID_FUEL_INFO, params);
+		super(SlRecipeTypes.FLUID_FUEL.getInfo(), params);
 		params.setSuperheated(consumeSuperheated());
 	}
 
@@ -73,7 +74,7 @@ public class FluidFuelRecipe extends ProcessingRecipe<RecipeWrapper, FuelRecipeP
 
 	@Nullable
 	public SizedFluidIngredient ingredient() {
-		return fluidIngredients.isEmpty() ? null : fluidIngredients.get(0);
+		return fluidIngredients.isEmpty() ? null : fluidIngredients.getFirst();
 	}
 
 	public boolean matches(@Nullable FluidStack stack) {

@@ -162,6 +162,7 @@ public class English {
 		provider.add(SlTranKeys.BASIC_TAB, CreateLettersSteam.NAME);
 		provider.add(SlTranKeys.THERMAL_PACK_TITLE, "§6Thermal Hue Resource Pack");
 		provider.add(SlTranKeys.THERMAL_PACK_DESCRIPTION, "§6Recolors bronze casings and machines after Thermal Expansion's bronze");
+		provider.add(SlTranKeys.WIP_HIDE_WARNING, "&cHidden temporarily due to numerous bugs");
 	}
 
 	private static void addSteamHammerLang(RegistrateLangProvider provider) {

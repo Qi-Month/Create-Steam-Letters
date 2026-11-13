@@ -32,7 +32,6 @@ public class SlItemTags {
 			BRONZE_BLOCK,
 			TIN_INGOT,
 			TIN_NUGGET,
-			TIN_PLATES,
 			TIN_BLOCK;
 
 	static {
@@ -59,7 +58,6 @@ public class SlItemTags {
 		BRONZE_BLOCK = addCommon("storage_blocks/bronze");
 		TIN_INGOT = addCommon("ingots/tin");
 		TIN_NUGGET = addCommon("nuggets/tin");
-		TIN_PLATES = addCommon("plates/tin");
 		TIN_BLOCK = addCommon("storage_blocks/tin");
 	}
 

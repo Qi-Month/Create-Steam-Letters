@@ -17,10 +17,5 @@ public class SlPressRecipeGen extends PressingRecipeGen {
 			return builder.output(SlMaterials.BRONZE_PLATE)
 					.require(SlItemTags.BRONZE_INGOT);
 		});
-
-		create("material/tin/plate", (builder) -> {
-			return builder.output(SlMaterials.TIN_PLATE)
-					.require(SlItemTags.TIN_INGOT);
-		});
 	}
 }

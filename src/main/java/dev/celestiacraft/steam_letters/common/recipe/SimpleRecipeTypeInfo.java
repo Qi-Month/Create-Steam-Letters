@@ -8,25 +8,30 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-
-import java.util.function.Supplier;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 @AllArgsConstructor
-public class SimpleRecipeTypeInfo implements IRecipeTypeInfo {
+public class SimpleRecipeTypeInfo<R extends Recipe<?>> implements IRecipeTypeInfo {
 	@Getter
 	private final ResourceLocation id;
-	private final Supplier<? extends RecipeType<?>> type;
-	private final Supplier<? extends RecipeSerializer<?>> serializer;
+	private final DeferredHolder<RecipeType<?>, RecipeType<R>> type;
+	private final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<R>> serializer;
 
-	@SuppressWarnings("unchecked")
+	public RecipeType<R> get() {
+		return type.get();
+	}
+
 	@Override
 	public <T extends RecipeSerializer<?>> T getSerializer() {
 		return (T) serializer.get();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <I extends RecipeInput, R extends Recipe<I>> RecipeType<R> getType() {
-		return (RecipeType<R>) type.get();
+	public <I extends RecipeInput, T extends Recipe<I>> RecipeType<T> getType() {
+		return (RecipeType<T>) type.get();
+	}
+
+	public IRecipeTypeInfo getInfo() {
+		return this;
 	}
 }

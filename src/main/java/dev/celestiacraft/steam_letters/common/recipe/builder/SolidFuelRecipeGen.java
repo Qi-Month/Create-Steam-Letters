@@ -25,7 +25,7 @@ public abstract class SolidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 
 	@Override
 	protected @NotNull IRecipeTypeInfo getRecipeType() {
-		return SlRecipeTypes.SOLID_FUEL_INFO;
+		return SlRecipeTypes.SOLID_FUEL;
 	}
 
 	@Override
