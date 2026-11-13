@@ -329,9 +329,8 @@ public abstract class DeviceBuilder<B extends Block, E extends BlockEntity, SELF
 	 * 不 parent 到模组内置资源, 所以换材质时不再依赖内置的 bronze 模型文件.
 	 * <p>
 	 * 贴图路径按 材质命名空间 + 固定部件后缀 推导, 所以脚本只需要写材质名:
-	 * {@code material("steam_letters:steel")} 的飞轮轮盘是 {@code steam_letters:block/steam/flywheel/steel_wheel},
-	 * 外壳是 {@code steam_letters:block/steam/casing/steel_casing}, 引擎气缸是
-	 * {@code steam_letters:block/steam/engine/steel_cylinder}.
+	 * {@code material("steam_letters:steel")} 的引擎用 {@code steam_letters:block/steam/engine/steel_cylinder},
+	 * 飞轮的整套模型(外壳 / 轮盘 / 传动杆 / 方块物品)共用 {@code steam_letters:block/steam/flywheel/steel_wheel} 一张.
 	 *
 	 * @param path            生成的模型路径(不含命名空间与 models/ 前缀)
 	 * @param template        作为造型来源的 bronze 模型路径
@@ -340,7 +339,9 @@ public abstract class DeviceBuilder<B extends Block, E extends BlockEntity, SELF
 	protected void generateModel(KubeAssetGenerator generator, String path, String template, Map<String, String> texturePatterns) {
 		JsonObject root = loadTemplateModel(template);
 		JsonObject textures = new JsonObject();
-		texturePatterns.forEach((key, pattern) -> textures.addProperty(key, modelNamespace() + ":" + pattern.replace("%s", material.getPath())));
+		texturePatterns.forEach((key, pattern) -> {
+			textures.addProperty(key, modelNamespace() + ":" + pattern.replace("%s", material.getPath()));
+		});
 		root.add("textures", textures);
 
 		generator.json(ResourceLocation.fromNamespaceAndPath(modelNamespace(), "models/" + path), root);

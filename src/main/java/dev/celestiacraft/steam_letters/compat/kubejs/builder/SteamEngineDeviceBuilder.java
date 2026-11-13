@@ -146,11 +146,13 @@ public class SteamEngineDeviceBuilder extends DeviceBuilder<SteamEngineBlock, St
 		return baseModel() + "_item";
 	}
 
+	/**
+	 * 引擎整套模型只用一张材质纹理, 气缸就是全部可见表面.
+	 */
 	private static Map<String, String> engineTextures() {
 		Map<String, String> textures = new LinkedHashMap<>();
-		textures.put("5", "block/steam/casing/%s_casing");
 		textures.put("1_1", "block/steam/engine/%s_cylinder");
-		textures.put("particle", "block/steam/metal_block/%s_block");
+		textures.put("particle", "block/steam/engine/%s_cylinder");
 		return textures;
 	}
 
@@ -248,10 +250,10 @@ public class SteamEngineDeviceBuilder extends DeviceBuilder<SteamEngineBlock, St
 				generateModel(generator, baseModel() + "_casing_" + connection, "block/steam/flywheel/bronze_casing_" + connection, flywheelTextures());
 			}
 
-			generateModel(generator, baseModel() + "_wheel", "block/steam/flywheel/bronze_wheel", wheelTextures());
+			generateModel(generator, baseModel() + "_wheel", "block/steam/flywheel/bronze_wheel", flywheelTextures());
 
 			for (String part : new String[] {"upper_rotating_connector", "lower_rotating_connector", "upper_sliding_connector", "lower_sliding_connector"}) {
-				generateModel(generator, baseModel() + "_" + part, "block/steam/flywheel/bronze_" + part, wheelTextures());
+				generateModel(generator, baseModel() + "_" + part, "block/steam/flywheel/bronze_" + part, flywheelTextures());
 			}
 
 			generateModel(generator, baseModel() + "_item", "block/steam/flywheel/bronze_item", flywheelTextures());
@@ -262,18 +264,13 @@ public class SteamEngineDeviceBuilder extends DeviceBuilder<SteamEngineBlock, St
 			return baseModel() + "_item";
 		}
 
-		private static Map<String, String> wheelTextures() {
-			Map<String, String> textures = new LinkedHashMap<>();
-			textures.put("0", "block/steam/flywheel/%s_wheel");
-			textures.put("particle", "block/steam/flywheel/%s_wheel");
-			return textures;
-		}
-
+		/**
+		 * 飞轮整套模型(三种外壳朝向 / 轮盘 / 四根传动杆 / 方块物品)共用同一张贴图, 换材质只需要换一张
+		 * {@code <材质>_wheel}.
+		 */
 		private static Map<String, String> flywheelTextures() {
 			Map<String, String> textures = new LinkedHashMap<>();
 			textures.put("0", "block/steam/flywheel/%s_wheel");
-			textures.put("5", "block/steam/casing/%s_casing");
-			textures.put("7", "block/steam/gearbox/%s_gearbox");
 			textures.put("particle", "block/steam/flywheel/%s_wheel");
 			return textures;
 		}
