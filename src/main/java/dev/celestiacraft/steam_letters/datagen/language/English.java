@@ -49,6 +49,13 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_WATER_STEAM_CAPACITY), "Holds _%s mB_ of water and _%s mB_ of steam");
 	}
 
+	private static void addOtherLang(RegistrateLangProvider provider) {
+		provider.add(SlTranKeys.BASIC_TAB, CreateLettersSteam.NAME);
+		provider.add(SlTranKeys.THERMAL_PACK_TITLE, "§6Thermal Hue Resource Pack");
+		provider.add(SlTranKeys.THERMAL_PACK_DESCRIPTION, "§6Recolors bronze casings and machines after Thermal Expansion's bronze");
+		provider.add(SlTranKeys.WIP_HIDE_WARNING, "§cHidden temporarily due to numerous bugs");
+	}
+
 	private static void addSteamMixerLang(RegistrateLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_MIXER_SUMMARY), "Processes mixing recipes");
 	}
@@ -156,13 +163,6 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_FLUID_FUEL), "Fluid Fuel");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_HEATED), "Heated");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_SUPERHEATED), "Superheated");
-	}
-
-	private static void addOtherLang(RegistrateLangProvider provider) {
-		provider.add(SlTranKeys.BASIC_TAB, CreateLettersSteam.NAME);
-		provider.add(SlTranKeys.THERMAL_PACK_TITLE, "§6Thermal Hue Resource Pack");
-		provider.add(SlTranKeys.THERMAL_PACK_DESCRIPTION, "§6Recolors bronze casings and machines after Thermal Expansion's bronze");
-		provider.add(SlTranKeys.WIP_HIDE_WARNING, "&cHidden temporarily due to numerous bugs");
 	}
 
 	private static void addSteamHammerLang(RegistrateLangProvider provider) {
