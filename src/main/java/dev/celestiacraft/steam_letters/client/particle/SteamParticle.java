@@ -1,13 +1,10 @@
 package dev.celestiacraft.steam_letters.client.particle;
 
 import dev.celestiacraft.steam_letters.api.client.particle.ParticleBase;
-import lombok.AllArgsConstructor;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
-import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
 
@@ -18,7 +15,7 @@ import java.security.SecureRandom;
  * https://github.com/TeamMoegMC/SteamPowered
  * </a>
  * <p>
- * Licensed under the GNU GENERAL PUBLIC License; see the project LICENSE for the full license text.
+ * Licensed under the GNU GENERAL Public License; see the project LICENSE for the full license text.
  */
 public class SteamParticle extends ParticleBase {
 	private static final SecureRandom RANDOM = new SecureRandom();
@@ -31,15 +28,11 @@ public class SteamParticle extends ParticleBase {
 		lifetime = (int) (160.0D / (RANDOM.nextDouble() * 0.2D + 0.8D));
 	}
 
-	@AllArgsConstructor
-	public static class Factory implements ParticleProvider<SimpleParticleType> {
-		private final SpriteSet spriteSet;
-
-		@Override
-		public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			SteamParticle steamParticle = new SteamParticle(level, x, y, z, xSpeed, ySpeed, zSpeed);
-			steamParticle.pickSprite(spriteSet);
-			return steamParticle;
-		}
+	public static ParticleProvider<SimpleParticleType> factory(SpriteSet spriteSet) {
+		return (type, level, x, y, z, xSpeed, ySpeed, zSpeed) -> {
+			SteamParticle particle = new SteamParticle(level, x, y, z, xSpeed, ySpeed, zSpeed);
+			particle.pickSprite(spriteSet);
+			return particle;
+		};
 	}
 }

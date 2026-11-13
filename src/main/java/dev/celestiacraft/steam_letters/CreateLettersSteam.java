@@ -5,10 +5,13 @@ import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.api.SlStress;
 import dev.celestiacraft.steam_letters.common.register.*;
 import dev.celestiacraft.steam_letters.config.CommonConfigs;
+import dev.celestiacraft.steam_letters.config.common.SteamConfig;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
@@ -53,5 +56,27 @@ public class CreateLettersSteam {
 			BlockStressValues.CAPACITIES.registerProvider(STRESS_VALUES::getCapacity);
 		}
 		container.registerConfig(ModConfig.Type.SERVER, STRESS_VALUES_SPEC, "nebula/steam_letters/server.toml");
+	}
+
+	@SubscribeEvent
+	public void onConfigLoad(ModConfigEvent.Loading event) {
+		if (STRESS_VALUES != null && event.getConfig().getSpec().equals(STRESS_VALUES_SPEC)) {
+			STRESS_VALUES.onLoad();
+		}
+
+		if (event.getConfig().getSpec().equals(CommonConfigs.SPEC)) {
+			SteamConfig.validate();
+		}
+	}
+
+	@SubscribeEvent
+	public void onConfigReload(ModConfigEvent.Reloading event) {
+		if (STRESS_VALUES != null && event.getConfig().getSpec().equals(STRESS_VALUES_SPEC)) {
+			STRESS_VALUES.onReload();
+		}
+
+		if (event.getConfig().getSpec().equals(CommonConfigs.SPEC)) {
+			SteamConfig.validate();
+		}
 	}
 }

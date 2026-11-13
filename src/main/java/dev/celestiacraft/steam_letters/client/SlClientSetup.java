@@ -85,7 +85,7 @@ public class SlClientSetup {
 
 	@SubscribeEvent
 	public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
-		event.registerSpriteSet(SlParticles.STEAM.get(), SteamParticle.Factory::new);
+		event.registerSpriteSet(SlParticles.STEAM.get(), SteamParticle::factory);
 	}
 
 	@SubscribeEvent
