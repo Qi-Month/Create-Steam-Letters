@@ -44,7 +44,7 @@ public class SteamBoilerBlockEntity extends FluidTankBlockEntity {
 	public static final int TANK_STEAM = 1;
 
 	/**
-	 * 内置青铜蒸汽锅炉的默认参数: 每个方块的两个槽各 10000 mB, 满级时产 12 mB/tick 蒸汽.
+	 * 内置青铜蒸汽锅炉的默认参数: 每个方块的两个槽各 10000 mB, 每级每 tick 产 12 mB 蒸汽.
 	 */
 	public static final int DEFAULT_CAPACITY = 10000;
 	public static final double DEFAULT_PRODUCTION = 12.0D;
