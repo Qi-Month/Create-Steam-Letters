@@ -16,7 +16,8 @@ public class SlMillingRecipeGen extends MillingRecipeGen {
 		create("material/tin/nugget/deepslate", (builder) -> {
 			return builder.output(0.25f, SlMaterials.TIN_NUGGET, 2)
 					.output(0.125f, SlMaterials.TIN_NUGGET, 1)
-					.require(AllPaletteStoneTypes.DEEPSLATE.materialTag);
+					.require(AllPaletteStoneTypes.DEEPSLATE.materialTag)
+					.duration(20);
 		});
 	}
 }
