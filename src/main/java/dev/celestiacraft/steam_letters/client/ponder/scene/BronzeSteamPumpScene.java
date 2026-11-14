@@ -1,8 +1,8 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
+import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.element.WorldSectionElement;
@@ -13,8 +13,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 青铜蒸汽泵 Ponder 场景.
@@ -26,110 +30,152 @@ public class BronzeSteamPumpScene {
 		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
 
 		scene.scaleSceneView(0.5F);
-		scene.title("bronze_steam_pump", "Bronze Steam Pump");
+		scene.title("bronze_steam_pump", "青铜蒸汽泵");
 
-		BlockPos engineIText = new BlockPos(1, 2, 1);
-		BlockPos engineIText2 = new BlockPos(2, 2, 1);
-		BlockPos pumpShowText = new BlockPos(2, 2, 2);
-		BlockPos engineIIText = new BlockPos(3, 2, 3);
-		BlockPos benefitText = new BlockPos(7, 4, 2);
-		BlockPos whatCostText = new BlockPos(2, 4, 7);
+		BlockPos tankControllerPos = util.grid().at(8, 4, 3);
+		BlockPos tankControllerPosII = util.grid().at(3, 4, 8);
+		BlockPos fakePump = util.grid().at(8, 6, 7);
+		BlockPos pumpPos = util.grid().at(8, 5, 7);
 
-		Selection engineI = util.select().fromTo(0, 1, 1, 3, 2, 1);
-		Selection flyWheelI = util.select().position(0, 2, 1);
-		Selection boilerI = util.select().position(3, 2, 1);
-		Selection pumpShowSelection = util.select().fromTo(1, 1, 2, 3, 2, 2);
-		Selection engineII = util.select().fromTo(0, 1, 3, 4, 2, 3);
-		Selection flyWheelII = util.select().position(0, 2, 3);
-		Selection boilerII = util.select().position(4, 2, 3);
-		Selection benefitSelection = util.select().fromTo(6, 2, 1, 8, 5, 3);
-		Selection whatCostSelection = util.select().fromTo(1, 2, 6, 3, 5, 8);
+		Selection engine = util.select().fromTo(1, 1, 1, 3, 2, 3);
+		Selection boiler = util.select().fromTo(4, 1, 1, 4, 2, 3);
+		Selection rotate = util.select().fromTo(1, 2, 1, 1, 2, 3);
+		Selection tankI = util.select().fromTo(8, 4, 3, 9, 6, 4);
+		Selection tankII = util.select().fromTo(3, 4, 8, 4, 6, 9);
+		Selection pipe = util.select().fromTo(9, 4, 5, 5, 5, 9);
+		Selection tankController = util.select().position(tankControllerPos);
+		Selection tankControllerII = util.select().position(tankControllerPosII);
+		Selection bronzeSteamPumpSelection = util.select().position(fakePump);
 
 		scene.world().showSection(util.select().layer(0), Direction.UP);
 		scene.idle(5);
 
-		ElementLink<WorldSectionElement> engineILink = scene.world().showIndependentSection(engineI, Direction.EAST);
-		scene.world().modifyBlockEntityNBT(flyWheelI, KineticBlockEntity.class, (nbt) -> {
+		ElementLink<WorldSectionElement> boilerLink = scene.world().showIndependentSection(boiler, Direction.DOWN);
+		scene.world().showSection(engine, Direction.DOWN);
+		scene.world().modifyBlockEntityNBT(rotate, KineticBlockEntity.class, (nbt) -> {
 			nbt.putFloat("Speed", -16.0F);
 		});
-		scene.world().modifyBlockEntityNBT(boilerI, SolarBoilerBlockEntity.class, (nbt) -> {
-			FluidTank outputTank = new FluidTank(16000);
-			outputTank.setFluid(new FluidStack(SlFluids.STEAM.get(), 20000));
-			nbt.put("OutputTank", outputTank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+
+		scene.idle(10);
+		scene.overlay().showText(70)
+				.pointAt(util.vector().of(4.0D, 2.5D, 3.5D))
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("平常使用蒸汽引擎时, 将飞轮引擎和锅炉放在一起会降低效率");
+		scene.idle(80);
+		scene.overlay().showText(70)
+				.pointAt(util.vector().of(4.0D, 2.5D, 3.5D))
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("在这里额外放置一个动力泵又太麻烦");
+		scene.idle(80);
+
+		scene.overlay().showText(40)
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("这时就该青铜蒸汽泵出场了! ");
+		scene.idle(50);
+
+		List<BlockPos> temp = new ArrayList<>();
+
+		for (int x = 7; x <= 9; x++) {
+			for (int y = 1; y <= 3; y++) {
+				for (int z = 2; z <= 6; z++) {
+					temp.add(util.grid().at(x, y, z));
+				}
+			}
+		}
+
+		for (int x = 2; x <= 9; x++) {
+			for (int y = 1; y <= 3; y++) {
+				for (int z = 7; z <= 9; z++) {
+					temp.add(util.grid().at(x, y, z));
+				}
+			}
+		}
+
+		for (int i = 0; i < 12; i++) {
+			int i1 = i;
+			temp.stream()
+					.filter((pos) -> {
+						return 9 - pos.getX() + pos.getY() - 1 + 9 - pos.getZ() == i1;
+					})
+					.forEach((pos) -> {
+						scene.world().showSection(util.select().position(pos), Direction.DOWN);
+					});
+			scene.idle(2);
+		}
+
+		scene.idle(5);
+		scene.world().showSection(tankI, Direction.SOUTH);
+		scene.idle(5);
+		scene.world().showSection(pipe, Direction.DOWN);
+		scene.idle(5);
+		scene.world().showSection(tankII, Direction.EAST);
+		scene.idle(10);
+
+		scene.idle(10);
+		scene.overlay().showText(90)
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽");
+		scene.idle(30);
+
+		scene.world().modifyBlockEntityNBT(tankController, FluidTankBlockEntity.class, (nbt) -> {
+			FluidTank tank = new FluidTank(96000);
+			tank.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
+			nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
 		});
-
 		scene.idle(10);
-		scene.overlay().showText(70)
-				.pointAt(util.vector().centerOf(engineIText))
+
+		scene.world().setBlock(pumpPos, Blocks.AIR.defaultBlockState(), true);
+		ElementLink<WorldSectionElement> bronzeSteamPump = scene.world().showIndependentSection(bronzeSteamPumpSelection, Direction.DOWN);
+		scene.world().moveSection(bronzeSteamPump, util.vector().of(0, -1, 0), 0);
+		scene.idle(10);
+
+		final int temp2Speed = 145;
+
+		int temp2Counter = temp2Speed;
+		int temp2 = 0;
+		for (int i = 0; i < 50; i++) {
+			temp2 += temp2Counter;
+			int temp3 = temp2;
+			scene.world().modifyBlockEntityNBT(tankController, FluidTankBlockEntity.class, (nbt) -> {
+				FluidTank tank = new FluidTank(96000);
+				tank.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000 - temp3));
+				nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+			});
+			scene.world().modifyBlockEntityNBT(tankControllerII, FluidTankBlockEntity.class, (nbt) -> {
+				FluidTank tank = new FluidTank(96000);
+				tank.setFluid(new FluidStack(SlFluids.STEAM.get(), temp3));
+				nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+			});
+			scene.idle(1);
+
+			if (i < 24) temp2Counter += temp2Speed;
+			if (i > 25) temp2Counter -= temp2Speed;
+		}
+
+		scene.idle(30);
+		scene.overlay().showText(40)
+				.pointAt(util.vector().of(4.0D, 2.5D, 3.5D))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("Putting the engine directly against the boiler lowers the efficiency");
-		scene.idle(80);
-
-		scene.overlay().showText(50)
-				.pointAt(util.vector().centerOf(engineIText2))
-				.placeNearTarget()
-				.text("Wiring up an external mechanical pump here is a hassle. What to do?");
-		scene.idle(55);
-
-		scene.world().hideIndependentSection(engineILink, Direction.UP);
-		scene.idle(10);
-
-		ElementLink<WorldSectionElement> pumpShowLink = scene.world().showIndependentSection(pumpShowSelection, Direction.NORTH);
-		scene.idle(10);
+				.text("回到最开始的问题");
+		scene.idle(50);
 
 		scene.overlay().showText(70)
-				.pointAt(util.vector().centerOf(pumpShowText))
+				.pointAt(util.vector().of(4.0D, 2.5D, 3.5D))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("That is where the Bronze Steam Pump comes in");
-		scene.idle(80);
+				.text("在锅炉与飞轮引擎之间放置青铜蒸汽泵即可恢复正常效率");
+		scene.idle(40);
 
-		scene.world().hideIndependentSection(pumpShowLink, Direction.WEST);
-		scene.idle(10);
-
-		scene.world().showSection(engineII, Direction.NORTH);
-		scene.world().modifyBlockEntityNBT(flyWheelII, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
-		scene.world().modifyBlockEntityNBT(boilerII, SolarBoilerBlockEntity.class, (nbt) -> {
-			FluidTank outputTank = new FluidTank(16000);
-			outputTank.setFluid(new FluidStack(SlFluids.STEAM.get(), 20000));
-			nbt.put("OutputTank", outputTank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
-		});
-
-		scene.idle(10);
-		scene.overlay().showText(70)
-				.pointAt(util.vector().centerOf(engineIIText))
-				.placeNearTarget()
-				.attachKeyFrame()
-				.text("Simply place it between the engine and the boiler");
-		scene.idle(80);
-
-		ElementLink<WorldSectionElement> benefitShowLink = scene.world().showIndependentSection(benefitSelection, Direction.WEST);
-		scene.idle(10);
-
-		scene.overlay().showText(70)
-				.pointAt(util.vector().centerOf(benefitText))
-				.placeNearTarget()
-				.attachKeyFrame()
-				.text("Its biggest advantage is that it needs no external stress");
-		scene.idle(80);
-
-		scene.world().hideIndependentSection(benefitShowLink, Direction.EAST);
-
-		ElementLink<WorldSectionElement> whatCostShowLink = scene.world().showIndependentSection(whatCostSelection, Direction.NORTH);
-		scene.idle(10);
-
-		scene.overlay().showText(70)
-				.pointAt(util.vector().centerOf(whatCostText))
-				.placeNearTarget()
-				.attachKeyFrame()
-				.text("And the price? It moves nothing but steam");
-		scene.idle(80);
-
-		scene.world().hideIndependentSection(whatCostShowLink, Direction.SOUTH);
-		scene.idle(20);
+		scene.world().moveSection(boilerLink, util.vector().of(1, 0, 0), 10);
+		scene.idle(15);
+		ElementLink<WorldSectionElement> bronzeSteamPumpII = scene.world().showIndependentSection(util.select().position(4, 3, 3), Direction.DOWN);
+		scene.world().moveSection(bronzeSteamPumpII, util.vector().of(0, -1, 0), 0);
+		scene.idle(25);
 
 		scene.markAsFinished();
 	}

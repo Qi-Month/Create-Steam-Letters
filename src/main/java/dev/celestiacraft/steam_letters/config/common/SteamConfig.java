@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
@@ -67,6 +68,18 @@ public class SteamConfig extends ConfigModule {
 	 */
 	public static Fluid getOutputSuperheatedSteamFluid() {
 		return resolveFluid(OUTPUT_SUPERHEATED_STEAM_FLUID, "superheated_steam");
+	}
+
+	/**
+	 * 按产出类型取一份指定量的蒸汽, 配置无效时返回空栈.
+	 */
+	public static FluidStack getOutputSteam(int amount, boolean superheated) {
+		Fluid fluid = superheated ? getOutputSuperheatedSteamFluid() : getOutputSteamFluid();
+		if (fluid == null) {
+			return FluidStack.EMPTY;
+		}
+
+		return new FluidStack(fluid, amount);
 	}
 
 	/**

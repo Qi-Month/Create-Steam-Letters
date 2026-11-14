@@ -21,6 +21,7 @@ public class SlPonderScene {
 		steamEngine(helper);
 		solarBoiler(helper);
 		bronzeSteamPump(helper);
+		bigBoiler(helper);
 	}
 
 	private static void steamHammer(@NotNull PonderSceneRegistrationHelper<Item> helper) {
@@ -88,5 +89,11 @@ public class SlPonderScene {
 						AllCreatePonderTags.FLUIDS,
 						SlPonderTags.SL
 				);
+	}
+
+	private static void bigBoiler(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+		SlPonderPlugin.addPonderForBlocks(helper, (block) -> {
+			return (block instanceof SteamBoilerBlock);
+		}, "big_boiler", BigBoilerScene::usage, AllCreatePonderTags.FLUIDS, SlPonderTags.SL);
 	}
 }

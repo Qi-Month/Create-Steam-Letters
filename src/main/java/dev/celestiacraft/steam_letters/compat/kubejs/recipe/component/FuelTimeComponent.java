@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.schema.component;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe.component;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -15,7 +15,7 @@ import dev.latvian.mods.rhino.type.TypeInfo;
  * 脚本里的加工时间参数.
  * <p>
  * 键名固定为 {@code time}, 写进配方 JSON 时是 {@code processing_time},
- * 与 Create 的 processing recipe 结构保持一致.
+ * 与原版的 processing recipe 结构保持一致.
  */
 public class FuelTimeComponent implements RecipeComponent<Integer> {
 	/**

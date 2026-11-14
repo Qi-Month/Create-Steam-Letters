@@ -4,7 +4,7 @@ import dev.celestiacraft.steam_letters.config.api.ConfigModule;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
- * Create 大锅炉(FluidTank 多方块 + BoilerData)的蒸汽驱动配置.
+ * 原版大锅炉(FluidTank 多方块 + BoilerData)的蒸汽驱动配置.
  * <p>
  * 只作用于大锅炉, 与本模组自己的多方块锅炉无关. 大锅炉不产汽, 这里的缓冲只用来存外部注入的蒸汽.
  */

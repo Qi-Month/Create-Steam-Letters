@@ -67,7 +67,7 @@ public class SlBlockPartialModel {
 	private static final Map<String, PartialModel> FLYWHEEL_PARTS = new HashMap<>();
 
 	/**
-	 * 青铜蒸汽管道的接口模型: 玩家自己看的法兰/接头没法用 Create 的 (那是铜色), 所以整套复制了一份.
+	 * 青铜蒸汽管道的接口模型: 玩家自己看的法兰/接头没法用机械动力原版的 (那是铜色), 所以整套复制了一份.
 	 * 键是 {@link FluidTransportBehaviour.AttachmentTypes.ComponentPartials} (CONNECTION / RIM_CONNECTOR / RIM / DRAIN), 内层按朝向索引.
 	 */
 	public static final Map<FluidTransportBehaviour.AttachmentTypes.ComponentPartials, Map<Direction, PartialModel>> BRONZE_PIPE_ATTACHMENTS =

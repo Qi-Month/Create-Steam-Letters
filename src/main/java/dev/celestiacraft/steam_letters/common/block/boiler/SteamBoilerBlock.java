@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 /**
  * 多方块锅炉储罐.
  * <p>
- * 拼接规则与 Create 的流体储罐完全一致, 因此直接继承 {@link FluidTankBlock}:
+ * 拼接规则与机械动力原版的流体储罐完全一致, 因此直接继承 {@link FluidTankBlock}:
  * 上下左右相邻的同类方块会连成一个结构, 由最低层的角块担任控制器.
  * 与储罐不同的是它固定不显示窗口, 并且在控制器那一格接受过热蒸汽组件.
  */
@@ -84,7 +84,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 		FluidTankBlockEntity tank = getBlockEntity(level, pos);
 		SteamBoilerBlockEntity controller = tank instanceof SteamBoilerBlockEntity boiler ? boiler.getControllerBoiler() : null;
 
-		if (controller != null && tryComponent(controller, stack, player, level)) {
+		if (controller != null && tryComponent(controller, stack, player, hand, level)) {
 			return ItemInteractionResult.sidedSuccess(level.isClientSide());
 		}
 
@@ -101,7 +101,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 	 *
 	 * @return 本次交互是否已被组件处理
 	 */
-	private boolean tryComponent(SteamBoilerBlockEntity controller, ItemStack stack, Player player, Level level) {
+	private boolean tryComponent(SteamBoilerBlockEntity controller, ItemStack stack, Player player, InteractionHand hand, Level level) {
 		if (stack.is(SlItems.SH_STEAM_COMPONENT.get())) {
 			if (controller.hasComponent()) {
 				return false;
@@ -116,7 +116,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 			return true;
 		}
 
-		if (!stack.isEmpty() || !controller.hasComponent()) {
+		if (hand != InteractionHand.MAIN_HAND || !stack.isEmpty() || !controller.hasComponent()) {
 			return false;
 		}
 		if (level.isClientSide()) {
@@ -124,7 +124,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 		}
 		controller.setComponent(false);
 		if (!player.isCreative()) {
-			Block.popResource(level, controller.getBlockPos(), new ItemStack(SlItems.SH_STEAM_COMPONENT.get()));
+			Block.popResource(level, controller.getBlockPos(), SlItems.SH_STEAM_COMPONENT.asStack());
 		}
 		return true;
 	}
@@ -140,7 +140,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 		BlockEntity entity = level.getBlockEntity(pos);
 		if (entity instanceof SteamBoilerBlockEntity boiler && boiler.isController() && boiler.hasComponent()) {
 			boiler.setComponent(false);
-			Block.popResource(level, pos, new ItemStack(SlItems.SH_STEAM_COMPONENT.get()));
+			Block.popResource(level, pos, SlItems.SH_STEAM_COMPONENT.asStack());
 		}
 		super.onRemove(state, level, pos, newState, movedByPiston);
 	}

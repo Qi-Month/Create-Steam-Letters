@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * 锅炉输入处理器, 除了接受水(原版行为)外, 还接受 {@code forge:steam} / {@code forge:superheated_steam} 流体
  * <p>
- * 注进来的蒸汽直接存进锅炉的蒸汽缓冲, 不进 Create 的槽位; 过热蒸汽会把等级顶到 18, 普通蒸汽顶到 9.
+ * 注进来的蒸汽直接存进锅炉的蒸汽缓冲, 不进原版的槽位; 过热蒸汽会把等级顶到 18, 普通蒸汽顶到 9.
  * <p>
  * 等级由缓冲存量支撑: 只要缓冲里还有蒸汽, 供汽中断后锅炉仍按原等级继续运行, 抽空才降级,
  * 因此管网间歇供汽不会让锅炉停机.
@@ -34,7 +34,7 @@ public class SteamBoilerFluidHandler extends BoilerData.BoilerFluidHandler {
 	public int fill(FluidStack stack, FluidAction action) {
 		SteamBoilerData steamBoiler = steamData();
 
-		// 蒸汽直接进蒸汽缓冲, 不写进 Create 的槽位:
+		// 蒸汽直接进蒸汽缓冲, 不写进原版的槽位:
 		// 槽位对外只暴露缓冲, 只有进缓冲的蒸汽才能被引擎与蒸汽泵继续抽走.
 		if (steamBoiler != null && isSteam(stack)) {
 			if (action.simulate()) {
@@ -46,7 +46,7 @@ public class SteamBoilerFluidHandler extends BoilerData.BoilerFluidHandler {
 			return steamBoiler.sl$notifySteamInput(steamHeatLevel(stack), stack.getAmount());
 		}
 
-		// 水与其他流体走 Create 原本的槽位
+		// 水与其他流体走原版自己的槽位
 		return super.fill(stack, action);
 	}
 

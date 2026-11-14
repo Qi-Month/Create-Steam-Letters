@@ -138,7 +138,6 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_STEAM), "Steam");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_LEVEL), "Boiler Level");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_SIZE), "Structure Size");
-		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_BURNERS), "Seething Burners");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_HEAT), "Heat");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_EFFICIENCY), "Efficiency");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_SUPERHEATED), "Superheated");

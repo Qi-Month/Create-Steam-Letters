@@ -8,6 +8,8 @@ import com.simibubi.create.content.processing.recipe.HeatCondition;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeParams;
 import com.simibubi.create.foundation.codec.CreateCodecs;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -19,11 +21,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * 两种燃料配方共用的参数集: 在 Create 的加工配方参数之上多一个「是否过热」.
+ * 两种燃料配方共用的参数集: 在原版的加工配方参数之上多一个「是否过热」.
  * <p>
  * 1.21 的 {@link ProcessingRecipeParams} 把原来散在 readAdditional / writeAdditional 里的字段
  * 全收进 codec, 所以过热标记只能跟着 codec 一起定义, 否则写不到配方 JSON 里.
  */
+@Setter
+@Getter
 public class FuelRecipeParams extends ProcessingRecipeParams {
 	public static final MapCodec<FuelRecipeParams> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
 		return instance.group(
@@ -63,17 +67,11 @@ public class FuelRecipeParams extends ProcessingRecipeParams {
 
 	private boolean superheated;
 
-	public boolean isSuperheated() {
-		return superheated;
-	}
-
-	public void setSuperheated(boolean superheated) {
-		this.superheated = superheated;
-	}
-
-	private static FuelRecipeParams read(List<Either<SizedFluidIngredient, Ingredient>> ingredients,
-										List<Either<FluidStack, ProcessingOutput>> results,
-										int duration, HeatCondition heat, boolean superheated) {
+	private static FuelRecipeParams read(
+			List<Either<SizedFluidIngredient, Ingredient>> ingredients,
+			List<Either<FluidStack, ProcessingOutput>> results,
+			int duration, HeatCondition heat, boolean superheated
+	) {
 		FuelRecipeParams params = new FuelRecipeParams();
 
 		ingredients.forEach((either) -> {
@@ -90,14 +88,14 @@ public class FuelRecipeParams extends ProcessingRecipeParams {
 	}
 
 	@Override
-	protected void encode(@NotNull RegistryFriendlyByteBuf buffer) {
-		super.encode(buffer);
-		ByteBufCodecs.BOOL.encode(buffer, superheated);
+	protected void encode(@NotNull RegistryFriendlyByteBuf buf) {
+		super.encode(buf);
+		ByteBufCodecs.BOOL.encode(buf, superheated);
 	}
 
 	@Override
-	protected void decode(@NotNull RegistryFriendlyByteBuf buffer) {
-		super.decode(buffer);
-		superheated = ByteBufCodecs.BOOL.decode(buffer);
+	protected void decode(@NotNull RegistryFriendlyByteBuf buf) {
+		super.decode(buf);
+		superheated = ByteBufCodecs.BOOL.decode(buf);
 	}
 }

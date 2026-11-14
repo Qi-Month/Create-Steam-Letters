@@ -1,6 +1,6 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.schema;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe;
 
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.schema.BurnerSchema;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.BurnerSchema;
 import dev.latvian.mods.kubejs.recipe.KubeRecipe;
 
 public class BurnerRecipeJS extends KubeRecipe {

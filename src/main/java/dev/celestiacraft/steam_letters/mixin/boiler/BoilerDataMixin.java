@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * 让 Create 大锅炉接受蒸汽驱动.
+ * 让原版大锅炉接受蒸汽驱动.
  * <ul>
  * <li>锅炉的流体处理器除原版的水之外还接受蒸汽与过热蒸汽, </li>
  * <li>灌入的蒸汽存进锅炉自己的缓冲, 缓冲里有蒸汽时锅炉热量被强制设为 9(普通蒸汽)或 18(过热蒸汽),
@@ -27,9 +27,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * <li>蒸汽从缓冲里被引擎与青铜蒸汽泵抽走, 抽空后等级退回 0. </li>
  * </ul>
  * <p>
- * 锅炉本身不产汽: 水只走 Create 原本的供水采样, 蒸汽一律来自外部注入.
+ * 锅炉本身不产汽: 水只走原版的供水采样, 蒸汽一律来自外部注入.
  * <p>
- * 目标成员都属于 Create, 重新混淆后名称不变, 因此统一使用 {@code remap = false}.
+ * 目标成员都属于原版, 重新混淆后名称不变, 因此统一使用 {@code remap = false}.
  */
 @Mixin(BoilerData.class)
 public class BoilerDataMixin implements SteamBoilerData {
@@ -49,7 +49,7 @@ public class BoilerDataMixin implements SteamBoilerData {
 	@Unique
 	private static final int SL_STEAM_SUPERHEATED = 2;
 	/**
-	 * Create 的等级上限, 也就是过热蒸汽对应的等级
+	 * 原版的等级上限, 也就是过热蒸汽对应的等级
 	 */
 	@Unique
 	private static final double SL_MAX_LEVEL = 18.0D;
@@ -203,7 +203,7 @@ public class BoilerDataMixin implements SteamBoilerData {
 	}
 
 	/**
-	 * 靠蒸汽运行时没有供水这回事, 把 Create 的供水等级顶满, 免得它把 activeHeat 压成 0
+	 * 靠蒸汽运行时没有供水这回事, 把原版的供水等级顶满, 免得它把 activeHeat 压成 0
 	 *
 	 * @param returnable
 	 */

@@ -50,7 +50,7 @@ public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 	/**
 	 * 注册本方块实体的流体能力.
 	 * <p>
-	 * 父类 SpoutBlockEntity 的能力只注册在 Create 自己的注液器类型上, 本模组换了方块实体类型,
+	 * 父类 SpoutBlockEntity 的能力只注册在机械动力原版自己的注液器类型上, 本模组换了方块实体类型,
 	 * 必须另注册一次; 底面是出液口, 与父类一致地不给能力.
 	 */
 	public static void registerCapabilities(RegisterCapabilitiesEvent event) {

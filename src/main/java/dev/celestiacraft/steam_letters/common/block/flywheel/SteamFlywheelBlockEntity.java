@@ -19,7 +19,7 @@ import java.util.List;
  * 蒸汽飞轮方块实体.
  * <p>
  * 它是一台「被驱动的动力源」: 自身不产汽也不耗汽, 转速与应力容量完全由配对飞轮引擎写入,
- * 再借由 Create 的发电机制把旋转推入动力网络.
+ * 再借由机械动力原版的发电机制把旋转推入动力网络.
  * <p>
  * 停机不是立即的: 引擎停止供汽后, 飞轮保留 40 tick 的缓冲, 避免在引擎短暂断汽时
  * 反复拆装动力网络. 如果 40 tick 内没有恢复旋转, 才会真正把自身从动力网络摘出.
@@ -151,7 +151,7 @@ public class SteamFlywheelBlockEntity extends GeneratingKineticBlockEntity {
 
 	@Override
 	public float calculateAddedStressCapacity() {
-		// Create 的动力网络把发电机的容量按「SU / RPM」记账: 网络总容量 = 本方法返回值 x |转速|.
+		// 机械动力原版的动力网络把发电机的容量按「SU / RPM」记账: 网络总容量 = 本方法返回值 x |转速|.
 		// 引擎写进来的 generatedCapacity 是对外承诺的总容量 (SU), 所以这里必须先除掉转速再交给网络,
 		// 否则 32 RPM 下 16384 会变成 16384 x 32 = 524288 SU.
 		if (generatedSpeed == 0.0F) {

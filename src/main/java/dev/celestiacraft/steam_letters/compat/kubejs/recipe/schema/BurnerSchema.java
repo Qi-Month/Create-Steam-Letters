@@ -1,11 +1,11 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.schema.schema;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema;
 
 import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.common.recipe.type.IBurnerFuelRecipe;
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.BurnerRecipeJS;
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.component.FuelFluidComponent;
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.component.FuelItemComponent;
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.component.FuelTimeComponent;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.BurnerRecipeJS;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.component.FuelFluidComponent;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.component.FuelItemComponent;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.component.FuelTimeComponent;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
 import dev.latvian.mods.kubejs.recipe.component.BooleanComponent;
 import dev.latvian.mods.kubejs.recipe.component.ComponentRole;

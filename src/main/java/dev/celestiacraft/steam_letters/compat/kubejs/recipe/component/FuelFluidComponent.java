@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.schema.component;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe.component;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.simibubi.create.foundation.codec.CreateCodecs;
 import dev.celestiacraft.steam_letters.api.SlApis;
-import dev.celestiacraft.steam_letters.compat.kubejs.schema.FuelFluid;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.FuelFluid;
 import dev.latvian.mods.kubejs.recipe.KubeRecipe;
 import dev.latvian.mods.kubejs.recipe.RecipeScriptContext;
 import dev.latvian.mods.kubejs.recipe.component.RecipeComponent;
@@ -19,7 +19,7 @@ import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
  * 脚本里的流体燃料参数.
  * <p>
  * 键名固定为 {@code fuel}, 但写进配方 JSON 时用的是 {@code ingredients} 数组, 因为
- * {@link dev.celestiacraft.steam_letters.common.recipe.type.FluidFuelRecipe} 的 codec 只认 Create 的
+ * {@link dev.celestiacraft.steam_letters.common.recipe.type.FluidFuelRecipe} 的 codec 只认原版的
  * processing recipe 结构. 序列化复用 {@link CreateCodecs#FLAT_SIZED_FLUID_INGREDIENT_WITH_TYPE},
  * 保证写出的元素带 {@code type} 字段.
  */

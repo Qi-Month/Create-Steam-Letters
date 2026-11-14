@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
  * 飞轮的后端渲染: 半轴交给父类, 轮盘与四根传动杆在这里补上.
  * <p>
  * 平时只要 Flywheel 可视化后端可用就提前返回, 由 {@link SteamFlywheelInstance} 负责画这些部件.
- * 唯一例外是光影包生效时: Create 的 rotating 实例类型在光影下可能被整批丢弃, 这时继续用这里的
+ * 唯一例外是光影包生效时: 原版的 rotating 实例类型在光影下可能被整批丢弃, 这时继续用这里的
  * 后端渲染兜底, 两份几何位置与角度完全重合, 不会出现重影.
  */
 public class SteamFlywheelRenderer extends KineticBlockEntityRenderer<SteamFlywheelBlockEntity> {
