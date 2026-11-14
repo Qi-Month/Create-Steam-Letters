@@ -19,12 +19,6 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-/**
- * 多方块锅炉的仪表盘与过热蒸汽组件渲染.
- * <p>
- * 仪表盘照原版大锅炉的排布画在结构四个侧面的中央, 指针角度按当前等级换算; 组件只装在控制器那一格,
- * 因此整个结构只绘制一次.
- */
 public class SteamBoilerRenderer extends SmartBlockEntityRenderer<SteamBoilerBlockEntity> {
 	public SteamBoilerRenderer(BlockEntityRendererProvider.Context context) {
 		super(context);
@@ -39,11 +33,6 @@ public class SteamBoilerRenderer extends SmartBlockEntityRenderer<SteamBoilerBlo
 		int brightness = brighten(entity, light);
 		VertexConsumer vertex = buffer.getBuffer(RenderType.cutout());
 		renderGauges(entity, partialTicks, stack, vertex, brightness);
-		if (entity.hasComponent()) {
-			CachedBuffers.partial(SlBlockPartialModel.STEAM_BOILER_COMPONENT, entity.getBlockState())
-					.light(brightness)
-					.renderInto(stack, vertex);
-		}
 	}
 
 	/**
@@ -89,7 +78,7 @@ public class SteamBoilerRenderer extends SmartBlockEntityRenderer<SteamBoilerBlo
 			stack.mulPose(Axis.YP.rotationDegrees(-direction.toYRot() - 90));
 			stack.translate(-0.5F, -0.5F, -0.5F);
 			stack.translate(width / 2.0f - 6 / 16.00f, 0, 0);
-			CachedBuffers.partial(AllPartialModels.BOILER_GAUGE, state)
+			CachedBuffers.partial(SlBlockPartialModel.STEAM_BOILER_COMPONENT, state)
 					.light(light)
 					.renderInto(stack, vertex);
 
