@@ -37,7 +37,7 @@ public class SteamConfig extends ConfigModule {
 				.define("output_steam_fluid", "steam_letters:steam");
 
 		OUTPUT_SUPERHEATED_STEAM_FLUID = builder.translation(key("output_superheated_steam_fluid"))
-				.comment("Fluid id produced by steam boilers while their burner is in the superheated state.",
+				.comment("Fluid id produced by steam boilers while a superheated steam component is installed and seething burners sit below.",
 					"Must differ from output_steam_fluid, otherwise the config fails to load.",
 					"Existing tank contents are never converted when this changes.")
 				.define("output_superheated_steam_fluid", "steam_letters:superheated_steam");

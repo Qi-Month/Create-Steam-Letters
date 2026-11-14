@@ -4,6 +4,14 @@
 			"type": "minecraft:directory",
 			"prefix": "fluid/",
 			"source": "fluid"
+		},
+		{
+			"type": "single",
+			"resource": "steam_letters:block/steam/boiler/bronze/connected"
+		},
+		{
+			"type": "single",
+			"resource": "steam_letters:block/steam/boiler/bronze/connected_top"
 		}
 	]
 }

@@ -13,6 +13,9 @@ public class SlBlockPartialModel {
 			STEAM_HAMMER;
 
 	public static final PartialModel
+			STEAM_BOILER_COMPONENT;
+
+	public static final PartialModel
 			SPOUT_TOP,
 			SPOUT_MIDDLE,
 			SPOUT_BOTTOM;
@@ -43,6 +46,8 @@ public class SlBlockPartialModel {
 
 	static {
 		STEAM_HAMMER = addPartial("steam_hammer/head");
+
+		STEAM_BOILER_COMPONENT = addPartial("steam/sh_steam_component");
 
 		STEAM_FLYWHEEL_WHEEL = addPartial("steam/flywheel/bronze_wheel");
 		STEAM_FLYWHEEL_UPPER_ROTATING = addPartial("steam/flywheel/bronze_upper_rotating_connector");

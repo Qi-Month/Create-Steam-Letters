@@ -9,6 +9,7 @@ import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpout
 import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerRenderer;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerRenderer;
 import dev.celestiacraft.steam_letters.common.block.bronze_basin.BronzeBasinBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.bronze_basin.BronzeBasinRenderer;
 import dev.celestiacraft.steam_letters.common.block.bronze_depot.BronzeDepotBlockEntity;
@@ -78,6 +79,7 @@ public class SlBlockEntities {
 				.register();
 
 		STEAM_BOILER = SlApis.REGISTRATE.blockEntity("steam_boiler", SteamBoilerBlockEntity::new)
+				.renderer(() -> SteamBoilerRenderer::new)
 				.validBlock(SlBlocks.BRONZE_BOILER)
 				.register();
 

@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.entry.FluidEntry;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.boiler.AbstractBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.bronze_basin.BronzeBasinBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.bronze_depot.BronzeDepotBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.burner.FluidBurnerBlockEntity;
@@ -29,6 +30,7 @@ public class SlCapabilities {
 	public static void register(RegisterCapabilitiesEvent event) {
 		CreateLettersSteam.LOGGER.info("[SlCapabilities] register invoked");
 		AbstractBoilerBlockEntity.registerCapabilities(event);
+		SteamBoilerBlockEntity.registerCapabilities(event);
 		AdvancedSpoutBlockEntity.registerCapabilities(event);
 		BronzeBasinBlockEntity.registerCapabilities(event);
 		BronzeDepotBlockEntity.registerCapabilities(event);

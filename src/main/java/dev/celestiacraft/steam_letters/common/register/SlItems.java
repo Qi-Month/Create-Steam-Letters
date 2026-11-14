@@ -15,6 +15,7 @@ public class SlItems {
 	public static final ItemEntry<SteamContainerItem> EMPTY_STEAM_CONTAINER;
 	public static final ItemEntry<SteamContainerItem> SEALED_STEAM_CONTAINER;
 	public static final ItemEntry<Item> BRONZE_WHISK;
+	public static final ItemEntry<Item> SH_STEAM_COMPONENT;
 
 	static {
 		STEAM_MECHANISM = SlApis.REGISTRATE.item("steam_mechanism", SteamMechanismItem::new)
@@ -46,6 +47,11 @@ public class SlItems {
 		BRONZE_WHISK = SlApis.REGISTRATE.item("bronze_whisk", Item::new)
 				.model(ItemModelGen.generated("item/bronze_whisk"))
 				.lang("Bronze Whisk")
+				.register();
+
+		SH_STEAM_COMPONENT = SlApis.REGISTRATE.item("sh_steam_component", Item::new)
+				.model(ItemModelGen.generated("item/sh_steam_component"))
+				.lang("Superheated Steam Component")
 				.register();
 	}
 

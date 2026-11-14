@@ -281,7 +281,6 @@ public abstract class AbstractBoilerBlockEntity extends SmartBlockEntity {
 	}
 
 	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		registerCapabilities(event, SlBlockEntities.STEAM_BOILER.get());
 		registerCapabilities(event, SlBlockEntities.SOLAR_BOILER.get());
 	}
 

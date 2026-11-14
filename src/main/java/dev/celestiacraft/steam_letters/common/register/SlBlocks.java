@@ -137,8 +137,7 @@ public class SlBlocks {
 				.build()
 				.initialProperties(SharedProperties::softMetal)
 				.properties((properties) -> {
-					return properties.noOcclusion()
-							.sound(SoundType.LANTERN);
+					return properties.sound(SoundType.LANTERN);
 				})
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
 				.tag(BlockTags.NEEDS_STONE_TOOL)

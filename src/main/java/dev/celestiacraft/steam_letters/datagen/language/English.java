@@ -74,9 +74,9 @@ public class English {
 	}
 
 	private static void addBronzeBoilerLang(RegistrateLangProvider provider) {
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUMMARY), "Heats water into steam");
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_NEEDS_BURNER), "Requires a burner directly below");
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUPERHEATED), "Produces superheated steam at full heat");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUMMARY), "Joins into a multi-block tank that heats water into steam");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_NEEDS_BURNER), "Requires seething blaze burners directly below");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUPERHEATED), "Superheated with a superheated steam component installed");
 	}
 
 	private static void addSolarBoilerLang(RegistrateLangProvider provider) {
@@ -136,6 +136,9 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_BOILER_WATER_STORED), "Water Stored");
 
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_STEAM), "Steam");
+		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_LEVEL), "Boiler Level");
+		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_SIZE), "Structure Size");
+		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_BURNERS), "Seething Burners");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_HEAT), "Heat");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_EFFICIENCY), "Efficiency");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BOILER_SUPERHEATED), "Superheated");
