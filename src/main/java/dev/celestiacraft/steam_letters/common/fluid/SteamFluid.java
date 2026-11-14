@@ -34,7 +34,8 @@ public class SteamFluid extends FluidType {
 			fluidType.fogColor = new Vector3f(
 					((fogColor >> 16) & 0xFF) / 255.0f,
 					((fogColor >> 8) & 0xFF) / 255.0f,
-					(fogColor & 0xFF) / 255.0f);
+					(fogColor & 0xFF) / 255.0f
+			);
 			fluidType.fogDistance = fogDistance;
 			return fluidType;
 		};
