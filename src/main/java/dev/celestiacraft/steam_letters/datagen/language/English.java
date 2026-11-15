@@ -1,8 +1,8 @@
 package dev.celestiacraft.steam_letters.datagen.language;
 
-import com.tterrag.registrate.providers.RegistrateLangProvider;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.api.SlTranKeys;
+import dev.celestiacraft.steam_letters.api.client.lang.EnglishLangProvider;
 import dev.celestiacraft.steam_letters.client.ponder.SlPonderPlugin;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutScrollValueBehaviour;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
@@ -10,7 +10,7 @@ import net.createmod.ponder.api.registration.LangRegistryAccess;
 import net.createmod.ponder.foundation.PonderIndex;
 
 public class English {
-	public static void addTranslations(RegistrateLangProvider provider) {
+	public static void addTranslations(EnglishLangProvider provider) {
 		addOtherLang(provider);
 		addCommonLang(provider);
 		addSteamHammerLang(provider);
@@ -37,7 +37,7 @@ public class English {
 		access.provideLang(CreateLettersSteam.MODID, provider::add);
 	}
 
-	private static void addCommonLang(RegistrateLangProvider provider) {
+	private static void addCommonLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_PARALLEL), "Processes up to _%s_ items per cycle");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_CAPACITY), "Holds _%s mB_ of steam");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_CONSUMPTION), "Consumes _%s mB_ of steam");
@@ -49,43 +49,43 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_WATER_STEAM_CAPACITY), "Holds _%s mB_ of water and _%s mB_ of steam");
 	}
 
-	private static void addOtherLang(RegistrateLangProvider provider) {
+	private static void addOtherLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.BASIC_TAB, CreateLettersSteam.NAME);
 		provider.add(SlTranKeys.THERMAL_PACK_TITLE, "§6Thermal Hue Resource Pack");
 		provider.add(SlTranKeys.THERMAL_PACK_DESCRIPTION, "§6Recolors bronze casings and machines after Thermal Expansion's bronze");
 		provider.add(SlTranKeys.WIP_HIDE_WARNING, "§cHidden temporarily due to numerous bugs");
 	}
 
-	private static void addSteamMixerLang(RegistrateLangProvider provider) {
+	private static void addSteamMixerLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_MIXER_SUMMARY), "Processes mixing recipes");
 	}
 
-	private static void addSteamSawLang(RegistrateLangProvider provider) {
+	private static void addSteamSawLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_SAW_SUMMARY), "Processes cutting recipes");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_SAW_PROCESSING_TIME), "Takes only _%s_ of the time a Mechanical Saw needs");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_SAW_CONSUMPTION), "Consumes _%s mB_ of steam per output");
 	}
 
-	private static void addAdvancedSpoutTooltipLang(RegistrateLangProvider provider) {
+	private static void addAdvancedSpoutTooltipLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_SUMMARY), "Finishes a pouring cycle in _%s_ ticks");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_PARALLEL), "Has _%s_ parallel slots (adjustable with a Wrench, 1–20)");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_CAPACITY), "Holds _%s mB_ of fluid");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_NO_STEAM), "Requires neither steam nor rotational force");
 	}
 
-	private static void addBronzeBoilerLang(RegistrateLangProvider provider) {
+	private static void addBronzeBoilerLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUMMARY), "Joins into a multi-block tank that heats water into steam");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_NEEDS_BURNER), "Requires seething blaze burners directly below");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUPERHEATED), "Superheated with a superheated steam component installed");
 	}
 
-	private static void addSolarBoilerLang(RegistrateLangProvider provider) {
+	private static void addSolarBoilerLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLAR_BOILER_SUMMARY), "Turns water into steam with light");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLAR_BOILER_LIGHT), "Sunlight _%s_, artificial light _%s_ (light level ≥ _%s_)");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLAR_BOILER_WEATHER), "Rain _%s_, thunder _%s_");
 	}
 
-	private static void addBurnerLang(RegistrateLangProvider provider) {
+	private static void addBurnerLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLID_BURNER_SUMMARY), "Provides heat to the boiler above");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_FLUID_BURNER_SUMMARY), "Burns fluid fuel to heat the boiler above");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BURNER_MAX_HEAT), "Maximum heat _%s_");
@@ -95,7 +95,7 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_FLUID_BURNER_FUEL_CYCLE), "Burns one cycle per _1000 mB_ of fuel");
 	}
 
-	private static void addSteamEngineTooltipLang(RegistrateLangProvider provider) {
+	private static void addSteamEngineTooltipLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_SUMMARY), "Turns steam into stress");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_OUTPUT), "Outputs _%s SU_ at _%s RPM_");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_CONSUMPTION), "Consumes _%s mB/t_ of steam at full load");
@@ -106,7 +106,7 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_SUPERHEATED_EFFECTS), "Steam use x_%s_, stress output x_%s_");
 	}
 
-	private static void addSteamContainerLang(RegistrateLangProvider provider) {
+	private static void addSteamContainerLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_EMPTY), "Holds up to _%s mB_ of steam");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_FLUID), "%s: _%s_ / %s mB");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_ONLY_STEAM), "Stores steam and superheated steam only");
@@ -115,7 +115,7 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_EXTRACT_MORE), "▸ Sneak-right-click to keep extracting");
 	}
 
-	private static void addGoggleLang(RegistrateLangProvider provider) {
+	private static void addGoggleLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BURNER), "Steam Burner");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BURNER_TEMPERATURE), "Temperature");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_BURNER_FUEL_TIME), "Fuel Remaining");
@@ -150,7 +150,7 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_MACHINE_PARALLEL), "Parallel");
 	}
 
-	private static void addSteamEngineLang(RegistrateLangProvider provider) {
+	private static void addSteamEngineLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE), "Steam Engine");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE_STATUS_IDLE), "Idle");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE_STATUS_HEATUP), "Heating Up");
@@ -160,30 +160,30 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE_STEAM), "Steam");
 	}
 
-	private static void addJeiLang(RegistrateLangProvider provider) {
+	private static void addJeiLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_SOLID_FUEL), "Solid Fuel");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_FLUID_FUEL), "Fluid Fuel");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_HEATED), "Heated");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_SUPERHEATED), "Superheated");
 	}
 
-	private static void addSteamHammerLang(RegistrateLangProvider provider) {
+	private static void addSteamHammerLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_HAMMER_SUMMARY), "Handles _Pressing_, _Compacting_ and _Automated Packing_ recipes");
 	}
 
-	private static void addSteamPumpLang(RegistrateLangProvider provider) {
+	private static void addSteamPumpLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_SUMMARY), "Only ever _moves steam_, and only when it is the _sole_ medium in the pipe");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR1), "Requires _no rotational force_ and consumes _no stress");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR2), "Works on its own once a steam pipe or tank is attached");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR3), "Shuts down entirely if any other fluid enters the suction network");
 	}
 
-	private static void addSteamPipeLang(RegistrateLangProvider provider) {
+	private static void addSteamPipeLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_SUMMARY), "Only _steam_ may flow through this pipe");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_BEHAVIOUR), "Use it together with the _Bronze Steam Pump_");
 	}
 
-	private static void addBronzeBasinLang(RegistrateLangProvider provider) {
+	private static void addBronzeBasinLang(EnglishLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BASIN_SUMMARY), "Each fluid slot holds _%s mB_ of fluid, 4 slots in total");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BASIN_BEHAVIOUR1), "Accepts _multiple fluids_, used by mixing and compacting recipes");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BASIN_BEHAVIOUR2), "Processes more recipes before it needs to be refilled");
@@ -191,12 +191,12 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_BRONZE_DEPOT_CONTENTS), "Bronze Depot Contents");
 	}
 
-	private static void addAdvancedSpoutLang(RegistrateLangProvider provider) {
+	private static void addAdvancedSpoutLang(EnglishLangProvider provider) {
 		provider.add(AdvancedSpoutScrollValueBehaviour.LANG_PARALLEL, "Parallel");
 		provider.add(AdvancedSpoutScrollValueBehaviour.LANG_VALUE_PARALLEL, "x%s");
 	}
 
-	private static void addConfigLang(RegistrateLangProvider provider) {
+	private static void addConfigLang(EnglishLangProvider provider) {
 		provider.add(ConfigModule.translationKey("general"), "General");
 
 		provider.add(ConfigModule.translationKey("steam"), "Steam");
@@ -283,7 +283,7 @@ public class English {
 	 * Configured 会以 {@code <界面翻译键>.comment} 查询注释, 命中即显示译文, 未命中则回退到 toml 里的原文.
 	 * 因此这里的内容必须与配置文件中的英文注释逐条对应.
 	 */
-	private static void addConfigCommentLang(RegistrateLangProvider provider) {
+	private static void addConfigCommentLang(EnglishLangProvider provider) {
 		comment(provider, ConfigModule.translationKey("general"), "All settings below only take effect after restarting the server or client.");
 
 		comment(provider, ConfigModule.translationKey("steam", "superheated_steam_consumption_multiplier"), "Global steam consumption multiplier for machines running on superheated steam.\n" + "0.25 means such a machine only needs a quarter of the normal steam.");
@@ -371,7 +371,7 @@ public class English {
 		comment(provider, ConfigModule.translationKey("advanced_spout", "parallel"), "Default parallel of newly placed advanced spouts.\n" + "Can still be changed per block with a wrench.");
 	}
 
-	private static void comment(RegistrateLangProvider provider, String translationKey, String comment) {
+	private static void comment(EnglishLangProvider provider, String translationKey, String comment) {
 		provider.add(translationKey + ".comment", comment);
 	}
 }
