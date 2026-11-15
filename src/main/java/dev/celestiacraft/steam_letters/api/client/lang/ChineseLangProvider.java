@@ -5,6 +5,8 @@ import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.providers.RegistrateProvider;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -33,6 +35,14 @@ public class ChineseLangProvider extends LanguageProvider implements RegistrateP
 	@Override
 	protected void addTranslations() {
 		owner.genData(TYPE, this);
+	}
+
+	public void addItem(Item item, String name) {
+		add(item, name);
+	}
+
+	public void addBlock(Block block, String name) {
+		add(block.getDescriptionId(), name);
 	}
 
 	public void addFluid(Fluid fluid, String name) {

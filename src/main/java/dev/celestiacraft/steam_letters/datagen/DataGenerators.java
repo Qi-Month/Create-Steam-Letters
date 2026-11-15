@@ -23,6 +23,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = CreateLettersSteam.MODID)
@@ -61,6 +62,11 @@ public class DataGenerators {
 	 * @param event 数据生成事件
 	 */
 	public static void addRegistrateProviders(GatherDataEvent event) {
+		// ProviderType 在 RegistrateDataProvider 构造时被快照, 覆盖内置 lang 工厂必须早于那一刻;
+		// 而 lambda 的形参类型不会触发类初始化, 所以这里显式求值 TYPE.
+		Objects.requireNonNull(ChineseLangProvider.TYPE);
+		Objects.requireNonNull(EnglishLangProvider.TYPE);
+
 		if (event.includeClient()) {
 			SlApis.REGISTRATE.addDataGenerator(ProviderType.LANG, (EnglishLangProvider provider) -> {
 				English.addTranslations(provider);
