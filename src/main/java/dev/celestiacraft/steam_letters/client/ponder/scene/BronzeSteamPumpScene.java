@@ -1,7 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import net.createmod.ponder.api.element.ElementLink;
@@ -15,7 +14,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +47,7 @@ public class BronzeSteamPumpScene {
 
 		ElementLink<WorldSectionElement> boilerLink = scene.world().showIndependentSection(boiler, Direction.DOWN);
 		scene.world().showSection(engine, Direction.DOWN);
-		scene.world().modifyBlockEntityNBT(rotate, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(rotate, -16.0F);
 
 		scene.idle(10);
 		scene.overlay().showText(70)
@@ -119,13 +115,7 @@ public class BronzeSteamPumpScene {
 		scene.idle(30);
 
 		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
-			try {
-				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
-				f.setAccessible(true);
-				IFluidHandler handler = (IFluidHandler) f.get(entity);
-				handler.fill(new FluidStack(SlFluids.STEAM.get(), 96000), IFluidHandler.FluidAction.EXECUTE);
-			} catch (Exception e) {
-			}
+			entity.getTankInventory().fill(new FluidStack(SlFluids.STEAM.get(), 96000), IFluidHandler.FluidAction.EXECUTE);
 		});
 		scene.idle(10);
 
@@ -140,22 +130,10 @@ public class BronzeSteamPumpScene {
 		for (int i = 0; i < 50; i++) {
 			int temp3 = temp2;
 			scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
-				try {
-					Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
-					f.setAccessible(true);
-					IFluidHandler handler = (IFluidHandler) f.get(entity);
-					handler.drain(temp3, IFluidHandler.FluidAction.EXECUTE);
-				} catch (Exception e) {
-				}
+				entity.getTankInventory().drain(temp3, IFluidHandler.FluidAction.EXECUTE);
 			});
 			scene.world().modifyBlockEntity(tankControllerII, FluidTankBlockEntity.class, (entity) -> {
-				try {
-					Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
-					f.setAccessible(true);
-					IFluidHandler handler = (IFluidHandler) f.get(entity);
-					handler.fill(new FluidStack(SlFluids.STEAM, temp3), IFluidHandler.FluidAction.EXECUTE);
-				} catch (Exception e) {
-				}
+				entity.getTankInventory().fill(new FluidStack(SlFluids.STEAM.get(), temp3), IFluidHandler.FluidAction.EXECUTE);
 			});
 			scene.idle(1);
 

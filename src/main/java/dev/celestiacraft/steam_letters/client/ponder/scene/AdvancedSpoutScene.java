@@ -1,7 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.AllFluids;
-import com.simibubi.create.content.fluids.spout.SpoutBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.simibubi.create.foundation.ponder.element.BeltItemElement;
@@ -19,8 +18,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-
-import java.lang.reflect.Field;
 
 /**
  * 高级注液器的 Ponder 场景.
@@ -73,13 +70,9 @@ public class AdvancedSpoutScene {
 		scene.overlay().showControls(spoutControl, Pointing.DOWN, 10)
 				.withItem(honeyBucket);
 		scene.world().modifyBlockEntity(spoutPos, AdvancedSpoutBlockEntity.class, (entity) -> {
-			try {
-				Field f = SpoutBlockEntity.class.getDeclaredField("tank");
-				f.setAccessible(true);
-				SmartFluidTankBehaviour tank = (SmartFluidTankBehaviour) f.get(entity);
-				tank.getCapability().fill(new FluidStack(AllFluids.HONEY.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
-			} catch (Exception e) {
-			}
+			entity.getBehaviour(SmartFluidTankBehaviour.TYPE)
+					.getPrimaryHandler()
+					.fill(new FluidStack(AllFluids.HONEY.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
 		});
 
 		scene.idle(20);
@@ -87,7 +80,9 @@ public class AdvancedSpoutScene {
 
 		scene.idle(7);
 		scene.world().stallBeltItem(itemDrop, true);
-		scene.world().modifyBlockEntityNBT(spout, AdvancedSpoutBlockEntity.class, (nbt) -> nbt.putInt("ProcessingTicks", 5));
+		scene.world().modifyBlockEntity(spoutPos, AdvancedSpoutBlockEntity.class, (entity) -> {
+			entity.processingTicks = 5;
+		});
 		scene.idle(5);
 
 		scene.world().removeItemsFromBelt(beltSpout);

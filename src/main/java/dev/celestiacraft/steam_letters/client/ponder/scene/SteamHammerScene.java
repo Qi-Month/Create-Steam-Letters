@@ -2,7 +2,6 @@ package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.press.PressingBehaviour;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.simibubi.create.foundation.ponder.element.BeltItemElement;
@@ -17,8 +16,6 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,7 +23,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 /**
  * 蒸汽锻锤的 Ponder 场景.
@@ -89,9 +85,7 @@ public class SteamHammerScene {
 				.text("It needs more stress than a mechanical press to keep working...");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(hammerSelection, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(hammerSelection, -16.0F);
 		for (int i = 0; i < 8; i++) {
 			scene.effects().emitParticles(
 					util.vector().blockSurface(hammer, Direction.NORTH),
@@ -107,10 +101,8 @@ public class SteamHammerScene {
 				.text("...and a constant supply of steam as well");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(tankSelectionForNbt, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(96000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
-			nbt.put("TankContent", tankContent.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
+			entity.getTankInventory().setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
 		});
 
 		scene.world().showSection(tank, Direction.WEST);

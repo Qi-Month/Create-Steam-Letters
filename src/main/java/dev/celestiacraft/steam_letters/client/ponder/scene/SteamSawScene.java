@@ -1,8 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.steam_saw.SteamSawBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
@@ -14,23 +12,13 @@ import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.*;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.PipeBlock;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * 蒸汽锯的 Ponder 场景.
@@ -78,10 +66,8 @@ public class SteamSawScene {
 
 		scene.world().showSection(saw, Direction.DOWN);
 
-		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(10000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 10000));
-			nbt.put("Steam", tankContent.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(sawPos, SteamSawBlockEntity.class, (entity) -> {
+			entity.setSteamStack(new FluidStack(SlFluids.STEAM.get(), 10000));
 		});
 
 		scene.idle(10);
@@ -99,13 +85,14 @@ public class SteamSawScene {
 				.text("它不仅需要更高的应力维持工作...");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(saw, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", 16.0F);
-		});
+		scene.world().setKineticSpeed(saw, 16.0F);
 		for (int i = 0; i < 8; i++) {
 			scene.effects().emitParticles(
 					util.vector().blockSurface(sawPos, Direction.NORTH),
-					scene.effects().simpleParticleEmitter(SlParticles.STEAM.get(), VecHelper.offsetRandomly(Vec3.ZERO, random, 0.1f)),
+					scene.effects().simpleParticleEmitter(
+							SlParticles.STEAM.get(),
+							VecHelper.offsetRandomly(Vec3.ZERO, random, 0.1f)
+					),
 					1, 1
 			);
 		}
@@ -118,13 +105,10 @@ public class SteamSawScene {
 		scene.idle(40);
 
 		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
-			try {
-				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
-				f.setAccessible(true);
-				IFluidHandler handler = (IFluidHandler) f.get(entity);
-				handler.fill(new FluidStack(SlFluids.STEAM.get(), 96000), IFluidHandler.FluidAction.EXECUTE);
-			} catch (Exception e) {
-			}
+			entity.getTankInventory().fill(
+					new FluidStack(SlFluids.STEAM.get(), 96000),
+					IFluidHandler.FluidAction.EXECUTE
+			);
 		});
 
 		scene.world().showSection(tank, Direction.WEST);
@@ -156,24 +140,10 @@ public class SteamSawScene {
 		scene.idle(12);
 		scene.world().removeItemsFromBelt(beltII);
 		scene.world().modifyBlockEntity(sawPos, SteamSawBlockEntity.class, (entity) -> {
-			try {
-				CompoundTag tag = TagParser.parseTag("{Filter:{count:1,id:\"minecraft:oak_button\"},FilterAmount:64,Inventory:{AppliedRecipe:0b,Items:[{Slot:0,count:16,id:\"minecraft:oak_planks\"}],ProcessingTime:38.0f,RecipeTime:38.0f,Size:32},Network:{AddedStress:16.0f,Capacity:262144.0f,Id:-11819749494713L,Size:2,Stress:256.0f},NextTick:0,Progress:0,RecipeIndex:0,Source:[I;-43,71,123],Speed:16.0f,Steam:{amount:10000,id:\"steam_letters:flowing_steam\"},UpTo:1b}");
-				Method m = SmartBlockEntity.class.getDeclaredMethod("loadAdditional", CompoundTag.class, HolderLookup.Provider.class);
-				m.setAccessible(true);
-				m.invoke(entity, tag, new HolderLookup.Provider(){
-					@Override
-					public Stream<ResourceKey<? extends Registry<?>>> listRegistries() {
-						return Stream.empty();
-					}
-
-					@Override
-					public <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey) {
-						return Optional.empty();
-					}
-				});
-			} catch (Exception ignored) {
-				ignored.printStackTrace();
-			}
+			entity.inventory.setStackInSlot(0, planksItem.copy());
+			entity.inventory.remainingTime = 38.0F;
+			entity.inventory.recipeDuration = 38.0F;
+			entity.inventory.appliedRecipe = false;
 		});
 		scene.idle(58);
 
@@ -183,13 +153,13 @@ public class SteamSawScene {
 		scene.world().flapFunnel(funnel, false);
 
 		scene.idle(10);
-		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(0);
-			tankContent.setFluid(new FluidStack(Fluids.EMPTY, 0));
-			nbt.put("Steam", tankContent.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(sawPos, SteamSawBlockEntity.class, (entity) -> {
+			entity.setSteamStack(FluidStack.EMPTY);
 		});
 		scene.world().hideIndependentSection(pipeIILink, Direction.SOUTH);
-		scene.world().modifyBlock(pipe, (state) -> state.setValue(PipeBlock.DOWN, false), false);
+		scene.world().modifyBlock(pipe, (state) -> {
+			return state.setValue(PipeBlock.DOWN, false);
+		}, false);
 
 		scene.idle(10);
 		scene.overlay().showText(70)

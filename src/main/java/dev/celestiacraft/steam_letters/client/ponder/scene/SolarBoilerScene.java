@@ -1,8 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
-import com.simibubi.create.content.fluids.pump.PumpBlockEntity;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
@@ -11,14 +9,9 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-
-import java.lang.reflect.Field;
 
 /**
  * 太阳能锅炉 Ponder 场景: 太阳能锅炉 / 蒸汽飞轮 / 飞轮引擎 共用.
@@ -62,21 +55,11 @@ public class SolarBoilerScene {
 
 		scene.world().showSection(water, Direction.WEST);
 		scene.world().modifyBlockEntity(waterTankLowerPos, FluidTankBlockEntity.class, (entity) -> {
-			try {
-				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
-				f.setAccessible(true);
-				IFluidHandler handler = (IFluidHandler) f.get(entity);
-				handler.fill(new FluidStack(Fluids.WATER, 16000), IFluidHandler.FluidAction.EXECUTE);
-			} catch (Exception e) {
-			}
+			entity.getTankInventory().fill(new FluidStack(Fluids.WATER, 16000), IFluidHandler.FluidAction.EXECUTE);
 		});
-		scene.world().modifyBlockEntityNBT(pump, PumpBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
-		scene.world().modifyBlockEntityNBT(boilerSelectionForNbt, SolarBoilerBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(16000);
-			tank.setFluid(new FluidStack(Fluids.WATER, 20000));
-			nbt.put("InputTank", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().setKineticSpeed(pump, -16.0F);
+		scene.world().modifyBlockEntity(boilerPos, SolarBoilerBlockEntity.class, (entity) -> {
+			entity.getInputTank().setFluid(new FluidStack(Fluids.WATER, 20000));
 		});
 
 		scene.idle(10);
@@ -104,13 +87,9 @@ public class SolarBoilerScene {
 				.text("...and real sunlight is best");
 		scene.idle(90);
 
-		scene.world().modifyBlockEntityNBT(boilerSelectionForNbt, SolarBoilerBlockEntity.class, (nbt) -> {
-			FluidTank inputTank = new FluidTank(16000);
-			inputTank.setFluid(new FluidStack(Fluids.WATER, 0));
-			FluidTank outputTank = new FluidTank(16000);
-			outputTank.setFluid(new FluidStack(SlFluids.STEAM.get(), 20000));
-			nbt.put("InputTank", inputTank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
-			nbt.put("OutputTank", outputTank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(boilerPos, SolarBoilerBlockEntity.class, (entity) -> {
+			entity.getInputTank().setFluid(FluidStack.EMPTY);
+			entity.getOutputTank().setFluid(new FluidStack(SlFluids.STEAM.get(), 20000));
 		});
 
 		scene.idle(30);
@@ -122,9 +101,7 @@ public class SolarBoilerScene {
 		scene.idle(80);
 
 		scene.world().showSection(engineAndFlywheel, Direction.NORTH);
-		scene.world().modifyBlockEntityNBT(flywheelSelectionForNbt, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(flywheelSelectionForNbt, -16.0F);
 
 		scene.idle(10);
 		scene.overlay().showText(70)

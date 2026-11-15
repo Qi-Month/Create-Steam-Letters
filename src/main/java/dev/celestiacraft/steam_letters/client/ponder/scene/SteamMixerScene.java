@@ -1,7 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.steam_mixer.SteamMixerBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
@@ -16,15 +15,12 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 /**
  * 蒸汽搅拌机的 Ponder 场景.
@@ -69,10 +65,8 @@ public class SteamMixerScene {
 
 		scene.world().showSection(mixer, Direction.DOWN);
 
-		scene.world().modifyBlockEntityNBT(mixer, SteamMixerBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(10000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 10000));
-			nbt.put("Steam", tankContent.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(mixerPos, SteamMixerBlockEntity.class, (entity) -> {
+			entity.setSteamStack(new FluidStack(SlFluids.STEAM.get(), 10000));
 		});
 
 		scene.idle(10);
@@ -90,9 +84,7 @@ public class SteamMixerScene {
 				.text("它不仅需要更高的应力维持工作...");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(mixer, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", 64.0F);
-		});
+		scene.world().setKineticSpeed(mixer, 64.0F);
 		for (int i = 0; i < 8; i++) {
 			scene.effects().emitParticles(
 					util.vector().blockSurface(mixerPos, Direction.NORTH),
@@ -113,10 +105,8 @@ public class SteamMixerScene {
 				.text("...还需要源源不断的蒸汽供应");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(tankControllerForNbt, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(96000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
-			nbt.put("TankContent", tankContent.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
+			entity.getTankInventory().setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
 		});
 
 		scene.world().showSection(tank, Direction.WEST);
