@@ -79,7 +79,6 @@ public class AdvancedSpoutScene {
 				SmartFluidTankBehaviour tank = (SmartFluidTankBehaviour) f.get(entity);
 				tank.getCapability().fill(new FluidStack(AllFluids.HONEY.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		});
 
