@@ -1,6 +1,5 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;

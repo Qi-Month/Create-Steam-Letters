@@ -26,21 +26,17 @@ public class FluidFuelRecipe extends ProcessingRecipe<RecipeWrapper, FuelRecipeP
 
 	public FluidFuelRecipe(FuelRecipeParams params) {
 		super(SlRecipeTypes.FLUID_FUEL.getInfo(), params);
-		params.setSuperheated(consumeSuperheated());
+
+		// 只在 datagen 真的写了标记时才覆盖; 运行时反序列化必须保留 codec 从配方 JSON / 网络包里读到的值.
+		Boolean marked = DATAGEN_SUPERHEATED.get();
+		if (marked != null) {
+			DATAGEN_SUPERHEATED.remove();
+			params.setSuperheated(marked);
+		}
 	}
 
 	public static void markNextSuperheated(boolean superheated) {
 		DATAGEN_SUPERHEATED.set(superheated);
-	}
-
-	private static boolean consumeSuperheated() {
-		Boolean marked = DATAGEN_SUPERHEATED.get();
-		if (marked == null) {
-			return false;
-		}
-
-		DATAGEN_SUPERHEATED.remove();
-		return marked;
 	}
 
 	@Override
