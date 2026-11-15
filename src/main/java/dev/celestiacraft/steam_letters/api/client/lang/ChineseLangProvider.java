@@ -8,16 +8,19 @@ import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider {
-	public static final ProviderType<ChineseLangProvider> TYPE =
-			ProviderType.registerProvider("lang_zh_cn", (context) -> {
-				return new ChineseLangProvider(context.parent(), context.output());
-			});
+	public static final ProviderType<ChineseLangProvider> TYPE;
 
 	private final AbstractRegistrate<?> owner;
 
 	public ChineseLangProvider(AbstractRegistrate<?> owner, PackOutput output) {
 		super(output, owner.getModid(), "zh_cn");
 		this.owner = owner;
+	}
+
+	static {
+		TYPE = ProviderType.registerProvider("lang_zh_cn", (context) -> {
+			return new ChineseLangProvider(context.parent(), context.output());
+		});
 	}
 
 	@Override
