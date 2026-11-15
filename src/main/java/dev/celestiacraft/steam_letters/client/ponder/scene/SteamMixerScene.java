@@ -91,7 +91,7 @@ public class SteamMixerScene {
 		scene.idle(40);
 
 		scene.world().modifyBlockEntityNBT(mixer, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", 16.0F);
+			nbt.putFloat("Speed", 64.0F);
 		});
 		for (int i = 0; i < 8; i++) {
 			scene.effects().emitParticles(

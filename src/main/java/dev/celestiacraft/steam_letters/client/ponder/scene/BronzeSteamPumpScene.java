@@ -11,12 +11,11 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +31,8 @@ public class BronzeSteamPumpScene {
 		scene.scaleSceneView(0.5F);
 		scene.title("bronze_steam_pump", "青铜蒸汽泵");
 
-		BlockPos tankControllerPos = util.grid().at(8, 4, 3);
-		BlockPos tankControllerPosII = util.grid().at(3, 4, 8);
+		BlockPos tankController = util.grid().at(8, 4, 3);
+		BlockPos tankControllerII = util.grid().at(3, 4, 8);
 		BlockPos fakePump = util.grid().at(8, 6, 7);
 		BlockPos pumpPos = util.grid().at(8, 5, 7);
 
@@ -43,8 +42,6 @@ public class BronzeSteamPumpScene {
 		Selection tankI = util.select().fromTo(8, 4, 3, 9, 6, 4);
 		Selection tankII = util.select().fromTo(3, 4, 8, 4, 6, 9);
 		Selection pipe = util.select().fromTo(9, 4, 5, 5, 5, 9);
-		Selection tankController = util.select().position(tankControllerPos);
-		Selection tankControllerII = util.select().position(tankControllerPosII);
 		Selection bronzeSteamPumpSelection = util.select().position(fakePump);
 
 		scene.world().showSection(util.select().layer(0), Direction.UP);
@@ -121,10 +118,14 @@ public class BronzeSteamPumpScene {
 				.text("青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽");
 		scene.idle(30);
 
-		scene.world().modifyBlockEntityNBT(tankController, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(96000);
-			tank.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
-			nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
+			try {
+				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+				f.setAccessible(true);
+				IFluidHandler handler = (IFluidHandler) f.get(entity);
+				handler.fill(new FluidStack(SlFluids.STEAM.get(), 96000), IFluidHandler.FluidAction.EXECUTE);
+			} catch (Exception e) {
+			}
 		});
 		scene.idle(10);
 
@@ -135,25 +136,31 @@ public class BronzeSteamPumpScene {
 
 		final int temp2Speed = 145;
 
-		int temp2Counter = temp2Speed;
-		int temp2 = 0;
+		int temp2 = temp2Speed;
 		for (int i = 0; i < 50; i++) {
-			temp2 += temp2Counter;
 			int temp3 = temp2;
-			scene.world().modifyBlockEntityNBT(tankController, FluidTankBlockEntity.class, (nbt) -> {
-				FluidTank tank = new FluidTank(96000);
-				tank.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000 - temp3));
-				nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+			scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
+				try {
+					Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+					f.setAccessible(true);
+					IFluidHandler handler = (IFluidHandler) f.get(entity);
+					handler.drain(temp3, IFluidHandler.FluidAction.EXECUTE);
+				} catch (Exception e) {
+				}
 			});
-			scene.world().modifyBlockEntityNBT(tankControllerII, FluidTankBlockEntity.class, (nbt) -> {
-				FluidTank tank = new FluidTank(96000);
-				tank.setFluid(new FluidStack(SlFluids.STEAM.get(), temp3));
-				nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+			scene.world().modifyBlockEntity(tankControllerII, FluidTankBlockEntity.class, (entity) -> {
+				try {
+					Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+					f.setAccessible(true);
+					IFluidHandler handler = (IFluidHandler) f.get(entity);
+					handler.fill(new FluidStack(SlFluids.STEAM, temp3), IFluidHandler.FluidAction.EXECUTE);
+				} catch (Exception e) {
+				}
 			});
 			scene.idle(1);
 
-			if (i < 24) temp2Counter += temp2Speed;
-			if (i > 25) temp2Counter -= temp2Speed;
+			if (i < 24) temp2 += temp2Speed;
+			if (i > 25) temp2 -= temp2Speed;
 		}
 
 		scene.idle(30);

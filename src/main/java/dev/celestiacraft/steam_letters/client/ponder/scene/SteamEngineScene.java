@@ -23,7 +23,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+
+import java.lang.reflect.Field;
 
 /**
  * 蒸汽动力机组的 Ponder 场景: 蒸汽锅炉 / 固体燃烧室 / 流体燃烧室 / 蒸汽飞轮 / 飞轮引擎 共用.
@@ -49,21 +52,19 @@ public class SteamEngineScene {
 		BlockPos beltHead = util.grid().at(8, 1, 1);
 		BlockPos beltTail = util.grid().at(6, 1, 1);
 		BlockPos lavaPumpPos = util.grid().at(6, 1, 2);
-		BlockPos lavaTankControllerPos = util.grid().at(7, 1, 2);
+		BlockPos lavaTankController = util.grid().at(7, 1, 2);
 		BlockPos flywheelPos = util.grid().at(1, 2, 4);
 		BlockPos flywheelCorner = util.grid().at(3, 1, 4);
 
 		Selection boiler = util.select().position(boilerPos);
 		Selection boilerScaffolding = util.select().position(boilerScaffoldingPos);
 		Selection waterTank = util.select().fromTo(waterTankController, waterTankCorner);
-		Selection waterTankForNbt = util.select().position(waterTankController);
 		Selection boilerForNbt = util.select().position(boilerPos);
 		Selection waterPipe = util.select().fromTo(waterPipeCorner, waterPump);
 		Selection waterPipeForNbt = util.select().position(waterPump);
 		Selection solidBurnerSelection = util.select().fromTo(solidBurnerPos, beltHead);
 		Selection liquidBurnerSelection = util.select().fromTo(4, 1, 2, 8, 2, 3);
 		Selection lavaPump = util.select().position(lavaPumpPos);
-		Selection lavaTankController = util.select().position(lavaTankControllerPos);
 		Selection flywheel = util.select().fromTo(flywheelPos, flywheelCorner);
 		Selection rotating = util.select().fromTo(1, 2, 1, 1, 2, 4);
 		Selection shaft = util.select().fromTo(1, 1, 1, 1, 2, 3);
@@ -86,10 +87,14 @@ public class SteamEngineScene {
 		scene.idle(80);
 
 		scene.world().showSection(waterTank, Direction.WEST);
-		scene.world().modifyBlockEntityNBT(waterTankForNbt, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(96000);
-			tank.setFluid(new FluidStack(Fluids.WATER, 96000));
-			nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(waterTankController, FluidTankBlockEntity.class, (entity) -> {
+			try {
+				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+				f.setAccessible(true);
+				IFluidHandler handler = (IFluidHandler) f.get(entity);
+				handler.fill(new FluidStack(Fluids.WATER, 96000), IFluidHandler.FluidAction.EXECUTE);
+			} catch (Exception e) {
+			}
 		});
 		scene.idle(5);
 
@@ -150,10 +155,14 @@ public class SteamEngineScene {
 		});
 		ElementLink<WorldSectionElement> liquidBurner = scene.world().showIndependentSection(liquidBurnerSelection, Direction.DOWN);
 		scene.idle(5);
-		scene.world().modifyBlockEntityNBT(lavaTankController, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(64000);
-			tank.setFluid(new FluidStack(Fluids.LAVA, 64000));
-			nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(lavaTankController, FluidTankBlockEntity.class, (entity) -> {
+			try {
+				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+				f.setAccessible(true);
+				IFluidHandler handler = (IFluidHandler) f.get(entity);
+				handler.fill(new FluidStack(Fluids.LAVA, 64000), IFluidHandler.FluidAction.EXECUTE);
+			} catch (Exception e) {
+			}
 		});
 		scene.idle(5);
 		scene.world().modifyBlock(liquidBurnerPos, (state) -> state.setValue(AbstractBurnerBlock.LIT, true), false);

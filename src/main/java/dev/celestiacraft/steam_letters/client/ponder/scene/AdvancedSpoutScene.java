@@ -1,7 +1,8 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.simibubi.create.AllFluids;
+import com.simibubi.create.content.fluids.spout.SpoutBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.simibubi.create.foundation.ponder.element.BeltItemElement;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutBlockEntity;
@@ -12,13 +13,14 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.TagParser;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+
+import java.lang.reflect.Field;
 
 /**
  * 高级注液器的 Ponder 场景.
@@ -70,14 +72,14 @@ public class AdvancedSpoutScene {
 
 		scene.overlay().showControls(spoutControl, Pointing.DOWN, 10)
 				.withItem(honeyBucket);
-		scene.world().modifyBlockEntityNBT(spout, AdvancedSpoutBlockEntity.class, (nbt) -> {
+		scene.world().modifyBlockEntity(spoutPos, AdvancedSpoutBlockEntity.class, (entity) -> {
 			try {
-				CompoundTag tag = TagParser.parseTag("{Level:{Speed:0.25f,Target:1.0f,Value:1.0f},TankContent:{Amount:5000,FluidName:\"create:honey\"}}");
-				ListTag list = new ListTag();
-				list.add(tag);
-
-				nbt.put("Tanks", list);
-			} catch (CommandSyntaxException ignored) {
+				Field f = SpoutBlockEntity.class.getDeclaredField("tank");
+				f.setAccessible(true);
+				SmartFluidTankBehaviour tank = (SmartFluidTankBehaviour) f.get(entity);
+				tank.getCapability().fill(new FluidStack(AllFluids.HONEY.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 

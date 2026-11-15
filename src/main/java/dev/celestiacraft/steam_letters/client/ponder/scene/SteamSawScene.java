@@ -1,7 +1,9 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.steam_saw.SteamSawBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
@@ -12,10 +14,10 @@ import net.createmod.ponder.api.element.WorldSectionElement;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,7 +25,13 @@ import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * 蒸汽锯的 Ponder 场景.
@@ -51,7 +59,6 @@ public class SteamSawScene {
 		BlockPos pipe = new BlockPos(3, 2, 5);
 
 		Selection saw = util.select().position(sawPos);
-		Selection tankSelectionForNbt = util.select().position(tankController);
 		Selection tank = util.select().fromTo(tankController, tankCorner);
 		Selection boilerSelection = util.select().fromTo(burner, boiler);
 		Selection pipeI = util.select().fromTo(2, 2, 5, 4, 2, 5)
@@ -64,6 +71,7 @@ public class SteamSawScene {
 		Selection barrel = util.select().fromTo(5, 2, 2, 6, 2, 2);
 
 		ItemStack planksItem = new ItemStack(Items.OAK_PLANKS, 16);
+		ItemStack buttonItem = new ItemStack(Items.OAK_BUTTON, 16);
 		ItemStack stoneItem = new ItemStack(Items.STONE, 16);
 
 		scene.world().showSection(util.select().layer(0), Direction.UP);
@@ -110,10 +118,14 @@ public class SteamSawScene {
 				.text("...还需要源源不断的蒸汽供应");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(tankSelectionForNbt, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(96000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
-			nbt.put("TankContent", tankContent.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
+			try {
+				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+				f.setAccessible(true);
+				IFluidHandler handler = (IFluidHandler) f.get(entity);
+				handler.fill(new FluidStack(SlFluids.STEAM.get(), 96000), IFluidHandler.FluidAction.EXECUTE);
+			} catch (Exception e) {
+			}
 		});
 
 		scene.world().showSection(tank, Direction.WEST);
@@ -142,8 +154,32 @@ public class SteamSawScene {
 		scene.idle(40);
 
 		scene.world().createItemOnBelt(beltI, Direction.WEST, planksItem);
-		scene.idle(78);
+		scene.idle(12);
+		scene.world().removeItemsFromBelt(beltII);
+		scene.world().modifyBlockEntity(sawPos, SteamSawBlockEntity.class, (entity) -> {
+			try {
+				CompoundTag tag = TagParser.parseTag("{Filter:{count:1,id:\"minecraft:oak_button\"},FilterAmount:64,Inventory:{AppliedRecipe:0b,Items:[{Slot:0,count:16,id:\"minecraft:oak_planks\"}],ProcessingTime:38.0f,RecipeTime:38.0f,Size:32},Network:{AddedStress:16.0f,Capacity:262144.0f,Id:-11819749494713L,Size:2,Stress:256.0f},NextTick:0,Progress:0,RecipeIndex:0,Source:[I;-43,71,123],Speed:16.0f,Steam:{amount:10000,id:\"steam_letters:flowing_steam\"},UpTo:1b}");
+				Method m = SmartBlockEntity.class.getDeclaredMethod("loadAdditional", CompoundTag.class, HolderLookup.Provider.class);
+				m.setAccessible(true);
+				m.invoke(entity, tag, new HolderLookup.Provider(){
+					@Override
+					public Stream<ResourceKey<? extends Registry<?>>> listRegistries() {
+						return Stream.empty();
+					}
 
+					@Override
+					public <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey) {
+						return Optional.empty();
+					}
+				});
+			} catch (Exception ignored) {
+				ignored.printStackTrace();
+			}
+		});
+		scene.idle(58);
+
+		scene.world().createItemOnBelt(beltIII, Direction.WEST, buttonItem);
+		scene.idle(8);
 		scene.world().removeItemsFromBelt(beltIV);
 		scene.world().flapFunnel(funnel, false);
 

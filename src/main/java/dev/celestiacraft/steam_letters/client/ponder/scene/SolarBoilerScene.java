@@ -15,7 +15,10 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+
+import java.lang.reflect.Field;
 
 /**
  * 太阳能锅炉 Ponder 场景: 太阳能锅炉 / 蒸汽飞轮 / 飞轮引擎 共用.
@@ -38,7 +41,6 @@ public class SolarBoilerScene {
 
 		Selection boilerSelectionForShow = util.select().fromTo(boilerScaffoldingPos, boilerPos);
 		Selection water = util.select().fromTo(waterScaffoldingPos, waterTankUpperPos);
-		Selection waterTank = util.select().position(waterTankLowerPos);
 		Selection pump = util.select().position(pumpPos);
 		Selection boilerSelectionForNbt = util.select().fromTo(boilerScaffoldingPos, boilerPos);
 		Selection clock = util.select().fromTo(0, 1, 4, 0, 2, 4);
@@ -59,10 +61,14 @@ public class SolarBoilerScene {
 		scene.idle(80);
 
 		scene.world().showSection(water, Direction.WEST);
-		scene.world().modifyBlockEntityNBT(waterTank, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(16000);
-			tank.setFluid(new FluidStack(Fluids.WATER, 16000));
-			nbt.put("TankContent", tank.writeToNBT(RegistryAccess.EMPTY, new CompoundTag()));
+		scene.world().modifyBlockEntity(waterTankLowerPos, FluidTankBlockEntity.class, (entity) -> {
+			try {
+				Field f = FluidTankBlockEntity.class.getDeclaredField("fluidCapability");
+				f.setAccessible(true);
+				IFluidHandler handler = (IFluidHandler) f.get(entity);
+				handler.fill(new FluidStack(Fluids.WATER, 16000), IFluidHandler.FluidAction.EXECUTE);
+			} catch (Exception e) {
+			}
 		});
 		scene.world().modifyBlockEntityNBT(pump, PumpBlockEntity.class, (nbt) -> {
 			nbt.putFloat("Speed", -16.0F);
