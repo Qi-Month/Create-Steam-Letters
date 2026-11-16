@@ -4,14 +4,12 @@ import dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.BurnerSchema;
 import dev.latvian.mods.kubejs.recipe.KubeRecipe;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
 
-import javax.annotation.Nullable;
-
 public class BurnerRecipeJS extends KubeRecipe {
 	public BurnerRecipeJS superheated() {
 		return superheated(Boolean.TRUE);
 	}
 
-	public BurnerRecipeJS superheated(@Nullable Boolean superheated) {
+	public BurnerRecipeJS superheated(Boolean superheated) {
 		return setValue(BurnerSchema.SUPERHEATED, Boolean.TRUE.equals(superheated));
 	}
 
