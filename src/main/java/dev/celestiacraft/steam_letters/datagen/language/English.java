@@ -3,6 +3,7 @@ package dev.celestiacraft.steam_letters.datagen.language;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.api.client.lang.EnglishLangProvider;
+import dev.celestiacraft.steam_letters.api.client.lang.SlPonderLang;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutScrollValueBehaviour;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
 import lombok.experimental.UtilityClass;
@@ -30,6 +31,7 @@ public class English {
 		addSteamContainerLang(provider);
 		addConfigLang(provider);
 		addConfigCommentLang(provider);
+		addPonderLang(provider);
 	}
 
 	private void addCommonLang(EnglishLangProvider provider) {
@@ -248,8 +250,8 @@ public class English {
 		provider.add(ConfigModule.translationKey("solar_boiler", "thunder_efficiency"), "Weather multiplier during thunderstorms");
 
 		provider.add(ConfigModule.translationKey("steam_burner"), "Steam Burner");
-		provider.add(ConfigModule.translationKey("steam_burner", "cooldown_seconds"), "Seconds required for the burner to lose all of its heat");
 		provider.add(ConfigModule.translationKey("steam_burner", "heatup_seconds"), "Seconds required for the burner to reach maximum heat");
+		provider.add(ConfigModule.translationKey("steam_burner", "cooldown_seconds"), "Seconds required for the burner to lose all of its heat");
 		provider.add(ConfigModule.translationKey("steam_burner", "max_temperature"), "Max Temperature");
 		provider.add(ConfigModule.translationKey("steam_burner", "show_temperature"), "Goggles display temperature");
 		provider.add(ConfigModule.translationKey("steam_burner", "superheated_heatup_multiplier"), "Heat-up speed multiplier while burning superheated fuel");
@@ -344,6 +346,96 @@ public class English {
 
 		comment(provider, ConfigModule.translationKey("advanced_spout", "capacity"), "Fluid capacity of an advanced spout (mB).");
 		comment(provider, ConfigModule.translationKey("advanced_spout", "parallel"), "Default parallel of newly placed advanced spouts.\n" + "Can still be changed per block with a wrench.");
+	}
+
+	private void addPonderLang(EnglishLangProvider provider) {
+		addPonderScene(provider, "advanced_spout",
+				"Advanced Spout", // 高级注液器
+				"Advanced Spout is a kind of upgraded Spout", // 高级注液器是一台升级过的注液器
+				"It can process multiple items in a faster speed"); // 它可以快速地一次处理多个物品
+		addPonderScene(provider, "big_boiler",
+				"Large Boiler", // 大型锅炉
+				"A single boiler is too small to produce enough steam?", // 一个锅炉太小, 产出蒸汽太少, 怎么办?
+				"Then connect multiple boiler into a cube", // 那就把多个锅炉以立方体形式摆在一起吧!
+				"But attention: It requires at least 1 superheated blaze burner below", // 注意: 它的热源里至少有一个是处于超级燃烧形态的烈焰人燃烧室
+				"More water is required by the boiler in this case...", // 此时锅炉需要更多的水...
+				"...but it also produces more steam"); // ...也会产出更多蒸汽
+		addPonderScene(provider, "bronze_steam_pump",
+				"Bronze Steam Pump", // 青铜蒸汽泵
+				"In common cases, placing steam engine against the boiler lowers its efficiency", // 平常使用蒸汽引擎时, 将飞轮引擎和锅炉放在一起会降低效率
+				"While placing an extra fluid pump is too troublesome", // 在这里额外放置一个动力泵又太麻烦
+				"Here comes the Bronze Steam Pump!", // 这时就该青铜蒸汽泵出场了!
+				"Bronze Steam Pumps can transport steam without stress requirement", // 青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽
+				"Back to the problem at the beginning", // 回到最开始的问题
+				"Placing a Steam Pump between the boiler and the engine solves it perfectly"); // 在锅炉与飞轮引擎之间放置青铜蒸汽泵即可恢复正常效率
+		addPonderScene(provider, "solar_boiler",
+				"Solar Boiler", // 太阳能锅炉
+				"Solar Boilers provide a cheaper way to gain steam", // 太阳能锅炉提供了一种廉价的方式来获得蒸汽
+				"Provide water to the boiler", // 为锅炉供水
+				"And enough light source...", // 有足够的光照等级...(越亮越好)
+				"...better be real sunlight", // ...真正的阳光是最好的
+				"And it starts producing steam", // 它就会开始生产蒸汽
+				"Connect it to the flywheel system the same way as other boilers to output stress"); // 连接与其他锅炉相同的飞轮装置, 即可输出应力
+		addPonderScene(provider, "steam_engine",
+				"Steam Stress Source", // 蒸汽动力源
+				"In order to make use of a steam stress source, set up a boiler to produce steam", // 想要利用蒸汽动力源, 先搭建一个锅炉以生产蒸汽
+				"Provide water to the boiler", // 向锅炉里通入水
+				"And place a heat source below the boiler", // 再在锅炉下方布置热源
+				"It can be a Solid Burner...", // 热源可以是固体燃烧室...
+				"...or a Fluid Burner", // ...也可以是流体燃烧室
+				"With heat resource and water, a boiler produces steam", // 既有热源又有水时, 锅炉便能产出蒸汽
+				"Placing a Steam Engine and a flywheel to output stress", // 放上引擎与飞轮, 便能输出应力
+				"It's very annoying to ge burned by steam while using steam devices", // 值得注意的是, 在使用锅炉时有三位工程师不幸被烫伤, 他们分别是...
+				"So the boiler is improved to avoid biting you"); // ...所以我们改进了锅炉, 不会烫到你!
+		addPonderScene(provider, "steam_hammer",
+				"Steam Hammer", // 蒸汽锻锤
+				"Steam Hammer is an upgraded mechanical press", // 蒸汽锻锤是一个用于批量处理物品的辊压机
+				"It needs more stress than a common press to keep working...", // 相比普通辊压机, 它会消耗更多的应力...
+				"...and also consumes a constant amount of steam", // ...以及一定量的蒸汽
+				"In return it can process several items at once", // 作为回报, 它可以一次性加工多个物品
+				"Without steam the hammer cannot process anything"); // 蒸汽锻锤需要有蒸汽供应才能工作
+		addPonderScene(provider, "steam_mixer",
+				"Steam Mixer", // 蒸汽搅拌器
+				"Steam Mixer is an upgraded mechanical mixer", // 蒸汽搅拌器是一台升级过的动力搅拌器
+				"It needs more stress than a common mixer to keep working...", // 它不仅需要更高的应力维持工作...
+				"...and also consumes a constant amount of steam", // ...还需要源源不断的蒸汽供应
+				"In return it can process several items at once", // 作为回报, 它可以一次处理多个物品
+				"Without steam the mixer cannot process anything"); // 当蒸汽停止供应时, 蒸汽搅拌器将停止工作
+		addPonderScene(provider, "steam_saw",
+				"Steam Saw", // 蒸汽锯
+				"Steam Saw is an upgraded mechanical saw", // 蒸汽锯是一台升级过的动力锯
+				"It needs more stress than a common saw to keep working...", // 它不仅需要更高的应力维持工作...
+				"...and also consumes a constant amount of steam", // ...还需要源源不断的蒸汽供应
+				"In return it can process several items at once", // 作为回报, 它可以一次处理多个物品
+				"Without steam the saw cannot process anything"); // 当蒸汽停止供应时, 蒸汽锯将停止工作, 并会卡住传送带
+
+		// 机械动力: 来自蒸汽的信
+		addPonderTag(provider, "ponder.tag.steam_letters", "Create: Letter's in Steam");
+		// 设备
+		addPonderTag(provider, "ponder.tag.steam_letters.description", "Devices");
+	}
+
+	private void addPonderScene(EnglishLangProvider provider, String scene, String... lines) {
+		int expected = SlPonderLang.count(scene);
+
+		if (expected != lines.length) {
+			throw new IllegalStateException("Ponder scene \"" + scene + "\" declares " + expected + " texts in code, but the English table writes " + lines.length);
+		}
+
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i].isEmpty()) {
+				continue;
+			}
+
+			String key = i == 0 ? "header" : "text_" + i;
+			provider.add(SlTranKeys.langKey("ponder." + scene + "." + key), lines[i]);
+		}
+	}
+
+	private void addPonderTag(EnglishLangProvider provider, String key, String text) {
+		if (!text.isEmpty()) {
+			provider.add(SlTranKeys.langKey(key), text);
+		}
 	}
 
 	private void comment(EnglishLangProvider provider, String translationKey, String comment) {

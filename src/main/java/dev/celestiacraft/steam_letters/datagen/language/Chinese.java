@@ -1,8 +1,8 @@
 package dev.celestiacraft.steam_letters.datagen.language;
 
 import dev.celestiacraft.steam_letters.api.client.lang.ChineseLangProvider;
+import dev.celestiacraft.steam_letters.api.client.lang.SlPonderLang;
 import dev.celestiacraft.steam_letters.api.SlTranKeys;
-import dev.celestiacraft.steam_letters.client.ponder.SlPonderPlugin;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutScrollValueBehaviour;
 import dev.celestiacraft.steam_letters.common.register.SlBlocks;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
@@ -11,8 +11,6 @@ import dev.celestiacraft.steam_letters.common.register.SlMaterials;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import lombok.experimental.UtilityClass;
-import net.createmod.ponder.api.registration.LangRegistryAccess;
-import net.createmod.ponder.foundation.PonderIndex;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -423,11 +421,7 @@ public class Chinese {
 	 * 因此这里先交给 Ponder 生成, 再用中文覆盖标签名称.
 	 */
 	private void addPonderLang(ChineseLangProvider provider) {
-		SlPonderPlugin.register();
-		LangRegistryAccess access = PonderIndex.getLangAccess();
-		Map<String, String> lang = new LinkedHashMap<>();
-		access.provideLang(CreateLettersSteam.MODID, lang::put);
-
+		Map<String, String> lang = new LinkedHashMap<>(SlPonderLang.entries());
 		lang.put(SlTranKeys.langKey("ponder.tag.steam_letters"), "机械动力: 来自蒸汽的信");
 		lang.put(SlTranKeys.langKey("ponder.tag.steam_letters.description"), "设备");
 		lang.forEach(provider::add);

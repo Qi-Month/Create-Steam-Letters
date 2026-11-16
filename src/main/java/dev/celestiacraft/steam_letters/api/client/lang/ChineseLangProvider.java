@@ -3,15 +3,11 @@ package dev.celestiacraft.steam_letters.api.client.lang;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.providers.RegistrateProvider;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
-public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider {
+public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider, SlLangSugar {
 	public static final ProviderType<ChineseLangProvider> TYPE;
 
 	private final AbstractRegistrate<?> owner;
@@ -35,21 +31,5 @@ public class ChineseLangProvider extends LanguageProvider implements RegistrateP
 	@Override
 	protected void addTranslations() {
 		owner.genData(TYPE, this);
-	}
-
-	public void addItem(Item item, String name) {
-		add(item, name);
-	}
-
-	public void addBlock(Block block, String name) {
-		add(block.getDescriptionId(), name);
-	}
-
-	public void addFluid(Fluid fluid, String name) {
-		add(fluid.getFluidType().getDescriptionId(), name);
-	}
-
-	public void addFluid(NonNullSupplier<? extends Fluid> fluid, String name) {
-		addFluid(fluid.get(), name);
 	}
 }
