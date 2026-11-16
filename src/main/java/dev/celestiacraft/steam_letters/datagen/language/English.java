@@ -351,62 +351,62 @@ public class English {
 	private void addPonderLang(EnglishLangProvider provider) {
 		addPonderScene(provider, "advanced_spout",
 				"Advanced Spout", // 高级注液器
-				"Advanced Spout is a kind of upgraded Spout", // 高级注液器是一台升级过的注液器
-				"It can process multiple items in a faster speed"); // 它可以快速地一次处理多个物品
+				"The Advanced Spout is an upgraded Spout", // 高级注液器是一台升级过的注液器
+				"It can process several items at once, and much faster"); // 它可以快速地一次处理多个物品
 		addPonderScene(provider, "big_boiler",
 				"Large Boiler", // 大型锅炉
-				"A single boiler is too small to produce enough steam?", // 一个锅炉太小, 产出蒸汽太少, 怎么办?
-				"Then connect multiple boiler into a cube", // 那就把多个锅炉以立方体形式摆在一起吧!
-				"But attention: It requires at least 1 superheated blaze burner below", // 注意: 它的热源里至少有一个是处于超级燃烧形态的烈焰人燃烧室
-				"More water is required by the boiler in this case...", // 此时锅炉需要更多的水...
+				"A single boiler is too small to produce enough steam...", // 一个锅炉太小, 产出蒸汽太少, 怎么办?
+				"Then arrange several boilers into a cube!", // 那就把多个锅炉以立方体形式摆在一起吧!
+				"Note: at least one of the Blaze Burners beneath it must be superheated", // 注意: 它的热源里至少有一个是处于超级燃烧形态的烈焰人燃烧室
+				"In this case the boiler needs more water...", // 此时锅炉需要更多的水...
 				"...but it also produces more steam"); // ...也会产出更多蒸汽
 		addPonderScene(provider, "bronze_steam_pump",
 				"Bronze Steam Pump", // 青铜蒸汽泵
-				"In common cases, placing steam engine against the boiler lowers its efficiency", // 平常使用蒸汽引擎时, 将飞轮引擎和锅炉放在一起会降低效率
-				"While placing an extra fluid pump is too troublesome", // 在这里额外放置一个动力泵又太麻烦
+				"Normally, a Steam Engine placed right next to a boiler runs at reduced efficiency", // 平常使用蒸汽引擎时, 将飞轮引擎和锅炉放在一起会降低效率
+				"but adding an extra Mechanical Pump is a hassle", // 在这里额外放置一个动力泵又太麻烦
 				"Here comes the Bronze Steam Pump!", // 这时就该青铜蒸汽泵出场了!
-				"Bronze Steam Pumps can transport steam without stress requirement", // 青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽
-				"Back to the problem at the beginning", // 回到最开始的问题
-				"Placing a Steam Pump between the boiler and the engine solves it perfectly"); // 在锅炉与飞轮引擎之间放置青铜蒸汽泵即可恢复正常效率
+				"The Bronze Steam Pump moves steam without consuming any stress", // 青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽
+				"Back to the original problem", // 回到最开始的问题
+				"Placing a Bronze Steam Pump between the boiler and the engine restores full efficiency"); // 在锅炉与飞轮引擎之间放置青铜蒸汽泵即可恢复正常效率
 		addPonderScene(provider, "solar_boiler",
 				"Solar Boiler", // 太阳能锅炉
-				"Solar Boilers provide a cheaper way to gain steam", // 太阳能锅炉提供了一种廉价的方式来获得蒸汽
-				"Provide water to the boiler", // 为锅炉供水
-				"And enough light source...", // 有足够的光照等级...(越亮越好)
-				"...better be real sunlight", // ...真正的阳光是最好的
-				"And it starts producing steam", // 它就会开始生产蒸汽
-				"Connect it to the flywheel system the same way as other boilers to output stress"); // 连接与其他锅炉相同的飞轮装置, 即可输出应力
+				"A Solar Boiler offers a cheaper way to obtain steam", // 太阳能锅炉提供了一种廉价的方式来获得蒸汽
+				"Give it water", // 为锅炉供水
+				"and give it enough light (the brighter, the better)...", // 有足够的光照等级...(越亮越好)
+				"...real sunlight works best", // ...真正的阳光是最好的
+				"and it starts producing steam", // 它就会开始生产蒸汽
+				"Connect it to a flywheel just like any other boiler and it outputs stress"); // 连接与其他锅炉相同的飞轮装置, 即可输出应力
 		addPonderScene(provider, "steam_engine",
 				"Steam Stress Source", // 蒸汽动力源
-				"In order to make use of a steam stress source, set up a boiler to produce steam", // 想要利用蒸汽动力源, 先搭建一个锅炉以生产蒸汽
-				"Provide water to the boiler", // 向锅炉里通入水
-				"And place a heat source below the boiler", // 再在锅炉下方布置热源
-				"It can be a Solid Burner...", // 热源可以是固体燃烧室...
-				"...or a Fluid Burner", // ...也可以是流体燃烧室
-				"With heat resource and water, a boiler produces steam", // 既有热源又有水时, 锅炉便能产出蒸汽
-				"Placing a Steam Engine and a flywheel to output stress", // 放上引擎与飞轮, 便能输出应力
-				"It's very annoying to ge burned by steam while using steam devices", // 值得注意的是, 在使用锅炉时有三位工程师不幸被烫伤, 他们分别是...
-				"So the boiler is improved to avoid biting you"); // ...所以我们改进了锅炉, 不会烫到你!
+				"To make use of steam as a source of stress, start by building a boiler", // 想要利用蒸汽动力源, 先搭建一个锅炉以生产蒸汽
+				"Fill the boiler with water", // 向锅炉里通入水
+				"and place a heat source beneath it", // 再在锅炉下方布置热源
+				"The heat source can be a Bronze Solid Burner...", // 热源可以是固体燃烧室...
+				"...or a Bronze Fluid Burner", // ...也可以是流体燃烧室
+				"With both heat and water, the boiler starts producing steam", // 既有热源又有水时, 锅炉便能产出蒸汽
+				"Attach a Steam Engine and a flywheel to output stress", // 放上引擎与飞轮, 便能输出应力
+				"It's really annoying to get scalded by steam while using steam devices", // 值得注意的是, 在使用锅炉时有三位工程师不幸被烫伤, 他们分别是...
+				"So the boiler was improved so that it can't scald you any more"); // ...所以我们改进了锅炉, 不会烫到你!
 		addPonderScene(provider, "steam_hammer",
 				"Steam Hammer", // 蒸汽锻锤
-				"Steam Hammer is an upgraded mechanical press", // 蒸汽锻锤是一个用于批量处理物品的辊压机
-				"It needs more stress than a common press to keep working...", // 相比普通辊压机, 它会消耗更多的应力...
-				"...and also consumes a constant amount of steam", // ...以及一定量的蒸汽
-				"In return it can process several items at once", // 作为回报, 它可以一次性加工多个物品
+				"The Steam Hammer is an upgraded Mechanical Press that processes items in bulk", // 蒸汽锻锤是一个用于批量处理物品的辊压机
+				"It needs more stress than a Mechanical Press to keep running...", // 相比普通辊压机, 它会消耗更多的应力...
+				"...and a constant supply of steam as well", // ...以及一定量的蒸汽
+				"In return, it processes several items at once", // 作为回报, 它可以一次性加工多个物品
 				"Without steam the hammer cannot process anything"); // 蒸汽锻锤需要有蒸汽供应才能工作
 		addPonderScene(provider, "steam_mixer",
 				"Steam Mixer", // 蒸汽搅拌器
-				"Steam Mixer is an upgraded mechanical mixer", // 蒸汽搅拌器是一台升级过的动力搅拌器
-				"It needs more stress than a common mixer to keep working...", // 它不仅需要更高的应力维持工作...
-				"...and also consumes a constant amount of steam", // ...还需要源源不断的蒸汽供应
-				"In return it can process several items at once", // 作为回报, 它可以一次处理多个物品
+				"The Steam Mixer is an upgraded Mechanical Mixer", // 蒸汽搅拌器是一台升级过的动力搅拌器
+				"It needs more stress than a Mechanical Mixer to keep running...", // 它不仅需要更高的应力维持工作...
+				"...and a constant supply of steam as well", // ...还需要源源不断的蒸汽供应
+				"In return, it processes several items at once", // 作为回报, 它可以一次处理多个物品
 				"Without steam the mixer cannot process anything"); // 当蒸汽停止供应时, 蒸汽搅拌器将停止工作
 		addPonderScene(provider, "steam_saw",
 				"Steam Saw", // 蒸汽锯
-				"Steam Saw is an upgraded mechanical saw", // 蒸汽锯是一台升级过的动力锯
-				"It needs more stress than a common saw to keep working...", // 它不仅需要更高的应力维持工作...
-				"...and also consumes a constant amount of steam", // ...还需要源源不断的蒸汽供应
-				"In return it can process several items at once", // 作为回报, 它可以一次处理多个物品
+				"The Steam Saw is an upgraded Mechanical Saw", // 蒸汽锯是一台升级过的动力锯
+				"It needs more stress than a Mechanical Saw to keep running...", // 它不仅需要更高的应力维持工作...
+				"...and a constant supply of steam as well", // ...还需要源源不断的蒸汽供应
+				"In return, it processes several items at once", // 作为回报, 它可以一次处理多个物品
 				"Without steam the saw cannot process anything"); // 当蒸汽停止供应时, 蒸汽锯将停止工作, 并会卡住传送带
 
 		// 机械动力: 来自蒸汽的信
