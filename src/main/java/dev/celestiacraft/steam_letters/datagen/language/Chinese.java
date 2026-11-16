@@ -50,6 +50,7 @@ public class Chinese {
 		provider.add(SlTranKeys.THERMAL_PACK_TITLE, "§6热力色调包");
 		provider.add(SlTranKeys.THERMAL_PACK_DESCRIPTION, "§6将青铜和设备修改为热力膨胀的青铜配色");
 		provider.add(SlTranKeys.BASIC_TAB, "机械动力: 来自蒸汽的信");
+		provider.add(SlTranKeys.WIP_HIDE_WARNING, "§c因问题过多暂时隐藏");
 	}
 
 	private void addBlockLang(ChineseLangProvider provider) {
