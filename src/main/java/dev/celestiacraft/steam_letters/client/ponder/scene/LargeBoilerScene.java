@@ -13,14 +13,14 @@ import net.minecraft.core.Direction;
 /**
  * 蒸汽锅炉 (大型锅炉) 的 Ponder 场景.
  * <p>
- * 结构文件: {@code assets/steam_letters/ponder/big_boiler.nbt}
+ * 结构文件: {@code assets/steam_letters/ponder/large_boiler.nbt}
  */
-public class BigBoilerScene {
+public class LargeBoilerScene {
 	public static void usage(SceneBuilder builder, SceneBuildingUtil util) {
 		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
 
 		scene.scaleSceneView(0.86F);
-		scene.title("big_boiler", "大型锅炉");
+		scene.title("large_boiler", "大型锅炉");
 
 		BlockPos pipe = util.grid().at(7, 3, 3);
 		BlockPos pump = util.grid().at(7, 3, 4);
@@ -58,13 +58,13 @@ public class BigBoilerScene {
 				.pointAt(util.vector().centerOf(util.grid().at(4, 2, 1)))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("一个锅炉太小, 产出蒸汽太少, 怎么办? ");
+				.text("一个锅炉太小, 产出蒸汽太少, 怎么办?");
 		scene.idle(80);
 
 		scene.overlay().showText(70)
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("那就把多个锅炉以立方体形式摆在一起吧! ");
+				.text("那就把多个锅炉以立方体形式摆在一起吧!");
 		scene.idle(5);
 		scene.world().showSection(bigBoilerI, Direction.DOWN);
 		scene.idle(5);

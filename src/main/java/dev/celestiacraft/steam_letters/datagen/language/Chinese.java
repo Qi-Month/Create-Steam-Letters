@@ -1,15 +1,14 @@
 package dev.celestiacraft.steam_letters.datagen.language;
 
+import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.api.client.lang.ChineseLangProvider;
 import dev.celestiacraft.steam_letters.api.client.lang.SlPonderLang;
-import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutScrollValueBehaviour;
 import dev.celestiacraft.steam_letters.common.register.SlBlocks;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import dev.celestiacraft.steam_letters.common.register.SlItems;
 import dev.celestiacraft.steam_letters.common.register.SlMaterials;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
-import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import lombok.experimental.UtilityClass;
 
 import java.util.LinkedHashMap;
@@ -27,7 +26,7 @@ public class Chinese {
 		addSteamMixerLang(provider);
 		addSteamSawLang(provider);
 		addSteamPumpLang(provider);
-		addSteamPipeLang(provider);
+		addSHSteamComponentLang(provider);
 		addBronzeBasinLang(provider);
 		addAdvancedSpoutLang(provider);
 		addAdvancedSpoutTooltipLang(provider);
@@ -123,9 +122,11 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_SUMMARY), "只输送蒸汽, 且只有当管道中的介质是蒸汽时才会工作");
 	}
 
-	private void addSteamPipeLang(ChineseLangProvider provider) {
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_BEHAVIOUR), "与青铜蒸汽泵搭配使用");
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_SUMMARY), "只允许蒸汽通过这条管道");
+	private void addSHSteamComponentLang(ChineseLangProvider provider) {
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_SUMMARY), "让_大型锅炉_进入过热状态");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR1), "右键_大型锅炉_安装组件");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR2), "_空手潜行右键_扣下来");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR3), "进入_过热状态_的锅炉会生产_过热蒸汽_");
 	}
 
 	private void addBronzeBasinLang(ChineseLangProvider provider) {

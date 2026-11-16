@@ -56,6 +56,8 @@ public class SlCreativeTabs {
 						output.accept(SlItems.STEAM_MECHANISM);
 						output.accept(SlItems.INCOMPLETE_STEAM_MECHANISM);
 						output.accept(SlItems.BRONZE_WHISK);
+						output.accept(SlItems.SH_STEAM_COMPONENT);
+						output.accept(SlItems.INCOMPLETE_SH_STEAM_COMPONENT);
 
 						// 蒸汽容器: 空罐一个, 密封罐按装填物各给一个
 						output.accept(SlItems.EMPTY_STEAM_CONTAINER);

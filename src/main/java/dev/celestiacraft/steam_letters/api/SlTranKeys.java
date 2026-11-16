@@ -132,8 +132,10 @@ public class SlTranKeys {
 			TOOLTIP_STEAM_PUMP_BEHAVIOUR3;
 
 	public static final String
-			TOOLTIP_STEAM_PIPE_SUMMARY,
-			TOOLTIP_STEAM_PIPE_BEHAVIOUR;
+			TOOLTIP_SH_STEAM_COMPONENT_SUMMARY,
+			TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR1,
+			TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR2,
+			TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR3;
 
 	public static final String
 			TOOLTIP_BRONZE_BASIN_SUMMARY,
@@ -254,8 +256,12 @@ public class SlTranKeys {
 		TOOLTIP_STEAM_PUMP_BEHAVIOUR1 = "tooltip.steam_pump.behaviour1";
 		TOOLTIP_STEAM_PUMP_BEHAVIOUR2 = "tooltip.steam_pump.behaviour2";
 		TOOLTIP_STEAM_PUMP_BEHAVIOUR3 = "tooltip.steam_pump.behaviour3";
-		TOOLTIP_STEAM_PIPE_SUMMARY = "tooltip.steam_pipe.summary";
-		TOOLTIP_STEAM_PIPE_BEHAVIOUR = "tooltip.steam_pipe.behaviour";
+
+		TOOLTIP_SH_STEAM_COMPONENT_SUMMARY = "tooltip.sh_steam_component.summary";
+		TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR1 = "tooltip.sh_steam_component.behaviour1";
+		TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR2 = "tooltip.sh_steam_component.behaviour2";
+		TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR3 = "tooltip.sh_steam_component.behaviour3";
+
 		TOOLTIP_BRONZE_BASIN_SUMMARY = "tooltip.bronze_basin.summary";
 		TOOLTIP_BRONZE_BASIN_BEHAVIOUR1 = "tooltip.bronze_basin.behaviour1";
 		TOOLTIP_BRONZE_BASIN_BEHAVIOUR2 = "tooltip.bronze_basin.behaviour2";

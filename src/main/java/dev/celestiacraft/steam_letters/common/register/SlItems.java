@@ -16,6 +16,7 @@ public class SlItems {
 	public static final ItemEntry<SteamContainerItem> SEALED_STEAM_CONTAINER;
 	public static final ItemEntry<Item> BRONZE_WHISK;
 	public static final ItemEntry<Item> SH_STEAM_COMPONENT;
+	public static final ItemEntry<SequencedAssemblyItem> INCOMPLETE_SH_STEAM_COMPONENT;
 
 	static {
 		STEAM_MECHANISM = SlApis.REGISTRATE.item("steam_mechanism", SteamMechanismItem::new)
@@ -52,6 +53,11 @@ public class SlItems {
 		SH_STEAM_COMPONENT = SlApis.REGISTRATE.item("sh_steam_component", Item::new)
 				.model(ItemModelGen.generated("item/sh_steam_component"))
 				.lang("Superheated Steam Component")
+				.register();
+
+		INCOMPLETE_SH_STEAM_COMPONENT = SlApis.REGISTRATE.item("incomplete_sh_steam_component", SequencedAssemblyItem::new)
+				.model(ItemModelGen.generated("item/incomplete_sh_steam_component"))
+				.lang("Incomplete Superheated Steam Component")
 				.register();
 	}
 

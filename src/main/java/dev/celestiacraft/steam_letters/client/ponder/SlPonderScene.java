@@ -8,23 +8,24 @@ import dev.celestiacraft.steam_letters.common.block.burner.AbstractBurnerBlock;
 import dev.celestiacraft.steam_letters.common.block.engine.SteamEngineBlock;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelBlock;
 import dev.celestiacraft.steam_letters.common.register.SlBlocks;
+import dev.celestiacraft.steam_letters.common.register.SlItems;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 public class SlPonderScene {
 	public static void register(@NotNull PonderSceneRegistrationHelper<Item> helper) {
-		steamHammer(helper);
-		steamMixer(helper);
-		steamSaw(helper);
-		advancedSpout(helper);
-		steamEngine(helper);
-		solarBoiler(helper);
-		bronzeSteamPump(helper);
-		bigBoiler(helper);
+		addSteamHammer(helper);
+		addSteamMixer(helper);
+		addSteamSaw(helper);
+		addAdvancedSpout(helper);
+		addSteamEngine(helper);
+		addSolarBoiler(helper);
+		addBronzeSteamPump(helper);
+		addLargeBoiler(helper);
 	}
 
-	private static void steamHammer(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addSteamHammer(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		helper.forComponents(SlBlocks.STEAM_HAMMER.asItem())
 				.addStoryBoard(
 						"steam_hammer",
@@ -34,7 +35,7 @@ public class SlPonderScene {
 				);
 	}
 
-	private static void steamMixer(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addSteamMixer(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		helper.forComponents(SlBlocks.STEAM_MIXER.asItem())
 				.addStoryBoard(
 						"steam_mixer",
@@ -44,7 +45,7 @@ public class SlPonderScene {
 				);
 	}
 
-	private static void steamSaw(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addSteamSaw(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		helper.forComponents(SlBlocks.STEAM_SAW.asItem())
 				.addStoryBoard(
 						"steam_saw",
@@ -54,7 +55,7 @@ public class SlPonderScene {
 				);
 	}
 
-	private static void advancedSpout(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addAdvancedSpout(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		helper.forComponents(SlBlocks.ADVANCED_SPOUT.asItem())
 				.addStoryBoard(
 						"advanced_spout",
@@ -64,7 +65,7 @@ public class SlPonderScene {
 				);
 	}
 
-	private static void steamEngine(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addSteamEngine(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		SlPonderPlugin.addPonderForBlocks(helper, (block) -> {
 			return (block instanceof SteamBoilerBlock)
 					|| (block instanceof AbstractBurnerBlock)
@@ -73,7 +74,7 @@ public class SlPonderScene {
 		}, "steam_engine", SteamEngineScene::usage, AllCreatePonderTags.FLUIDS, AllCreatePonderTags.KINETIC_SOURCES, SlPonderTags.SL);
 	}
 
-	private static void solarBoiler(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addSolarBoiler(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		SlPonderPlugin.addPonderForBlocks(helper, (block) -> {
 			return (block instanceof SolarBoilerBlock)
 					|| (block instanceof SteamFlywheelBlock)
@@ -81,7 +82,7 @@ public class SlPonderScene {
 		}, "solar_boiler", SolarBoilerScene::usage, AllCreatePonderTags.FLUIDS, SlPonderTags.SL);
 	}
 
-	private static void bronzeSteamPump(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addBronzeSteamPump(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		helper.forComponents(SlBlocks.BRONZE_STEAM_PUMP.asItem())
 				.addStoryBoard(
 						"bronze_steam_pump",
@@ -91,9 +92,17 @@ public class SlPonderScene {
 				);
 	}
 
-	private static void bigBoiler(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+	private static void addLargeBoiler(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		SlPonderPlugin.addPonderForBlocks(helper, (block) -> {
 			return (block instanceof SteamBoilerBlock);
-		}, "big_boiler", BigBoilerScene::usage, AllCreatePonderTags.FLUIDS, SlPonderTags.SL);
+		}, "large_boiler", LargeBoilerScene::usage, AllCreatePonderTags.FLUIDS, SlPonderTags.SL);
+
+		helper.forComponents(SlItems.SH_STEAM_COMPONENT.asItem())
+				.addStoryBoard(
+						"large_boiler",
+						LargeBoilerScene::usage,
+						AllCreatePonderTags.FLUIDS,
+						SlPonderTags.SL
+				);
 	}
 }

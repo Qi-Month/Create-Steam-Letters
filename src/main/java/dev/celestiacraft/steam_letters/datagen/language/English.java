@@ -17,7 +17,7 @@ public class English {
 		addSteamMixerLang(provider);
 		addSteamSawLang(provider);
 		addSteamPumpLang(provider);
-		addSteamPipeLang(provider);
+		addSHSteamComponentLang(provider);
 		addBronzeBasinLang(provider);
 		addAdvancedSpoutLang(provider);
 		addAdvancedSpoutTooltipLang(provider);
@@ -176,9 +176,11 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR3), "Shuts down entirely if any other fluid enters the suction network");
 	}
 
-	private void addSteamPipeLang(EnglishLangProvider provider) {
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_SUMMARY), "Only _steam_ may flow through this pipe");
-		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_BEHAVIOUR), "Use it together with the _Bronze Steam Pump_");
+	private void addSHSteamComponentLang(EnglishLangProvider provider) {
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_SUMMARY), "Allows a _Large Boiler_ to reach the superheated state");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR1), "Right-click a _Large Boiler_ to install the component");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR2), "_Shift right-click with an empty hand_ to remove it");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR3), "A boiler in the _superheated state_ will produce _superheated steam_");
 	}
 
 	private void addBronzeBasinLang(EnglishLangProvider provider) {
@@ -353,7 +355,7 @@ public class English {
 				"Advanced Spout", // 高级注液器
 				"The Advanced Spout is an upgraded Spout", // 高级注液器是一台升级过的注液器
 				"It can process several items at once, and much faster"); // 它可以快速地一次处理多个物品
-		addPonderScene(provider, "big_boiler",
+		addPonderScene(provider, "large_boiler",
 				"Large Boiler", // 大型锅炉
 				"A single boiler is too small to produce enough steam...", // 一个锅炉太小, 产出蒸汽太少, 怎么办?
 				"Then arrange several boilers into a cube!", // 那就把多个锅炉以立方体形式摆在一起吧!
