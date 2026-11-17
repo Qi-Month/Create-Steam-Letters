@@ -98,6 +98,8 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 
 	/**
 	 * 过热蒸汽组件只装在控制器那一格: 手持组件安装, 空手拆下.
+	 * <p>
+	 * 拆下时先尝试放回玩家背包, 背包放不下才掉在控制器那一格.
 	 *
 	 * @return 本次交互是否已被组件处理
 	 */
@@ -124,7 +126,10 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 		}
 		controller.setComponent(false);
 		if (!player.isCreative()) {
-			Block.popResource(level, controller.getBlockPos(), SlItems.SH_STEAM_COMPONENT.asStack());
+			ItemStack component = SlItems.SH_STEAM_COMPONENT.asStack();
+			if (!player.getInventory().add(component)) {
+				Block.popResource(level, controller.getBlockPos(), component);
+			}
 		}
 		return true;
 	}

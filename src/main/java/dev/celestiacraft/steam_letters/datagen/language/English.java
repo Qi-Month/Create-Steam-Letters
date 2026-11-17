@@ -6,6 +6,7 @@ import dev.celestiacraft.steam_letters.api.client.lang.EnglishLangProvider;
 import dev.celestiacraft.steam_letters.api.client.lang.SlPonderLang;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutScrollValueBehaviour;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
+import dev.celestiacraft.steam_letters.datagen.advancement.SlAdvancement;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -32,6 +33,7 @@ public class English {
 		addConfigLang(provider);
 		addConfigCommentLang(provider);
 		addPonderLang(provider);
+		addAdvancementLang(provider);
 	}
 
 	private void addCommonLang(EnglishLangProvider provider) {
@@ -438,6 +440,53 @@ public class English {
 		if (!text.isEmpty()) {
 			provider.add(SlTranKeys.langKey(key), text);
 		}
+	}
+
+	private void addAdvancementLang(EnglishLangProvider provider) {
+		provider.add(SlAdvancement.titleKey(SlAdvancement.TIN_NUGGET), "A Rare Metal?");
+		provider.add(SlAdvancement.descKey(SlAdvancement.TIN_NUGGET), "Pulverise Deepslate for a bit of Tin.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.BRONZE_INGOT), "It look like Gold!");
+		provider.add(SlAdvancement.descKey(SlAdvancement.BRONZE_INGOT), "Mix Copper and Tin 3:1 in a Basin to get some Bronze.\nGroundwork for the steam to come.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.SOLID_BURNER), "A Burner Under the Boiler");
+		provider.add(SlAdvancement.descKey(SlAdvancement.SOLID_BURNER), "Handy for roasting by in winter.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.FLUID_BURNER), "A Burner That Eats Fluid Fuel");
+		provider.add(SlAdvancement.descKey(SlAdvancement.FLUID_BURNER), "Don't bother. I wanted to roast potatoes too.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.SOLAR_BOILER), "Environmentalist");
+		provider.add(SlAdvancement.descKey(SlAdvancement.SOLAR_BOILER), "No Burner, no fuel.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.BOILER), "The Essence of Human Technology Is Boiling Water");
+		provider.add(SlAdvancement.descKey(SlAdvancement.BOILER), "A Bronze Boiler built from several blocks.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_FLYWHEEL), "The Old Timer's Back From the Grave");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_FLYWHEEL), "Obtain a Steam Flywheel.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_ENGINE), "A Machine Asleep in Memory");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_ENGINE), "Obtain a Flywheel Engine.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_CONTAINER), "Steam to Go");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_CONTAINER), "Empty or full, both count.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_PUMP), "Does the Pipe Have a VIP Lane?");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_PUMP), "I'm telling you, Steam is VIP.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_SAW), "Protect Yourself");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_SAW), "Powered Saw Pro Plus.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_HAMMER), "Under a Lot of Pressure");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_HAMMER), "Best keep your hands out of it.");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_MIXER), "Why Does Bronze Hit Harder Than Iron?");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_MIXER), "Since when does bronze outdo iron?");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_MECHANISM), "A Handy Hand Warmer in Winter");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_MECHANISM), "Craft a Steam Mechanism");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.SH_STEAM_COMPONENT), "Overdrive Mode");
+		provider.add(SlAdvancement.descKey(SlAdvancement.SH_STEAM_COMPONENT), "Craft a Superheated Steam Component");
 	}
 
 	private void comment(EnglishLangProvider provider, String translationKey, String comment) {

@@ -5,6 +5,7 @@ import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.api.client.lang.ChineseLangProvider;
 import dev.celestiacraft.steam_letters.api.client.lang.EnglishLangProvider;
+import dev.celestiacraft.steam_letters.datagen.advancement.SlAdvancement;
 import dev.celestiacraft.steam_letters.datagen.language.Chinese;
 import dev.celestiacraft.steam_letters.datagen.language.English;
 import dev.celestiacraft.steam_letters.datagen.recipe.SlRecipeProvider;
@@ -79,6 +80,7 @@ public class DataGenerators {
 		if (event.includeServer()) {
 			SlApis.REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, ItemTagsGen::addItemTags);
 			SlApis.REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, BlockTagsGen::addBlockTags);
+			SlApis.REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, SlAdvancement::addAdvancement);
 		}
 	}
 

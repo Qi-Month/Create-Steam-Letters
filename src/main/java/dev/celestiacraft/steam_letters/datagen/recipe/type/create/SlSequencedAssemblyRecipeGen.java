@@ -50,7 +50,7 @@ public class SlSequencedAssemblyRecipeGen extends SequencedAssemblyRecipeGen {
 					.loops(2)
 					.addOutput(SlItems.SH_STEAM_COMPONENT, 1)
 					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
-						return recipe.require(SlItems.SH_STEAM_COMPONENT);
+						return recipe.require(SlItems.STEAM_MECHANISM);
 					})
 					.addStep(FillingRecipe::new, (recipe) -> {
 						return recipe.require(SlFluidTags.STEAM, 500);
@@ -66,7 +66,7 @@ public class SlSequencedAssemblyRecipeGen extends SequencedAssemblyRecipeGen {
 					.loops(1)
 					.addOutput(SlItems.SH_STEAM_COMPONENT, 1)
 					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
-						return recipe.require(SlItems.SH_STEAM_COMPONENT);
+						return recipe.require(SlItems.STEAM_MECHANISM);
 					})
 					.addStep(FillingRecipe::new, (recipe) -> {
 						return recipe.require(SlFluidTags.SUPERHEATED_STEAM, 125);

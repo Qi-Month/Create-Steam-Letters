@@ -9,6 +9,7 @@ import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import dev.celestiacraft.steam_letters.common.register.SlItems;
 import dev.celestiacraft.steam_letters.common.register.SlMaterials;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
+import dev.celestiacraft.steam_letters.datagen.advancement.SlAdvancement;
 import lombok.experimental.UtilityClass;
 
 import java.util.LinkedHashMap;
@@ -41,6 +42,7 @@ public class Chinese {
 		addConfigLang(provider);
 		addConfigCommentLang(provider);
 		addPonderLang(provider);
+		addAdvancementLang(provider);
 	}
 
 	private void addOtherLang(ChineseLangProvider provider) {
@@ -77,6 +79,7 @@ public class Chinese {
 		provider.addItem(SlItems.INCOMPLETE_STEAM_MECHANISM, "蒸汽构件(半成品)");
 		provider.addItem(SlItems.SEALED_STEAM_CONTAINER, "密封蒸汽容器");
 		provider.addItem(SlItems.SH_STEAM_COMPONENT, "过热蒸汽组件");
+		provider.addItem(SlItems.INCOMPLETE_SH_STEAM_COMPONENT, "过热蒸汽组件(半成品)");
 		provider.addItem(SlFluids.STEAM.get().getBucket(), "蒸汽桶");
 		provider.addItem(SlItems.STEAM_MECHANISM, "蒸汽构件");
 		provider.addItem(SlFluids.SUPERHEATED_STEAM.get().getBucket(), "过热蒸汽桶");
@@ -426,6 +429,53 @@ public class Chinese {
 		lang.put(SlTranKeys.langKey("ponder.tag.steam_letters"), "机械动力: 来自蒸汽的信");
 		lang.put(SlTranKeys.langKey("ponder.tag.steam_letters.description"), "设备");
 		lang.forEach(provider::add);
+	}
+
+	private void addAdvancementLang(ChineseLangProvider provider) {
+		provider.add(SlAdvancement.titleKey(SlAdvancement.TIN_NUGGET), "锡罕的金属?");
+		provider.add(SlAdvancement.descKey(SlAdvancement.TIN_NUGGET), "将深板岩粉碎获得一点锡");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.BRONZE_INGOT), "它怎么不是青色的?");
+		provider.add(SlAdvancement.descKey(SlAdvancement.BRONZE_INGOT), "将铜和锡以3:1的比例丢入工作盆中加热搅拌获取一点青铜\n为你接下来的蒸汽动力打下基础");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.SOLID_BURNER), "放在锅炉下面的燃烧室");
+		provider.add(SlAdvancement.descKey(SlAdvancement.SOLID_BURNER), "冬天可以烤火");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.FLUID_BURNER), "吃流体燃料的燃烧室");
+		provider.add(SlAdvancement.descKey(SlAdvancement.FLUID_BURNER), "别想了, 我也想烤土豆");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.SOLAR_BOILER), "环保主义者");
+		provider.add(SlAdvancement.descKey(SlAdvancement.SOLAR_BOILER), "不用燃烧室, 也不烧燃料");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.BOILER), "人类科技的本质就是烧开水");
+		provider.add(SlAdvancement.descKey(SlAdvancement.BOILER), "多方块拼起来的青铜锅炉");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_FLYWHEEL), "老东西打赢复活赛了");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_FLYWHEEL), "获得蒸汽飞轮");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_ENGINE), "沉睡于记忆中的设备");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_ENGINE), "获得飞轮引擎");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_CONTAINER), "蒸汽也可以打包带走");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_CONTAINER), "空的或装满的都算数");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_PUMP), "管道也有VIP通道吗");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_PUMP), "我说蒸汽是VIP");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_SAW), "保护好自己");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_SAW), "动力锯 Pro Plus");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_HAMMER), "压力山大");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_HAMMER), "最好别把手伸下去");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_MIXER), "为什么青铜比铁更力大砖飞");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_MIXER), "什么叫青铜做的比铁效率高");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_MECHANISM), "冬天可以当暖手宝");
+		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_MECHANISM), "制作一个蒸汽构件");
+
+		provider.add(SlAdvancement.titleKey(SlAdvancement.SH_STEAM_COMPONENT), "过载模式");
+		provider.add(SlAdvancement.descKey(SlAdvancement.SH_STEAM_COMPONENT), "制作一个过热蒸汽组件");
 	}
 
 	/**
