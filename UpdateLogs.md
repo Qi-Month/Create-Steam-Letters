@@ -35,4 +35,4 @@
 - 修复 `过热蒸汽组件` 的配方异常
 - 新增更多兼容配方
 - 新增 `HasFluidCondition` 和 `HasItemCondition`
-- 修复 `Thermal Hue Pack.zip` 中的部分错误
+- 修复 `Thermal Hue Pack` 资源包中的部分bug
