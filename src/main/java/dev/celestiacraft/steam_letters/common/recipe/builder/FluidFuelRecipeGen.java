@@ -6,8 +6,10 @@ import dev.celestiacraft.steam_letters.common.recipe.type.FluidFuelRecipe;
 import dev.celestiacraft.steam_letters.common.recipe.type.FuelRecipeParams;
 import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.conditions.ICondition;
@@ -46,12 +48,28 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 			this.builder = builder;
 		}
 
-		public FluidFuelBuilder fluid(@NotNull Fluid fluid) {
+		public FluidFuelBuilder fluid(Fluid fluid) {
 			return ingredient(SizedFluidIngredient.of(fluid, FluidFuelRecipe.FUEL_AMOUNT));
 		}
 
-		public FluidFuelBuilder fluid(@NotNull TagKey<Fluid> tag) {
+		public FluidFuelBuilder fluid(ResourceLocation fluid) {
+			return fluid(BuiltInRegistries.FLUID.get(fluid));
+		}
+
+		public FluidFuelBuilder fluid(String fluid) {
+			return fluid(BuiltInRegistries.FLUID.get(ResourceLocation.parse(fluid)));
+		}
+
+		public FluidFuelBuilder fluidTag(TagKey<Fluid> tag) {
 			return ingredient(SizedFluidIngredient.of(tag, FluidFuelRecipe.FUEL_AMOUNT));
+		}
+
+		public FluidFuelBuilder fluidTag(ResourceLocation tag) {
+			return fluidTag(FluidTags.create(tag));
+		}
+
+		public FluidFuelBuilder fluidTag(String tag) {
+			return fluidTag(FluidTags.create(ResourceLocation.parse(tag)));
 		}
 
 		private FluidFuelBuilder ingredient(@NotNull SizedFluidIngredient ingredient) {
@@ -61,6 +79,11 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 
 		public FluidFuelBuilder time(int ticks) {
 			builder.duration(ticks);
+			return this;
+		}
+
+		public FluidFuelBuilder timeSeconds(int seconds) {
+			time(20 * seconds);
 			return this;
 		}
 
@@ -84,7 +107,7 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 			return this;
 		}
 
-		public FluidFuelBuilder condition(@NotNull ICondition condition) {
+		public FluidFuelBuilder withCondition(@NotNull ICondition condition) {
 			builder.withCondition(condition);
 			return this;
 		}

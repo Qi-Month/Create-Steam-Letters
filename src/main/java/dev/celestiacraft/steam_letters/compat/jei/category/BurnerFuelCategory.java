@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.gui.AllGuiTextures;
 import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.common.block.burner.AbstractBurnerBlock;
 import dev.celestiacraft.steam_letters.common.recipe.type.IBurnerFuelRecipe;
+import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -15,25 +16,32 @@ import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.createmod.catnip.gui.element.GuiGameElement;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.IdentityHashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public abstract class BurnerFuelCategory<R extends IBurnerFuelRecipe> implements IRecipeCategory<R> {
 	// 补药问咱为什么不用final常量, Debug的给咱调成傻逼了
 	private static int width = 177;
 	private static int height = 56;
+
+	private static final String RECIPE_ID_KEY = "jei.tooltip.recipe.id";
 
 	private static int fuelSlotX = width / 2 - 16;
 	private static int fuelSlotY = 3;
@@ -64,6 +72,11 @@ public abstract class BurnerFuelCategory<R extends IBurnerFuelRecipe> implements
 	private final Component title;
 	private final IDrawable icon;
 	private final IDrawableStatic slotBackground;
+
+	/**
+	 * 配方实例到配方 ID 的映射, 由 JEI 插件在注册配方时填充.
+	 */
+	private static final Map<Object, ResourceLocation> RECIPE_IDS = new IdentityHashMap<>();
 
 	protected BurnerFuelCategory(RecipeType<R> type, Component title, IDrawable icon, IGuiHelper helper) {
 		this.type = type;
@@ -106,9 +119,39 @@ public abstract class BurnerFuelCategory<R extends IBurnerFuelRecipe> implements
 	@Override
 	public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull R recipe, @NotNull IFocusGroup group) {
 		IRecipeSlotBuilder slot = addFuelSlot(builder, recipe, fuelSlotX, fuelSlotY);
+		builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT)
+				.addFluidStack(SlFluids.STEAM.getSource(), recipe.getSteamAmount())
+				.addFluidStack(SlFluids.SUPERHEATED_STEAM.getSource(), recipe.getSteamAmount())
+				.addItemLike(SlFluids.STEAM.get().getBucket())
+				.addItemLike(SlFluids.SUPERHEATED_STEAM.get().getBucket());
+
 		if (slot != null) {
 			slot.setBackground(slotBackground, -1, -1);
+
+			ResourceLocation id = getRecipeId(recipe);
+			if (id != null) {
+				slot.addRichTooltipCallback((view, tooltip) -> {
+					tooltip.add(Component.translatable(RECIPE_ID_KEY, id.toString())
+							.withStyle(ChatFormatting.DARK_GRAY));
+				});
+			}
 		}
+	}
+
+	/**
+	 * 绑定配方实例与其配方 ID; 原版熔炉燃料派生出的条目绑定的是合成 ID.
+	 */
+	public static void bindRecipeId(@NotNull Object recipe, @NotNull ResourceLocation id) {
+		RECIPE_IDS.put(recipe, id);
+	}
+
+	public static @Nullable ResourceLocation getRecipeId(@NotNull Object recipe) {
+		return RECIPE_IDS.get(recipe);
+	}
+
+	@Override
+	public @Nullable ResourceLocation getRegistryName(@NotNull R recipe) {
+		return getRecipeId(recipe);
 	}
 
 	/**

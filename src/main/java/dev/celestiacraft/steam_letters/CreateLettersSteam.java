@@ -38,6 +38,7 @@ public class CreateLettersSteam {
 		SlRecipeTypes.init();
 		SlCreativeTabs.init(bus);
 		SlDataComponents.init(bus);
+		SlConditionTypes.init(bus);
 
 		bus.addListener(RegisterCapabilitiesEvent.class, SlCapabilities::register);
 

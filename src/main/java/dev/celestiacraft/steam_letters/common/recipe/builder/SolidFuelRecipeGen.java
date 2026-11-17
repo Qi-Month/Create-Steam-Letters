@@ -6,8 +6,10 @@ import dev.celestiacraft.steam_letters.common.recipe.type.FuelRecipeParams;
 import dev.celestiacraft.steam_letters.common.recipe.type.SolidFuelRecipe;
 import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -47,12 +49,28 @@ public abstract class SolidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 			this.builder = builder;
 		}
 
-		public SolidFuelBuilder item(@NotNull ItemLike item) {
+		public SolidFuelBuilder item(ItemLike item) {
 			return ingredient(Ingredient.of(item));
 		}
 
-		public SolidFuelBuilder item(@NotNull TagKey<Item> tag) {
+		public SolidFuelBuilder item(ResourceLocation item) {
+			return item(BuiltInRegistries.ITEM.get(item));
+		}
+
+		public SolidFuelBuilder item(String item) {
+			return item(BuiltInRegistries.ITEM.get(ResourceLocation.parse(item)));
+		}
+
+		public SolidFuelBuilder itemTag(TagKey<Item> tag) {
 			return ingredient(Ingredient.of(tag));
+		}
+
+		public SolidFuelBuilder itemTag(ResourceLocation tag) {
+			return itemTag(ItemTags.create(tag));
+		}
+
+		public SolidFuelBuilder itemTag(String tag) {
+			return itemTag(ItemTags.create(ResourceLocation.parse(tag)));
 		}
 
 		public SolidFuelBuilder ingredient(@NotNull Ingredient ingredient) {
@@ -62,6 +80,16 @@ public abstract class SolidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 
 		public SolidFuelBuilder time(int ticks) {
 			builder.duration(ticks);
+			return this;
+		}
+
+		public SolidFuelBuilder timeSeconds(int seconds) {
+			time(20 * seconds);
+			return this;
+		}
+
+		public SolidFuelBuilder timeItem(int item) {
+			time(200 * item);
 			return this;
 		}
 
@@ -85,7 +113,7 @@ public abstract class SolidFuelRecipeGen extends ProcessingRecipeGen<FuelRecipeP
 			return this;
 		}
 
-		public SolidFuelBuilder condition(@NotNull ICondition condition) {
+		public SolidFuelBuilder withCondition(@NotNull ICondition condition) {
 			builder.withCondition(condition);
 			return this;
 		}

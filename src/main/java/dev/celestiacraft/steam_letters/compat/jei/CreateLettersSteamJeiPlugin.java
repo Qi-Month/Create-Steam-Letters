@@ -11,6 +11,7 @@ import dev.celestiacraft.steam_letters.common.recipe.type.SolidFuelRecipe;
 import dev.celestiacraft.steam_letters.common.register.SlBlocks;
 import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import dev.celestiacraft.steam_letters.compat.jei.api.JeiRecipeType;
+import dev.celestiacraft.steam_letters.compat.jei.category.BurnerFuelCategory;
 import dev.celestiacraft.steam_letters.compat.jei.category.FluidFuelBurnerCategory;
 import dev.celestiacraft.steam_letters.compat.jei.category.SolidFuelBurnerCategory;
 import dev.celestiacraft.steam_letters.tags.SlItemTags;
@@ -86,6 +87,7 @@ public class CreateLettersSteamJeiPlugin implements IModPlugin {
 		List<SolidFuelRecipe> solid = new ArrayList<>();
 		for (RecipeHolder<SolidFuelRecipe> holder : manager.getAllRecipesFor(SlRecipeTypes.SOLID_FUEL.get())) {
 			solid.add(holder.value());
+			BurnerFuelCategory.bindRecipeId(holder.value(), holder.id());
 		}
 		solid.addAll(collectFurnaceFuels(solid));
 		registration.addRecipes(JeiRecipeType.SOLID_FUEL, solid);
@@ -93,6 +95,7 @@ public class CreateLettersSteamJeiPlugin implements IModPlugin {
 		List<FluidFuelRecipe> fluid = new ArrayList<>();
 		for (RecipeHolder<FluidFuelRecipe> holder : manager.getAllRecipesFor(SlRecipeTypes.FLUID_FUEL.get())) {
 			fluid.add(holder.value());
+			BurnerFuelCategory.bindRecipeId(holder.value(), holder.id());
 		}
 		registration.addRecipes(JeiRecipeType.FLUID_FUEL, fluid);
 	}
@@ -142,6 +145,7 @@ public class CreateLettersSteamJeiPlugin implements IModPlugin {
 					.duration(time)
 					.build();
 			recipe.setSuperheated(superheated);
+			BurnerFuelCategory.bindRecipeId(recipe, id);
 			out.add(recipe);
 		});
 	}
