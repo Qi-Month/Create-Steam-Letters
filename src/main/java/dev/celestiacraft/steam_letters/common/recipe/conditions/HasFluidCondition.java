@@ -56,7 +56,7 @@ public class HasFluidCondition implements ICondition {
 	}
 
 	public static HasFluidCondition ofFluid(String fluid) {
-		return new HasFluidCondition(BuiltInRegistries.FLUID.get(ResourceLocation.parse(fluid)));
+		return new HasFluidCondition(BuiltInRegistries.FLUID.get(parse(fluid)));
 	}
 
 	public static HasFluidCondition ofTag(TagKey<Fluid> tag) {
@@ -68,7 +68,7 @@ public class HasFluidCondition implements ICondition {
 	}
 
 	public static HasFluidCondition ofTag(String tag) {
-		return new HasFluidCondition(FluidTags.create(ResourceLocation.parse(tag)));
+		return new HasFluidCondition(FluidTags.create(parse(tag)));
 	}
 
 	public Optional<ResourceLocation> fluid() {
@@ -99,5 +99,15 @@ public class HasFluidCondition implements ICondition {
 		}).orElseGet(() -> {
 			return "has_fluid(\"" + tag.get().location() + "\")";
 		});
+	}
+
+	private static ResourceLocation parse(String location) {
+		ResourceLocation parsed = ResourceLocation.tryParse(location);
+
+		if (parsed == null) {
+			throw new IllegalArgumentException("Invalid resource location: " + location);
+		}
+
+		return parsed;
 	}
 }

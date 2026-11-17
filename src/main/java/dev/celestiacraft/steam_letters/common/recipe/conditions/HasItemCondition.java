@@ -56,7 +56,7 @@ public class HasItemCondition implements ICondition {
 	}
 
 	public static HasItemCondition ofItem(String item) {
-		return new HasItemCondition(BuiltInRegistries.ITEM.get(ResourceLocation.parse(item)));
+		return new HasItemCondition(BuiltInRegistries.ITEM.get(parse(item)));
 	}
 
 	public static HasItemCondition ofTag(TagKey<Item> tag) {
@@ -68,7 +68,7 @@ public class HasItemCondition implements ICondition {
 	}
 
 	public static HasItemCondition ofTag(String tag) {
-		return new HasItemCondition(ItemTags.create(ResourceLocation.parse(tag)));
+		return new HasItemCondition(ItemTags.create(parse(tag)));
 	}
 
 	public Optional<ResourceLocation> item() {
@@ -99,5 +99,15 @@ public class HasItemCondition implements ICondition {
 		}).orElseGet(() -> {
 			return "has_item(\"" + tag.get().location() + "\")";
 		});
+	}
+
+	private static ResourceLocation parse(String location) {
+		ResourceLocation parsed = ResourceLocation.tryParse(location);
+
+		if (parsed == null) {
+			throw new IllegalArgumentException("Invalid resource location: " + location);
+		}
+
+		return parsed;
 	}
 }
