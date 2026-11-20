@@ -36,7 +36,11 @@ public class SlTranKeys {
 	public static final String
 			TOOLTIP_BRONZE_BOILER_SUMMARY,
 			TOOLTIP_BRONZE_BOILER_NEEDS_BURNER,
-			TOOLTIP_BRONZE_BOILER_SUPERHEATED;
+			TOOLTIP_BRONZE_BOILER_SUPERHEATED,
+			TOOLTIP_BRONZE_BOILER_LARGE_HEADER,
+			TOOLTIP_BRONZE_BOILER_LARGE_SIZE,
+			TOOLTIP_BRONZE_BOILER_LARGE_PRODUCTION,
+			TOOLTIP_BRONZE_BOILER_LARGE_HEAT;
 
 	public static final String
 			TOOLTIP_SOLAR_BOILER_SUMMARY,
@@ -174,6 +178,10 @@ public class SlTranKeys {
 		TOOLTIP_BRONZE_BOILER_SUMMARY = "tooltip.bronze_boiler.summary";
 		TOOLTIP_BRONZE_BOILER_NEEDS_BURNER = "tooltip.bronze_boiler.needs_burner";
 		TOOLTIP_BRONZE_BOILER_SUPERHEATED = "tooltip.bronze_boiler.superheated";
+		TOOLTIP_BRONZE_BOILER_LARGE_HEADER = "tooltip.bronze_boiler.large_header";
+		TOOLTIP_BRONZE_BOILER_LARGE_SIZE = "tooltip.bronze_boiler.large_size";
+		TOOLTIP_BRONZE_BOILER_LARGE_PRODUCTION = "tooltip.bronze_boiler.large_production";
+		TOOLTIP_BRONZE_BOILER_LARGE_HEAT = "tooltip.bronze_boiler.large_heat";
 
 		TOOLTIP_SOLAR_BOILER_SUMMARY = "tooltip.solar_boiler.summary";
 		TOOLTIP_SOLAR_BOILER_LIGHT = "tooltip.solar_boiler.light";
