@@ -6,6 +6,7 @@ import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.api.machine.SteamEngineSpec;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlock;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.config.common.SteamBurnerConfig;
 import dev.celestiacraft.steam_letters.tags.SlBlockTags;
 import dev.celestiacraft.steam_letters.tags.SlItemTags;
 import dev.latvian.mods.kubejs.generator.KubeAssetGenerator;
@@ -20,6 +21,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.DoubleSupplier;
 
 public class BoilerBuilder extends BoilerDeviceBuilder<SteamBoilerBlock, SteamBoilerBlockEntity, BoilerBuilder> {
 	private static final Set<ResourceLocation> ATLAS_TEXTURES = new LinkedHashSet<>(List.of(
@@ -46,7 +48,13 @@ public class BoilerBuilder extends BoilerDeviceBuilder<SteamBoilerBlock, SteamBo
 
 	@Override
 	protected SteamBoilerBlock createBlock(BlockBehaviour.Properties properties) {
-		SteamEngineSpec spec = new SteamEngineSpec(capacityOr(() -> SteamBoilerBlockEntity.DEFAULT_CAPACITY), productionOr(() -> SteamBoilerBlockEntity.DEFAULT_PRODUCTION), () -> 0.0D);
+		DoubleSupplier production = productionOr(() -> SteamBoilerBlockEntity.DEFAULT_PRODUCTION);
+		SteamEngineSpec spec = new SteamEngineSpec(
+				capacityOr(() -> SteamBoilerBlockEntity.DEFAULT_CAPACITY),
+				production,
+				largeProductionOr(production),
+				() -> 0.0D,
+				() -> SteamBurnerConfig.MAX_TEMPERATURE.get());
 		return new SteamBoilerBlock(properties, spec, () -> blockEntityType, textureDirectory());
 	}
 
@@ -140,7 +148,7 @@ public class BoilerBuilder extends BoilerDeviceBuilder<SteamBoilerBlock, SteamBo
 	private static String stateKey(BlockState state) {
 		StringBuilder key = new StringBuilder();
 		for (Property<?> property : state.getProperties()) {
-			if (key.length() > 0) {
+			if (!key.isEmpty()) {
 				key.append(',');
 			}
 

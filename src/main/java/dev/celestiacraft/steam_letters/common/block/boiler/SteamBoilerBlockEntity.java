@@ -230,7 +230,7 @@ public class SteamBoilerBlockEntity extends FluidTankBlockEntity {
 	 */
 	public double getProductionRate() {
 		if (isMultiBlock()) {
-			return boilerLevel * spec().getProduction();
+			return boilerLevel * spec().getLargeProduction();
 		}
 
 		double production = spec().getProduction() * getLegacyEfficiency();
