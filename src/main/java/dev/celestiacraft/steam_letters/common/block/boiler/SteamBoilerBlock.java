@@ -19,6 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -55,7 +56,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 	}
 
 	public SteamBoilerBlock(Properties properties, SteamEngineSpec spec, Supplier<BlockEntityType<? extends SteamBoilerBlockEntity>> customBlockEntityType, ResourceLocation textureDirectory) {
-		super(properties, false);
+		super(properties.noOcclusion(), false);
 		this.spec = spec;
 		this.customBlockEntityType = customBlockEntityType;
 		this.textureDirectory = textureDirectory;
@@ -75,7 +76,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 	 * 锅炉没有窗口形态, 扳手不再切换外观.
 	 */
 	@Override
-	public InteractionResult onWrenched(BlockState state, net.minecraft.world.item.context.UseOnContext context) {
+	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		return InteractionResult.PASS;
 	}
 

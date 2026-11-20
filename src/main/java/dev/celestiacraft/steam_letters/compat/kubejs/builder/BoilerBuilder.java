@@ -66,6 +66,16 @@ public class BoilerBuilder extends BoilerDeviceBuilder<SteamBoilerBlock, SteamBo
 		return new SteamBoilerBlockEntity(blockEntityType, pos, state);
 	}
 
+	/**
+	 * KubeJS 建的方块实体类型不经过 Registrate, 渲染器不会被自动挂上, 登记到锅炉的动态类型表里由客户端统一补.
+	 */
+	@Override
+	protected BlockEntityType<SteamBoilerBlockEntity> buildBlockEntityType() {
+		BlockEntityType<SteamBoilerBlockEntity> created = super.buildBlockEntityType();
+		SteamBoilerBlockEntity.DYNAMIC_TYPES.add(created);
+		return created;
+	}
+
 	@Override
 	protected void registerCapability(RegisterCapabilitiesEvent event, BlockEntityType<SteamBoilerBlockEntity> type) {
 		SteamBoilerBlockEntity.registerCapabilities(event, type);

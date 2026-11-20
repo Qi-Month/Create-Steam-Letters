@@ -13,6 +13,7 @@ import dev.celestiacraft.steam_letters.datagen.recipe.type.SlFluidFuelRecipeGen;
 import dev.celestiacraft.steam_letters.datagen.recipe.type.SlSolidFuelRecipeGen;
 import dev.celestiacraft.steam_letters.datagen.recipe.type.create.*;
 import dev.celestiacraft.steam_letters.datagen.tags.BlockTagsGen;
+import dev.celestiacraft.steam_letters.datagen.tags.FluidTagsGen;
 import dev.celestiacraft.steam_letters.datagen.tags.ItemTagsGen;
 import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.core.HolderLookup;
@@ -80,6 +81,7 @@ public class DataGenerators {
 		if (event.includeServer()) {
 			SlApis.REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, ItemTagsGen::addItemTags);
 			SlApis.REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, BlockTagsGen::addBlockTags);
+			SlApis.REGISTRATE.addDataGenerator(ProviderType.FLUID_TAGS, FluidTagsGen::addFluidTags);
 			SlApis.REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, SlAdvancement::addAdvancement);
 		}
 	}
