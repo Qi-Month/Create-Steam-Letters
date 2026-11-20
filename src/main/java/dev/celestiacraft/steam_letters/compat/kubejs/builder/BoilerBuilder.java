@@ -11,6 +11,7 @@ import dev.celestiacraft.steam_letters.tags.SlItemTags;
 import dev.latvian.mods.kubejs.generator.AssetJsonGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -102,6 +103,16 @@ public class BoilerBuilder extends BoilerDeviceBuilder<SteamBoilerBlock, SteamBo
 	@Override
 	protected SteamBoilerBlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new SteamBoilerBlockEntity(blockEntityType, pos, state);
+	}
+
+	/**
+	 * KubeJS 建的方块实体类型不经过 Registrate, 渲染器不会被自动挂上, 登记到锅炉的动态类型表里由客户端统一补.
+	 */
+	@Override
+	protected BlockEntityType<SteamBoilerBlockEntity> buildBlockEntityType() {
+		BlockEntityType<SteamBoilerBlockEntity> created = super.buildBlockEntityType();
+		SteamBoilerBlockEntity.DYNAMIC_TYPES.add(created);
+		return created;
 	}
 
 	/**

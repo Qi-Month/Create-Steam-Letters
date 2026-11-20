@@ -9,11 +9,13 @@ import net.minecraft.world.level.material.Fluid;
 public class SlFluidTags {
 	public static final TagKey<Fluid>
 			STEAM,
-			SUPERHEATED_STEAM;
+			SUPERHEATED_STEAM,
+			STEAMS;
 
 	static {
 		STEAM = addForge("steam");
 		SUPERHEATED_STEAM = addForge("superheated_steam");
+		STEAMS = addForge("steams");
 	}
 
 	private static TagKey<Fluid> add(String namespace, String name) {

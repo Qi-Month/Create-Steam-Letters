@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -54,7 +55,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 	}
 
 	public SteamBoilerBlock(Properties properties, SteamEngineSpec spec, Supplier<BlockEntityType<? extends SteamBoilerBlockEntity>> customBlockEntityType, ResourceLocation textureDirectory) {
-		super(properties, false);
+		super(properties.noOcclusion(), false);
 		this.spec = spec;
 		this.customBlockEntityType = customBlockEntityType;
 		this.textureDirectory = textureDirectory;
@@ -74,7 +75,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 	 * 锅炉没有窗口形态, 扳手不再切换外观.
 	 */
 	@Override
-	public InteractionResult onWrenched(BlockState state, net.minecraft.world.item.context.UseOnContext context) {
+	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		return InteractionResult.PASS;
 	}
 
@@ -111,10 +112,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 			}
 			controller.setComponent(true);
 			if (!player.isCreative()) {
-				ItemStack component = SlItems.SH_STEAM_COMPONENT.asStack();
-				if (!player.getInventory().add(component)) {
-					Block.popResource(level, controller.getBlockPos(), component);
-				}
+				stack.shrink(1);
 			}
 			return true;
 		}
@@ -127,7 +125,10 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 		}
 		controller.setComponent(false);
 		if (!player.isCreative()) {
-			Block.popResource(level, controller.getBlockPos(), new ItemStack(SlItems.SH_STEAM_COMPONENT.get()));
+			ItemStack component = SlItems.SH_STEAM_COMPONENT.asStack();
+			if (!player.getInventory().add(component)) {
+				Block.popResource(level, controller.getBlockPos(), component);
+			}
 		}
 		return true;
 	}

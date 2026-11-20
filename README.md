@@ -1,5 +1,7 @@
 # Create: Letter's in Steam
 
+## [CurseForge](https://www.curseforge.com/minecraft/mc-mods/steam-letters)
+
 机械动力 (Create) 的蒸汽附属模组. 以水与燃料生产蒸汽, 蒸汽转换为应力与加工能力.
 
 生产链为: 燃料 -> 热量 -> 蒸汽 -> 动力 / 加工. 所有设备均为普通方块, 接入 Create 的应力网络, 传送带, 漏斗, 工作盆,

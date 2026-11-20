@@ -6,6 +6,8 @@ import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.client.block.SlBlockPartialModel;
 import dev.celestiacraft.steam_letters.client.particle.SteamParticle;
 import dev.celestiacraft.steam_letters.client.ponder.SlPonderPlugin;
+import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerRenderer;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelBlock;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelInstance;
@@ -62,6 +64,10 @@ public class SlClientSetup {
 	public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		for (BlockEntityType<SteamFlywheelBlockEntity> type : SteamFlywheelBlockEntity.DYNAMIC_TYPES) {
 			event.registerBlockEntityRenderer(type, SteamFlywheelRenderer::new);
+		}
+
+		for (BlockEntityType<SteamBoilerBlockEntity> type : SteamBoilerBlockEntity.DYNAMIC_TYPES) {
+			event.registerBlockEntityRenderer(type, SteamBoilerRenderer::new);
 		}
 	}
 

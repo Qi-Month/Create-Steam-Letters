@@ -30,6 +30,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +49,11 @@ public class SteamBoilerBlockEntity extends FluidTankBlockEntity {
 	 */
 	public static final int DEFAULT_CAPACITY = 10000;
 	public static final double DEFAULT_PRODUCTION = 12.0D;
+
+	/**
+	 * KubeJS 注册的锅炉自己建方块实体类型, 不经过 Registrate, 客户端要按这里登记的类型补渲染器.
+	 */
+	public static final List<BlockEntityType<SteamBoilerBlockEntity>> DYNAMIC_TYPES = new ArrayList<>();
 
 	private static final String NBT_STEAM_TANK = "SteamTank";
 	private static final String NBT_TANK_CONTENT = "TankContent";
