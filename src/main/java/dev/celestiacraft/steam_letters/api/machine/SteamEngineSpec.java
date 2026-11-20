@@ -20,18 +20,26 @@ import java.util.function.IntSupplier;
 public class SteamEngineSpec {
 	private final IntSupplier capacity;
 	private final DoubleSupplier production;
+	private final DoubleSupplier largeProduction;
 	private final DoubleSupplier maxHeat;
 	private final DoubleSupplier maxTemperature;
+
+	/**
+	 * 大锅炉产量未指定时与基础产量共用同一个取值.
+	 */
+	public SteamEngineSpec(IntSupplier capacity, DoubleSupplier production, DoubleSupplier maxHeat, DoubleSupplier maxTemperature) {
+		this(capacity, production, production, maxHeat, maxTemperature);
+	}
 
 	/**
 	 * 温度上限未指定时取配置项 {@code steam_burner.max_temperature}.
 	 */
 	public SteamEngineSpec(IntSupplier capacity, DoubleSupplier production, DoubleSupplier maxHeat) {
-		this(capacity, production, maxHeat, () -> SteamBurnerConfig.MAX_TEMPERATURE.get());
+		this(capacity, production, production, maxHeat, () -> SteamBurnerConfig.MAX_TEMPERATURE.get());
 	}
 
 	public SteamEngineSpec(int capacity, double production, double maxHeat) {
-		this(() -> capacity, () -> production, () -> maxHeat);
+		this(() -> capacity, () -> production, () -> production, () -> maxHeat, () -> SteamBurnerConfig.MAX_TEMPERATURE.get());
 	}
 
 	/**
@@ -46,6 +54,13 @@ public class SteamEngineSpec {
 	 */
 	public double getProduction() {
 		return Math.max(0.0D, production.getAsDouble());
+	}
+
+	/**
+	 * @return 大锅炉成型后每 1 级的蒸汽产出量 (mB/tick), 实际产量再乘以当前等级
+	 */
+	public double getLargeProduction() {
+		return Math.max(0.0D, largeProduction.getAsDouble());
 	}
 
 	/**

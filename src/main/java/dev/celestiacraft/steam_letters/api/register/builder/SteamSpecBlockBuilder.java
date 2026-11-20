@@ -21,7 +21,7 @@ import java.util.function.IntSupplier;
  * 这些参数全部是 {@link IntSupplier} / {@link DoubleSupplier}, 值到运行时才读, 与配置文件加载顺序无关.
  */
 public abstract class SteamSpecBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
-	private final SpecParts parts;
+	protected final SpecParts parts;
 
 	protected SteamSpecBlockBuilder(AbstractRegistrate<?> owner, P parent, String name, BuilderCallback callback, SpecParts parts, NonNullBiFunction<BlockBehaviour.Properties, SteamEngineSpec, T> factory) {
 		super(owner, parent, name, callback, (properties) -> {
@@ -94,11 +94,15 @@ public abstract class SteamSpecBlockBuilder<T extends Block, P> extends BlockBui
 	public static class SpecParts {
 		private IntSupplier capacity = () -> 0;
 		private DoubleSupplier production = () -> 0.0D;
+		/**
+		 * 大锅炉成型后的每级产量. 留空表示与 {@link #production} 共用同一个取值.
+		 */
+		DoubleSupplier largeProduction;
 		private DoubleSupplier maxHeat = () -> 0.0D;
 		private DoubleSupplier temperature = () -> SteamBurnerConfig.MAX_TEMPERATURE.get();
 
 		private SteamEngineSpec build() {
-			return new SteamEngineSpec(capacity, production, maxHeat, temperature);
+			return new SteamEngineSpec(capacity, production, largeProduction == null ? production : largeProduction, maxHeat, temperature);
 		}
 	}
 }

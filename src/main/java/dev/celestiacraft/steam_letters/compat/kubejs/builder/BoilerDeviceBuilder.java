@@ -11,6 +11,7 @@ import java.util.function.DoubleSupplier;
 
 public abstract class BoilerDeviceBuilder<B extends Block, E extends BlockEntity, SELF extends DeviceBuilder<B, E, SELF>> extends DeviceBuilder<B, E, SELF> {
 	protected Double production;
+	protected Double largeProduction;
 
 	protected BoilerDeviceBuilder(ResourceLocation id) {
 		super(id);
@@ -22,8 +23,18 @@ public abstract class BoilerDeviceBuilder<B extends Block, E extends BlockEntity
 		return self();
 	}
 
+	@Info("Steam output per level when assembled as a multiblock (mB/tick). Defaults to production")
+	public SELF largeProduction(double largeProduction) {
+		this.largeProduction = largeProduction;
+		return self();
+	}
+
 	protected DoubleSupplier productionOr(DoubleSupplier fallback) {
 		return production == null ? fallback : production::doubleValue;
+	}
+
+	protected DoubleSupplier largeProductionOr(DoubleSupplier fallback) {
+		return largeProduction == null ? fallback : largeProduction::doubleValue;
 	}
 
 	@Override
