@@ -191,6 +191,10 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_NEEDS_BURNER), "需要正下方的燃烧室");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUMMARY), "把水加热成蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUPERHEATED), "满热量时产出过热蒸汽");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_HEADER), "大型锅炉模式:");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_SIZE), "至少 _2x1x2_ 才能拼成大型锅炉");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_PRODUCTION), "按照锅炉等级提升产出率, 每级提升 _%smB/t_ 蒸汽");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_HEAT), "只有 _超级加热_ 状态下的 _烈焰人燃烧室_ 可以提供热源");
 	}
 
 	private void addSolarBoilerLang(ChineseLangProvider provider) {

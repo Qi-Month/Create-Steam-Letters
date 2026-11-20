@@ -76,6 +76,10 @@ public class English {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUMMARY), "Joins into a multi-block tank that heats water into steam");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_NEEDS_BURNER), "Requires seething blaze burners directly below");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUPERHEATED), "Superheated with a superheated steam component installed");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_HEADER), "Large Boiler:");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_SIZE), "At least _2x1x2_ to form a Large Boiler");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_PRODUCTION), "Output rises with boiler level, _%smB/t_ of steam per level");
+		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_LARGE_HEAT), "Only _superheated_ _blaze burners_ supply heat");
 	}
 
 	private void addSolarBoilerLang(EnglishLangProvider provider) {
