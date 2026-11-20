@@ -418,7 +418,7 @@ public class SteamBoilerBlockEntity extends FluidTankBlockEntity {
 	}
 
 	/**
-	 * 统计结构正下方一层烈焰人燃烧室, 超级状态记正分, 其余状态(含未点燃)记负分.
+	 * 统计结构正下方一层烈焰人燃烧室, 只有超级状态记正分, 其余状态与空位一样不参与计算.
 	 */
 	private void updateHeatLevel() {
 		int hot = 0;
@@ -433,8 +433,6 @@ public class SteamBoilerBlockEntity extends FluidTankBlockEntity {
 					}
 					if (state.getValue(BlazeBurnerBlock.HEAT_LEVEL) == BlazeBurnerBlock.HeatLevel.SEETHING) {
 						hot++;
-					} else {
-						normal++;
 					}
 				}
 			}
@@ -454,7 +452,7 @@ public class SteamBoilerBlockEntity extends FluidTankBlockEntity {
 	}
 
 	/**
-	 * 至少一台超级燃烧室才开工, 其余状态的燃烧室按分数抵销; 等级再受方块数限制.
+	 * 至少一台超级燃烧室才开工; 等级再受方块数限制.
 	 */
 	private double calculateLevel(int hot, int normal) {
 		if (hot <= 0) {
