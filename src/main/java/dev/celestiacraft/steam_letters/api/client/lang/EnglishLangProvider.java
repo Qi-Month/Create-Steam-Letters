@@ -5,7 +5,7 @@ import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import net.minecraft.data.PackOutput;
 
-public class EnglishLangProvider extends RegistrateLangProvider implements SlLangSugar {
+public class EnglishLangProvider extends RegistrateLangProvider implements ILangSugar {
 	public static final ProviderType<EnglishLangProvider> TYPE;
 
 	private final AbstractRegistrate<?> owner;

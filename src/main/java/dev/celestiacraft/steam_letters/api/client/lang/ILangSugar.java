@@ -5,7 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
-public interface SlLangSugar {
+public interface ILangSugar {
 	void add(String key, String value);
 
 	default void addItem(Item item, String name) {

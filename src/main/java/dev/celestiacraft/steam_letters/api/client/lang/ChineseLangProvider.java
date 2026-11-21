@@ -7,7 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fml.LogicalSide;
 
-public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider, SlLangSugar {
+public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider, ILangSugar {
 	public static final ProviderType<ChineseLangProvider> TYPE;
 
 	private final AbstractRegistrate<?> owner;
