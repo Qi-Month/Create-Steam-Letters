@@ -7,7 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
-public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider, SlLangSugar {
+public class ChineseLangProvider extends LanguageProvider implements RegistrateProvider, ILangSugar {
 	public static final ProviderType<ChineseLangProvider> TYPE;
 
 	private final AbstractRegistrate<?> owner;
