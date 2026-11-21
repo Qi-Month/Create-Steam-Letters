@@ -46,3 +46,9 @@
 - 添加 `forge:steams` 和 `c:steams` 用于整合所有蒸汽
 - 修改大锅炉热源算法, 现在只有蓝火燃烧室会影响热量等级
 - 为 `锅炉` 添加了大型锅炉Tooltip
+
+---
+
+# 2.1.3
+
+- 将接口 `SlLangSugar` 重命名为 `ILangSugar`
