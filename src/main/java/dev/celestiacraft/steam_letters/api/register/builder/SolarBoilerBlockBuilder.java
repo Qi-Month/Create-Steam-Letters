@@ -4,7 +4,7 @@ import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BuilderCallback;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import dev.celestiacraft.steam_letters.api.machine.SteamEngineSpec;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlock;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 /**

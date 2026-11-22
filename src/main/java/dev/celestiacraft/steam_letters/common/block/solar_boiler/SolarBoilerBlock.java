@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.common.block.boiler;
+package dev.celestiacraft.steam_letters.common.block.solar_boiler;
 
 import com.simibubi.create.foundation.block.IBE;
 
@@ -6,9 +6,9 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
-import dev.celestiacraft.steam_letters.client.models.SlBlockStateGen;
 import dev.celestiacraft.steam_letters.api.machine.ISteamEngineBlock;
 import dev.celestiacraft.steam_letters.api.machine.SteamEngineSpec;
+import dev.celestiacraft.steam_letters.client.models.SlBlockStateGen;
 import dev.celestiacraft.steam_letters.common.register.SlBlockEntities;
 import dev.celestiacraft.steam_letters.utils.BlockFluidInteractions;
 import net.minecraft.core.BlockPos;

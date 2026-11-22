@@ -156,12 +156,13 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_BOILER_WATER_STORED), "储水");
 
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER), "太阳能锅炉");
-		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_IDLE), "无光照, 未产出");
+		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_IDLE), "未产出蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_LIGHT_ARTIFICIAL), "光源: 人造光");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_LIGHT_NONE), "光源: 无");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_LIGHT_RAIN), "光源: 太阳光 (雨天)");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_LIGHT_SUNLIGHT), "光源: 太阳光");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_LIGHT_THUNDER), "光源: 太阳光 (雷雨)");
+		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_NO_WATER), "缺水");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_PRODUCTION), "蒸汽生产速率");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_RATE), "占满速比例");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_SOLAR_BOILER_WORKING), "正在产出蒸汽");

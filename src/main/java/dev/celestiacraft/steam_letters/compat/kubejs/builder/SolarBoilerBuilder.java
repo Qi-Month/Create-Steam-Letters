@@ -1,8 +1,8 @@
 package dev.celestiacraft.steam_letters.compat.kubejs.builder;
 
 import dev.celestiacraft.steam_letters.api.machine.SteamEngineSpec;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlock;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerBlock;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.tags.SlBlockTags;
 import dev.celestiacraft.steam_letters.tags.SlItemTags;
 import dev.latvian.mods.kubejs.generator.AssetJsonGenerator;

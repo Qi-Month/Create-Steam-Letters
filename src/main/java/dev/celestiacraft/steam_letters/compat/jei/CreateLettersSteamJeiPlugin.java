@@ -33,6 +33,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -97,6 +98,7 @@ public class CreateLettersSteamJeiPlugin implements IModPlugin {
 	 * 逐物品建条目会让木板, 原木这类成组出现的燃料占满整页, 而它们的时间本来就是同一个值.
 	 * <p>
 	 * 已经被自定义配方覆盖的物品跳过, 避免同一个物品出现两页.
+	 * 带流体能力的容器与运行时一致不列出, 只有 solid_fuel 配方能放行.
 	 */
 	private static List<SolidFuelRecipe> collectFurnaceFuels(List<SolidFuelRecipe> custom) {
 		Map<Integer, List<ItemStack>> normal = new TreeMap<>();
@@ -104,7 +106,7 @@ public class CreateLettersSteamJeiPlugin implements IModPlugin {
 
 		for (Item item : ForgeRegistries.ITEMS) {
 			ItemStack stack = item.getDefaultInstance();
-			if (stack.isEmpty() || matchesAny(custom, stack)) {
+			if (stack.isEmpty() || matchesAny(custom, stack) || isFluidContainer(stack)) {
 				continue;
 			}
 
@@ -145,6 +147,13 @@ public class CreateLettersSteamJeiPlugin implements IModPlugin {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 与固体燃烧室运行时保持一致: 带流体能力的容器不按熔炉燃料值列出, 只有 solid_fuel 配方能放行.
+	 */
+	private static boolean isFluidContainer(ItemStack stack) {
+		return FluidUtil.getFluidHandler(stack).isPresent();
 	}
 
 	@Override
