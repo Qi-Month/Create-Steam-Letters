@@ -10,6 +10,11 @@ import dev.latvian.mods.kubejs.recipe.RecipeKey;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 
 public class BurnerSchema {
+	public static final RecipeKey<Integer> TIME = new RecipeKey<>(
+			new FuelTimeComponent(),
+			"time"
+	).optional(0);
+
 	public static final RecipeKey<Boolean> SUPERHEATED = new RecipeKey<>(
 			new FuelSuperheatedComponent(),
 			IBurnerFuelRecipe.SUPERHEATED_KEY
@@ -19,7 +24,7 @@ public class BurnerSchema {
 			BurnerRecipeJS.class,
 			BurnerRecipeJS::new,
 			new RecipeKey<>(new FuelItemComponent(), "fuel"),
-			new RecipeKey<>(new FuelTimeComponent(), "time"),
+			TIME,
 			SUPERHEATED
 	);
 
@@ -27,7 +32,7 @@ public class BurnerSchema {
 			BurnerRecipeJS.class,
 			BurnerRecipeJS::new,
 			new RecipeKey<>(new FuelFluidComponent(), "fuel"),
-			new RecipeKey<>(new FuelTimeComponent(), "time"),
+			TIME,
 			SUPERHEATED
 	);
 }
