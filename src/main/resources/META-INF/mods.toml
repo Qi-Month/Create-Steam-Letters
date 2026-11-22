@@ -2,6 +2,8 @@ modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
 logoFile = "logo.png"
+displayURL = "https://github.com/Qi-Month/Create-Steam-Letters"
+issueTrackerURL = "https://github.com/Qi-Month/Create-Steam-Letters/issues"
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"
