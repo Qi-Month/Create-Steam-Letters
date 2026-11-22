@@ -77,6 +77,7 @@ public class SlTranKeys {
 			GOGGLE_SOLAR_BOILER,
 			GOGGLE_SOLAR_BOILER_WORKING,
 			GOGGLE_SOLAR_BOILER_IDLE,
+			GOGGLE_SOLAR_BOILER_NO_WATER,
 			GOGGLE_SOLAR_BOILER_LIGHT_SUNLIGHT,
 			GOGGLE_SOLAR_BOILER_LIGHT_RAIN,
 			GOGGLE_SOLAR_BOILER_LIGHT_THUNDER,
@@ -213,6 +214,7 @@ public class SlTranKeys {
 		GOGGLE_SOLAR_BOILER = "gui.goggles.solar_boiler";
 		GOGGLE_SOLAR_BOILER_WORKING = "gui.goggles.solar_boiler.working";
 		GOGGLE_SOLAR_BOILER_IDLE = "gui.goggles.solar_boiler.idle";
+		GOGGLE_SOLAR_BOILER_NO_WATER = "gui.goggles.solar_boiler.no_water";
 		GOGGLE_SOLAR_BOILER_LIGHT_SUNLIGHT = "gui.goggles.solar_boiler.light.sunlight";
 		GOGGLE_SOLAR_BOILER_LIGHT_RAIN = "gui.goggles.solar_boiler.light.rain";
 		GOGGLE_SOLAR_BOILER_LIGHT_THUNDER = "gui.goggles.solar_boiler.light.thunder";

@@ -15,7 +15,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.items.IItemHandler;
+
+import java.util.Optional;
 
 /**
  * 固体燃烧室的方块实体.
@@ -78,14 +84,32 @@ public class SolidBurnerBlockEntity extends AbstractBurnerBlockEntity {
 			return false;
 		}
 
-		fuel.shrink(1);
-		if (fuel.isEmpty()) {
-			fuel = ItemStack.EMPTY;
+		// 槽里正常不会躺着容器燃料: 右键与管道都在进槽之前就抽干、把空容器交还了.
+		// 这里兜住旧存档里已经躺在槽里的那一件, 抽干后把空容器丢在方块上方, 不能整件吃掉.
+		ItemStack container = consumeContainerFuel(fuel, 1, false);
+		if (!container.isEmpty()) {
+			shrinkFuel();
+			if (level != null) {
+				Containers.dropItemStack(level, worldPosition.getX() + 0.5D, worldPosition.getY() + 1.0D, worldPosition.getZ() + 0.5D, container);
+			}
+			return true;
 		}
+
+		shrinkFuel();
 		setBurnTime(time);
 		setSuperheatedFuel(burnTimeSuperheated);
 		setChanged();
 		return true;
+	}
+
+	/**
+	 * 燃料槽里消耗一件.
+	 */
+	private void shrinkFuel() {
+		fuel.shrink(1);
+		if (fuel.isEmpty()) {
+			fuel = ItemStack.EMPTY;
+		}
 	}
 
 	/**
@@ -108,7 +132,9 @@ public class SolidBurnerBlockEntity extends AbstractBurnerBlockEntity {
 			if (recipe != null) {
 				time = recipe.getTime();
 				superheated |= recipe.isSuperheated();
-			} else {
+			} else if (!isFluidContainer(stack)) {
+				// 带流体能力的容器默认不当燃料: 能反复灌装的罐子会把熔炉燃烧值变成无限燃料,
+				// 平衡性留给数据包与 KubeJS, 想放行就自己写一条 solid_fuel 配方
 				time = stack.getBurnTime(RecipeType.SMELTING);
 			}
 		}
@@ -120,6 +146,13 @@ public class SolidBurnerBlockEntity extends AbstractBurnerBlockEntity {
 		return time;
 	}
 
+	/**
+	 * 物品是否带流体能力. 这类容器不按原版熔炉燃料值当固体燃料, 只有 solid_fuel 配方能放行.
+	 */
+	private static boolean isFluidContainer(ItemStack stack) {
+		return FluidUtil.getFluidHandler(stack).isPresent();
+	}
+
 	public boolean isFuel(ItemStack stack) {
 		return resolveBurnTime(stack) > 0;
 	}
@@ -129,6 +162,61 @@ public class SolidBurnerBlockEntity extends AbstractBurnerBlockEntity {
 		burnTimeKey = ItemStack.EMPTY;
 		burnTimeValue = 0;
 		burnTimeSuperheated = false;
+	}
+
+	/**
+	 * 抽掉容器燃料里的流体, 把这件物品自身的燃烧时间记进燃烧钟.
+	 * <p>
+	 * 只走物品流体能力, 不看具体物品类型: 流体从 {@link IFluidHandlerItem} 抽走, 交还的空容器取自
+	 * {@link IFluidHandlerItem#getContainer()}, 因此任何模组的容器都能适配. 燃烧时间仍按物品本身判定
+	 * (自定义 {@code steam_letters:solid_fuel} 配方优先, 没命中回退到原版燃料表), 与容器里装了什么流体无关.
+	 *
+	 * @param count    处理的件数, 多件时燃烧时间按件数累加
+	 * @param simulate 只算结果, 不改动任何状态
+	 * @return 数量为 count 的空容器; 这件物品不是容器燃料时返回 {@link ItemStack#EMPTY}
+	 */
+	public ItemStack consumeContainerFuel(ItemStack stack, int count, boolean simulate) {
+		if (count <= 0 || stack.isEmpty() || !isFuel(stack)) {
+			return ItemStack.EMPTY;
+		}
+
+		// 能力绑定在单件上: 整叠取能力再抽干, 拿回的空容器也只有一件
+		Optional<IFluidHandlerItem> optional = FluidUtil.getFluidHandler(stack.copyWithCount(1));
+		if (optional.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+
+		IFluidHandlerItem handler = optional.get();
+		FluidStack stored = handler.getFluidInTank(0);
+		if (stored.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+
+		// 抽的只是一份副本, 外面这叠原样不动
+		if (handler.drain(stored.getAmount(), IFluidHandler.FluidAction.EXECUTE).isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+
+		ItemStack container = handler.getContainer();
+		if (container.isEmpty() || ItemStack.isSameItemSameComponents(container, stack)) {
+			// 抽干之后还是同一件物品, 那就是凭空续燃料
+			return ItemStack.EMPTY;
+		}
+		if (count > container.getMaxStackSize()) {
+			// 空容器只能作为一叠剩余物交还, 超过一叠的数量交不出去
+			return ItemStack.EMPTY;
+		}
+
+		if (!simulate) {
+			int time = resolveBurnTime(stack);
+			if (getBurnTime() <= 0) {
+				setSuperheatedFuel(burnTimeSuperheated);
+			}
+			setBurnTime(getBurnTime() + time * count);
+			setChanged();
+		}
+
+		return container.copyWithCount(count);
 	}
 
 	/**

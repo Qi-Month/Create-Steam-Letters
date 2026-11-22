@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.common.block.boiler;
+package dev.celestiacraft.steam_letters.common.block.solar_boiler;
 
 import com.simibubi.create.foundation.block.IBE;
 import com.tterrag.registrate.providers.DataGenContext;

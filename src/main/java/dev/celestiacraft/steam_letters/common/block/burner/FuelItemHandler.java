@@ -25,6 +25,12 @@ public class FuelItemHandler implements IItemHandler {
 			return stack;
 		}
 
+		// 容器燃料不进燃料槽: 抽掉流体, 空容器作为未插入的部分返回
+		ItemStack container = entity.consumeContainerFuel(stack, stack.getCount(), simulate);
+		if (!container.isEmpty()) {
+			return container;
+		}
+
 		ItemStack fuel = entity.getFuel();
 		if (!fuel.isEmpty() && !ItemStack.isSameItemSameComponents(fuel, stack)) {
 			return stack;

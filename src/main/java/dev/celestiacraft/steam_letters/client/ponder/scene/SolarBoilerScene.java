@@ -2,7 +2,7 @@ package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;

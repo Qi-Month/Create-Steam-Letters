@@ -6,8 +6,6 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutRenderer;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlockEntity;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerRenderer;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerRenderer;
 import dev.celestiacraft.steam_letters.common.block.bronze_basin.BronzeBasinBlockEntity;
@@ -20,6 +18,8 @@ import dev.celestiacraft.steam_letters.common.block.engine.SteamEngineBlockEntit
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelInstance;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelRenderer;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerRenderer;
 import dev.celestiacraft.steam_letters.common.block.steam_hammer.SteamHammerBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.steam_hammer.SteamHammerInstance;
 import dev.celestiacraft.steam_letters.common.block.steam_hammer.SteamHammerRenderer;

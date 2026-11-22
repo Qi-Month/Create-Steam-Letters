@@ -54,6 +54,16 @@ public class SolidBurnerBlock extends AbstractBurnerBlock implements IBE<SolidBu
 			return burner.isFuel(stack) ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
+		// 容器燃料不进燃料槽: 当场抽掉流体, 空容器还给玩家, 背包塞不下就掉在脚下
+		ItemStack container = burner.consumeContainerFuel(stack, 1, false);
+		if (!container.isEmpty()) {
+			stack.shrink(1);
+			if (!player.getInventory().add(container)) {
+				player.drop(container, false);
+			}
+			return ItemInteractionResult.SUCCESS;
+		}
+
 		return burner.insertFuel(stack) ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 

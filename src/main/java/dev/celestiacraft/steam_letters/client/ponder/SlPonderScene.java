@@ -2,11 +2,11 @@ package dev.celestiacraft.steam_letters.client.ponder;
 
 import com.simibubi.create.infrastructure.ponder.AllCreatePonderTags;
 import dev.celestiacraft.steam_letters.client.ponder.scene.*;
-import dev.celestiacraft.steam_letters.common.block.boiler.SolarBoilerBlock;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlock;
 import dev.celestiacraft.steam_letters.common.block.burner.AbstractBurnerBlock;
 import dev.celestiacraft.steam_letters.common.block.engine.SteamEngineBlock;
 import dev.celestiacraft.steam_letters.common.block.flywheel.SteamFlywheelBlock;
+import dev.celestiacraft.steam_letters.common.block.solar_boiler.SolarBoilerBlock;
 import dev.celestiacraft.steam_letters.common.register.SlBlocks;
 import dev.celestiacraft.steam_letters.common.register.SlItems;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;

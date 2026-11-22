@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.common.block.boiler;
+package dev.celestiacraft.steam_letters.common.block.solar_boiler;
 
 import lombok.Getter;
 import net.minecraft.util.Mth;

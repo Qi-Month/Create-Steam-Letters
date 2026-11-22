@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.common.block.boiler;
+package dev.celestiacraft.steam_letters.common.block.solar_boiler;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;

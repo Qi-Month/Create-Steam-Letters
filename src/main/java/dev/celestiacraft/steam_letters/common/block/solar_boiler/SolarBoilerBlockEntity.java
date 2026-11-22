@@ -1,8 +1,10 @@
-package dev.celestiacraft.steam_letters.common.block.boiler;
+package dev.celestiacraft.steam_letters.common.block.solar_boiler;
 
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.client.lang.SlLang;
+import dev.celestiacraft.steam_letters.common.block.boiler.AbstractBoilerBlockEntity;
+import dev.celestiacraft.steam_letters.common.block.boiler.BoilerLightSource;
 import dev.celestiacraft.steam_letters.config.common.SolarBoilerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -231,10 +233,25 @@ public class SolarBoilerBlockEntity extends AbstractBoilerBlockEntity implements
 		double efficiency = computeEfficiency();
 		// 满速产出未配置 (0) 时不产汽, 此时即便光照满足也只能算待机.
 		double fullOutput = spec.getProduction();
-		boolean working = efficiency > 0.0D && fullOutput > 0.0D;
+		boolean lit = efficiency > 0.0D && fullOutput > 0.0D;
+		// 有光照不等于在产汽: 罐里得先有水, 产出的蒸汽还得放得下, 缺一样都与停机无异.
+		boolean hasWater = !getInputTank().getFluid().isEmpty();
+		boolean hasOutputRoom = getOutputTank().getFluidAmount() < getOutputTank().getCapacity();
+		boolean working = lit && hasWater && hasOutputRoom;
 
-		SlLang.translate(working ? SlTranKeys.GOGGLE_SOLAR_BOILER_WORKING : SlTranKeys.GOGGLE_SOLAR_BOILER_IDLE)
-				.style(working ? ChatFormatting.GREEN : ChatFormatting.RED)
+		String statusKey = SlTranKeys.GOGGLE_SOLAR_BOILER_IDLE;
+		ChatFormatting statusColor = ChatFormatting.RED;
+		if (working) {
+			statusKey = SlTranKeys.GOGGLE_SOLAR_BOILER_WORKING;
+			statusColor = ChatFormatting.GREEN;
+		} else if (lit && !hasWater) {
+			// 光照够却不出汽时单独点出缺水, 否则玩家只会看到一句笼统的待机
+			statusKey = SlTranKeys.GOGGLE_SOLAR_BOILER_NO_WATER;
+			statusColor = ChatFormatting.YELLOW;
+		}
+
+		SlLang.translate(statusKey)
+				.style(statusColor)
 				.style(ChatFormatting.BOLD)
 				.forGoggles(tooltip, 1);
 
@@ -244,7 +261,8 @@ public class SolarBoilerBlockEntity extends AbstractBoilerBlockEntity implements
 				.forGoggles(tooltip, 1);
 
 		// 实际产汽速率 = 满速产出 x 当前环境效率; 占满速比例与效率是同一个数, 只是换了说法更直观.
-		double production = fullOutput * efficiency;
+		// 没在产汽时两行都印 0, 免得显示一个实际没发生的产量.
+		double production = working ? fullOutput * efficiency : 0.0D;
 
 		SlLang.translate(SlTranKeys.GOGGLE_SOLAR_BOILER_PRODUCTION)
 				.style(ChatFormatting.GRAY)
