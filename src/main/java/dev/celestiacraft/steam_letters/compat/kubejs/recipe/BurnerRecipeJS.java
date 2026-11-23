@@ -1,6 +1,6 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe;
 
-import dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.schema.BurnerSchema;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.BurnerSchema;
 import dev.latvian.mods.kubejs.recipe.RecipeJS;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
 import dev.latvian.mods.kubejs.typings.Info;

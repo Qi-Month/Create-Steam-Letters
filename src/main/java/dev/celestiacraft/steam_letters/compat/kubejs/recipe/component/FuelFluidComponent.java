@@ -1,10 +1,10 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.component;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe.component;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.celestiacraft.steam_letters.common.recipe.type.FluidFuelRecipe;
-import dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.BurnerRecipeJson;
-import dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema.FuelFluid;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.BurnerRecipeJson;
+import dev.celestiacraft.steam_letters.compat.kubejs.recipe.FuelFluid;
 import dev.latvian.mods.kubejs.recipe.RecipeJS;
 import dev.latvian.mods.kubejs.recipe.component.ComponentRole;
 import dev.latvian.mods.kubejs.recipe.component.RecipeComponent;

@@ -1,4 +1,4 @@
-package dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema;
+package dev.celestiacraft.steam_letters.compat.kubejs.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

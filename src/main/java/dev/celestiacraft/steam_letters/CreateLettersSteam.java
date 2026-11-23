@@ -3,6 +3,7 @@ package dev.celestiacraft.steam_letters;
 import com.simibubi.create.api.stress.BlockStressValues;
 import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.api.SlStress;
+import dev.celestiacraft.steam_letters.api.recipe.SlRecipeBuilders;
 import dev.celestiacraft.steam_letters.client.block.SlBlockPartialModel;
 import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import dev.celestiacraft.steam_letters.common.register.*;
@@ -41,6 +42,7 @@ public class CreateLettersSteam {
 		SlFluids.init();
 		SlParticles.init(bus);
 		SlRecipeTypes.init();
+		SlRecipeBuilders.init();
 		SlCreativeTabs.init(bus);
 		SlConditionTypes.init();
 
