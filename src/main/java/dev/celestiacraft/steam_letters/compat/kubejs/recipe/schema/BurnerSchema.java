@@ -1,7 +1,7 @@
 package dev.celestiacraft.steam_letters.compat.kubejs.recipe.schema;
 
-import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.common.recipe.type.IBurnerFuelRecipe;
+import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import dev.celestiacraft.steam_letters.compat.kubejs.recipe.BurnerRecipeJS;
 import dev.celestiacraft.steam_letters.compat.kubejs.recipe.component.FuelFluidComponent;
 import dev.celestiacraft.steam_letters.compat.kubejs.recipe.component.FuelItemComponent;
@@ -32,11 +32,11 @@ public class BurnerSchema {
 			FuelItemComponent.INSTANCE.key("fuel", ComponentRole.INPUT),
 			TIME,
 			SUPERHEATED
-	).factory(new KubeRecipeFactory(SlApis.loadResource("solid_fuel"), BurnerRecipeJS.class, BurnerRecipeJS::new));
+	).factory(new KubeRecipeFactory(SlRecipeTypes.SOLID_FUEL.getId(), BurnerRecipeJS.class, BurnerRecipeJS::new));
 
 	public static final RecipeSchema FLUID_FUEL = new RecipeSchema(
 			FuelFluidComponent.INSTANCE.key("fuel", ComponentRole.INPUT),
 			TIME,
 			SUPERHEATED
-	).factory(new KubeRecipeFactory(SlApis.loadResource("fluid_fuel"), BurnerRecipeJS.class, BurnerRecipeJS::new));
+	).factory(new KubeRecipeFactory(SlRecipeTypes.FLUID_FUEL.getId(), BurnerRecipeJS.class, BurnerRecipeJS::new));
 }
