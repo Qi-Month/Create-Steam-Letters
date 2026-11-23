@@ -15,6 +15,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.*;
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 /**
  * 代码配方的入口: 用 Java 写完即注入 {@link RecipeManager}, 不产出配方 JSON, 也不依赖 datagen.
@@ -24,6 +25,8 @@ import java.util.function.BooleanSupplier;
  * 玩家进服时同样发送, 客户端因此不需要另外注册.
  * <p>
  * 配方 id 与 datagen 产物同一套路径, 例如 {@code steam_letters:solid_fuel/diamond}. 同 id 时代码配方覆盖数据包里的那一份.
+ * <p>
+ * 这里登记的只是一个取法: 配方本体等注入时才构造, 因此调用点不受注册表是否就绪的限制, 在模组构造期写也不会拿到空对象.
  */
 public class SlRecipeBuilders {
 	private static final Map<ResourceLocation, SlRecipePending> PENDING = new LinkedHashMap<>();
@@ -82,11 +85,11 @@ public class SlRecipeBuilders {
 	/**
 	 * 登记一条代码配方, 条件每次重载时重新求值, 全部通过才注入.
 	 */
-	static synchronized <T extends Recipe<?>> RecipeHolder<T> register(RecipeHolder<T> holder, List<BooleanSupplier> conditions) {
-		PENDING.put(holder.id(), new SlRecipePending(holder, List.copyOf(conditions)));
+	static synchronized ResourceLocation register(ResourceLocation id, Supplier<RecipeHolder<?>> factory, List<BooleanSupplier> conditions) {
+		PENDING.put(id, new SlRecipePending(factory, List.copyOf(conditions)));
 		injectIfRunning();
 
-		return holder;
+		return id;
 	}
 
 	/**
@@ -158,7 +161,12 @@ public class SlRecipeBuilders {
 				continue;
 			}
 
-			merged.put(entry.getKey(), entry.getValue().getHolder());
+			RecipeHolder<?> holder = build(entry.getKey(), entry.getValue());
+			if (holder == null) {
+				continue;
+			}
+
+			merged.put(entry.getKey(), holder);
 			applied.add(entry.getKey());
 		}
 
@@ -170,5 +178,17 @@ public class SlRecipeBuilders {
 		INJECTED.addAll(applied);
 		manager.replaceRecipes(merged.values());
 		CreateLettersSteam.LOGGER.info("in-code recipes: {} injected, {} skipped by condition", applied.size(), skipped);
+	}
+
+	/**
+	 * 构造单条配方. 原料在这一刻才解析, 出错只丢掉这一条, 不影响整次重载.
+	 */
+	private static RecipeHolder<?> build(ResourceLocation id, SlRecipePending pending) {
+		try {
+			return pending.getFactory().get();
+		} catch (RuntimeException exception) {
+			CreateLettersSteam.LOGGER.error("in-code recipe {} could not be built", id, exception);
+			return null;
+		}
 	}
 }

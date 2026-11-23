@@ -16,11 +16,14 @@ import net.neoforged.neoforge.common.conditions.ICondition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 /**
  * 固体燃料配方的代码写法, 链式 API 与 datagen 侧 {@code SolidFuelRecipeGen#SolidFuelBuilder} 同名同义.
  * <p>
  * 一条配方只吃一种物品, 时长以 tick 计. 不给时长时按 200 tick (一个物品) 处理, 与 datagen 默认一致.
+ * <p>
+ * 原料只记下取法, 等配方真正构造时才解析, 因此在模组构造期直接写引用注册表对象的配方也是安全的.
  */
 public class SolidFuelRecipeBuilder {
 	private static final int TICKS_PER_ITEM = 200;
@@ -28,6 +31,8 @@ public class SolidFuelRecipeBuilder {
 	private final ResourceLocation id;
 	private final FuelRecipeBuilder<SolidFuelRecipe> builder;
 	private final List<BooleanSupplier> conditions = new ArrayList<>();
+	private Supplier<Ingredient> ingredient;
+	private Integer duration;
 	private boolean superheated;
 
 	public SolidFuelRecipeBuilder(ResourceLocation id) {
@@ -36,11 +41,17 @@ public class SolidFuelRecipeBuilder {
 	}
 
 	public SolidFuelRecipeBuilder item(ItemLike item) {
-		return ingredient(Ingredient.of(item));
+		ingredient = () -> {
+			return Ingredient.of(item);
+		};
+		return this;
 	}
 
 	public SolidFuelRecipeBuilder item(ResourceLocation item) {
-		return item(BuiltInRegistries.ITEM.get(item));
+		ingredient = () -> {
+			return Ingredient.of(BuiltInRegistries.ITEM.get(item));
+		};
+		return this;
 	}
 
 	public SolidFuelRecipeBuilder item(String item) {
@@ -48,7 +59,10 @@ public class SolidFuelRecipeBuilder {
 	}
 
 	public SolidFuelRecipeBuilder itemTag(TagKey<Item> tag) {
-		return ingredient(Ingredient.of(tag));
+		ingredient = () -> {
+			return Ingredient.of(tag);
+		};
+		return this;
 	}
 
 	public SolidFuelRecipeBuilder itemTag(ResourceLocation tag) {
@@ -59,8 +73,13 @@ public class SolidFuelRecipeBuilder {
 		return itemTag(ResourceLocation.parse(tag));
 	}
 
+	/**
+	 * 直接给原料. 传进来的 {@link Ingredient} 必须已经可用, 需要按 id 或实例延迟解析时改用 item / itemTag.
+	 */
 	public SolidFuelRecipeBuilder ingredient(Ingredient ingredient) {
-		builder.withItemIngredients(ingredient);
+		this.ingredient = () -> {
+			return ingredient;
+		};
 		return this;
 	}
 
@@ -68,7 +87,7 @@ public class SolidFuelRecipeBuilder {
 	 * 燃烧时长, 单位 tick.
 	 */
 	public SolidFuelRecipeBuilder time(int ticks) {
-		builder.duration(ticks);
+		duration = ticks;
 		return this;
 	}
 
@@ -121,7 +140,17 @@ public class SolidFuelRecipeBuilder {
 		});
 	}
 
+	/**
+	 * 立即构造配方. 需要查注册表的原料在这里才解析, 所以调用点必须已经越过注册阶段.
+	 */
 	public RecipeHolder<SolidFuelRecipe> build() {
+		if (ingredient != null) {
+			builder.withItemIngredients(ingredient.get());
+		}
+		if (duration != null) {
+			builder.duration(duration);
+		}
+
 		SolidFuelRecipe recipe = builder.build();
 		recipe.setSuperheated(superheated);
 
@@ -135,9 +164,9 @@ public class SolidFuelRecipeBuilder {
 	}
 
 	/**
-	 * 提交给 {@link SlRecipeBuilders}. 服务器已在跑时当场生效, 否则等下一次资源重载.
+	 * 提交给 {@link SlRecipeBuilders}: 只登记取法, 配方等下一次服务端重载时才构造.
 	 */
-	public RecipeHolder<SolidFuelRecipe> register() {
-		return SlRecipeBuilders.register(build(), conditions);
+	public ResourceLocation register() {
+		return SlRecipeBuilders.register(id, this::build, conditions);
 	}
 }

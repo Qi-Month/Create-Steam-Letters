@@ -464,7 +464,7 @@ public class English {
 		provider.add(SlAdvancement.descKey(SlAdvancement.SOLAR_BOILER), "No Burner, no fuel.");
 
 		provider.add(SlAdvancement.titleKey(SlAdvancement.BOILER), "The Essence of Human Technology Is Boiling Water");
-		provider.add(SlAdvancement.descKey(SlAdvancement.BOILER), "A Bronze Boiler built from several blocks.");
+		provider.add(SlAdvancement.descKey(SlAdvancement.BOILER), "A Boiler built from several blocks.");
 
 		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_FLYWHEEL), "The Old Timer's Back From the Grave");
 		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_FLYWHEEL), "Obtain a Steam Flywheel.");

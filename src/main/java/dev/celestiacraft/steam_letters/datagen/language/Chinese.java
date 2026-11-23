@@ -453,7 +453,7 @@ public class Chinese {
 		provider.add(SlAdvancement.descKey(SlAdvancement.SOLAR_BOILER), "不用燃烧室, 也不烧燃料");
 
 		provider.add(SlAdvancement.titleKey(SlAdvancement.BOILER), "人类科技的本质就是烧开水");
-		provider.add(SlAdvancement.descKey(SlAdvancement.BOILER), "多方块拼起来的青铜锅炉");
+		provider.add(SlAdvancement.descKey(SlAdvancement.BOILER), "多方块拼起来的锅炉");
 
 		provider.add(SlAdvancement.titleKey(SlAdvancement.STEAM_FLYWHEEL), "老东西打赢复活赛了");
 		provider.add(SlAdvancement.descKey(SlAdvancement.STEAM_FLYWHEEL), "获得蒸汽飞轮");

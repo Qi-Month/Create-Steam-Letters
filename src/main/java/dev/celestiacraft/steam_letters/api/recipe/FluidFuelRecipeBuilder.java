@@ -15,16 +15,21 @@ import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 /**
  * 流体燃料配方的代码写法, 链式 API 与 datagen 侧 {@code FluidFuelRecipeGen#FluidFuelBuilder} 同名同义.
  * <p>
  * 一条配方吃一种流体, 默认每次燃烧消耗 1000 mB.
+ * <p>
+ * 原料只记下取法, 等配方真正构造时才解析, 因此在模组构造期直接写引用注册表对象的配方也是安全的.
  */
 public class FluidFuelRecipeBuilder {
 	private final ResourceLocation id;
 	private final FuelRecipeBuilder<FluidFuelRecipe> builder;
 	private final List<BooleanSupplier> conditions = new ArrayList<>();
+	private Supplier<SizedFluidIngredient> ingredient;
+	private Integer duration;
 	private boolean superheated;
 
 	public FluidFuelRecipeBuilder(ResourceLocation id) {
@@ -33,11 +38,24 @@ public class FluidFuelRecipeBuilder {
 	}
 
 	public FluidFuelRecipeBuilder fluid(Fluid fluid) {
-		return ingredient(SizedFluidIngredient.of(fluid, FluidFuelRecipe.FUEL_AMOUNT));
+		ingredient = () -> {
+			return SizedFluidIngredient.of(fluid, FluidFuelRecipe.FUEL_AMOUNT);
+		};
+		return this;
+	}
+
+	public FluidFuelRecipeBuilder fluid(Supplier<? extends Fluid> fluid) {
+		ingredient = () -> {
+			return SizedFluidIngredient.of(fluid.get(), FluidFuelRecipe.FUEL_AMOUNT);
+		};
+		return this;
 	}
 
 	public FluidFuelRecipeBuilder fluid(ResourceLocation fluid) {
-		return fluid(BuiltInRegistries.FLUID.get(fluid));
+		ingredient = () -> {
+			return SizedFluidIngredient.of(BuiltInRegistries.FLUID.get(fluid), FluidFuelRecipe.FUEL_AMOUNT);
+		};
+		return this;
 	}
 
 	public FluidFuelRecipeBuilder fluid(String fluid) {
@@ -45,7 +63,10 @@ public class FluidFuelRecipeBuilder {
 	}
 
 	public FluidFuelRecipeBuilder fluidTag(TagKey<Fluid> tag) {
-		return ingredient(SizedFluidIngredient.of(tag, FluidFuelRecipe.FUEL_AMOUNT));
+		ingredient = () -> {
+			return SizedFluidIngredient.of(tag, FluidFuelRecipe.FUEL_AMOUNT);
+		};
+		return this;
 	}
 
 	public FluidFuelRecipeBuilder fluidTag(ResourceLocation tag) {
@@ -56,8 +77,13 @@ public class FluidFuelRecipeBuilder {
 		return fluidTag(ResourceLocation.parse(tag));
 	}
 
+	/**
+	 * 直接给原料. 传进来的 {@link SizedFluidIngredient} 必须已经可用, 需要按 id 或实例延迟解析时改用 fluid / fluidTag.
+	 */
 	public FluidFuelRecipeBuilder ingredient(SizedFluidIngredient ingredient) {
-		builder.withFluidIngredients(ingredient);
+		this.ingredient = () -> {
+			return ingredient;
+		};
 		return this;
 	}
 
@@ -65,7 +91,7 @@ public class FluidFuelRecipeBuilder {
 	 * 燃烧时长, 单位 tick.
 	 */
 	public FluidFuelRecipeBuilder time(int ticks) {
-		builder.duration(ticks);
+		duration = ticks;
 		return this;
 	}
 
@@ -111,7 +137,17 @@ public class FluidFuelRecipeBuilder {
 		});
 	}
 
+	/**
+	 * 立即构造配方. 需要查注册表的原料在这里才解析, 所以调用点必须已经越过注册阶段.
+	 */
 	public RecipeHolder<FluidFuelRecipe> build() {
+		if (ingredient != null) {
+			builder.withFluidIngredients(ingredient.get());
+		}
+		if (duration != null) {
+			builder.duration(duration);
+		}
+
 		FluidFuelRecipe recipe = builder.build();
 		recipe.setSuperheated(superheated);
 
@@ -125,9 +161,9 @@ public class FluidFuelRecipeBuilder {
 	}
 
 	/**
-	 * 提交给 {@link SlRecipeBuilders}. 服务器已在跑时当场生效, 否则等下一次资源重载.
+	 * 提交给 {@link SlRecipeBuilders}: 只登记取法, 配方等下一次服务端重载时才构造.
 	 */
-	public RecipeHolder<FluidFuelRecipe> register() {
-		return SlRecipeBuilders.register(build(), conditions);
+	public ResourceLocation register() {
+		return SlRecipeBuilders.register(id, this::build, conditions);
 	}
 }
