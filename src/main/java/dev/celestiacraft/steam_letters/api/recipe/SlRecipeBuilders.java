@@ -14,6 +14,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.*;
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 /**
  * 代码配方的入口: 用 Java 写完即注入 {@link RecipeManager}, 不产出配方 JSON, 也不依赖 datagen.
@@ -23,6 +24,8 @@ import java.util.function.BooleanSupplier;
  * 玩家进服时同样发送, 客户端因此不需要另外注册.
  * <p>
  * 配方 id 与 datagen 产物同一套路径, 例如 {@code steam_letters:solid_fuel/diamond}. 同 id 时代码配方覆盖数据包里的那一份.
+ * <p>
+ * 这里登记的只是一个取法: 配方本体等注入时才构造, 因此调用点不受注册表是否就绪的限制, 在模组构造期写也不会拿到空对象.
  */
 public class SlRecipeBuilders {
 	private static final Map<ResourceLocation, Pending> PENDING = new LinkedHashMap<>();
@@ -73,18 +76,27 @@ public class SlRecipeBuilders {
 	}
 
 	/**
-	 * 由 Builder 调用: 登记配方, 服务器已在跑时顺带立即注入, 否则等下一次重载.
+	 * 由 Builder 调用: 登记配方取法, 服务器已在跑时顺带立即注入, 否则等下一次重载.
 	 */
-	static synchronized <T extends Recipe<?>> T register(T recipe, List<BooleanSupplier> conditions) {
-		PENDING.put(recipe.getId(), new Pending(recipe, List.copyOf(conditions)));
+	static synchronized ResourceLocation register(ResourceLocation id, Supplier<? extends Recipe<?>> factory, List<BooleanSupplier> conditions) {
+		PENDING.put(id, new Pending(factory, List.copyOf(conditions)));
 		injectIfRunning();
-		return recipe;
+
+		return id;
 	}
 
 	static void report(ResourceLocation id, List<String> errors) {
 		if (!errors.isEmpty()) {
 			CreateLettersSteam.LOGGER.warn("in-code recipe {} is invalid: {}", id, String.join(" ", errors));
 		}
+	}
+
+	/**
+	 * 用最近一次重载的条件上下文求值 {@link ICondition}, 供 {@code whenCondition} 使用.
+	 * 重载尚未发生时上下文为空, 基于标签的条件会判为不通过.
+	 */
+	static boolean test(ICondition condition) {
+		return condition.test(conditionContext);
 	}
 
 	private static ResourceLocation recipeId(SimpleRecipeTypeInfo<?> type, String name) {
@@ -98,14 +110,6 @@ public class SlRecipeBuilders {
 		}
 
 		return ResourceLocation.fromNamespaceAndPath(namespace, type.getId().getPath() + "/" + path);
-	}
-
-	/**
-	 * 用最近一次重载的条件上下文求值 {@link ICondition}, 供 {@code whenCondition} 使用.
-	 * 重载尚未发生时上下文为空, 基于标签的条件会判为不通过.
-	 */
-	static boolean test(ICondition condition) {
-		return condition.test(conditionContext);
 	}
 
 	private static void onAddReloadListeners(AddReloadListenerEvent event) {
@@ -148,7 +152,12 @@ public class SlRecipeBuilders {
 				continue;
 			}
 
-			merged.put(entry.getKey(), entry.getValue().recipe());
+			Recipe<?> recipe = build(entry.getKey(), entry.getValue());
+			if (recipe == null) {
+				continue;
+			}
+
+			merged.put(entry.getKey(), recipe);
 			applied.add(entry.getKey());
 		}
 
@@ -162,7 +171,19 @@ public class SlRecipeBuilders {
 		CreateLettersSteam.LOGGER.info("in-code recipes: {} injected, {} skipped by condition", applied.size(), skipped);
 	}
 
-	private record Pending(Recipe<?> recipe, List<BooleanSupplier> conditions) {
+	/**
+	 * 构造单条配方. 原料在这一刻才解析, 出错只丢掉这一条, 不影响整次重载.
+	 */
+	private static Recipe<?> build(ResourceLocation id, Pending pending) {
+		try {
+			return pending.factory().get();
+		} catch (RuntimeException exception) {
+			CreateLettersSteam.LOGGER.error("in-code recipe {} could not be built", id, exception);
+			return null;
+		}
+	}
+
+	private record Pending(Supplier<? extends Recipe<?>> factory, List<BooleanSupplier> conditions) {
 		private boolean passes() {
 			for (BooleanSupplier condition : conditions) {
 				if (!condition.getAsBoolean()) {
