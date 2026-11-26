@@ -67,6 +67,10 @@ public class SteamBoilerRenderer extends SmartBlockEntityRenderer<SteamBoilerBlo
 		float dialPivotY = 6.0f / 16;
 		float dialPivotZ = 8.0f / 16;
 
+		if (SlBlockPartialModel.STEAM_BOILER_COMPONENT.get() == null) {
+			return;
+		}
+
 		stack.pushPose();
 		stack.translate(width / 2.0f, 0.5F, width / 2.0f);
 		for (Direction direction : Iterate.horizontalDirections) {
