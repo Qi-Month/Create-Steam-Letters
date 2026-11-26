@@ -46,6 +46,8 @@ public class SlClientSetup {
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
+			SlBlockPartialModel.init();
+
 			SlPonderPlugin.register();
 			registerDynamicFlywheelVisuals();
 			preloadFlywheelModels();
