@@ -30,6 +30,7 @@ public class CreateLettersSteam {
 
 	public CreateLettersSteam(IEventBus bus, ModContainer container) {
 		SlApis.REGISTRATE.registerEventListeners(bus);
+
 		SlMaterials.init();
 		SlItems.init();
 		SlBlocks.init();

@@ -5,6 +5,7 @@ import dev.celestiacraft.steam_letters.api.machine.ISteamStorage;
 import dev.celestiacraft.steam_letters.common.register.SlBlockEntities;
 import dev.celestiacraft.steam_letters.config.common.SteamSawConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -120,6 +121,10 @@ public class SteamSawBlockEntity extends SawBlockEntity implements ISteamStorage
 	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
 		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SlBlockEntities.STEAM_SAW.get(), (saw, direction) -> {
 			return saw.steamCapability;
+		});
+
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SlBlockEntities.STEAM_SAW.get(), (saw, direction) -> {
+			return direction == Direction.DOWN ? null : saw.inventory;
 		});
 	}
 

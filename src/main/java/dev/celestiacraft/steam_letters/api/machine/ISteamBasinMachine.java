@@ -70,6 +70,9 @@ public interface ISteamBasinMachine extends ISteamStorage {
 
 	/**
 	 * 连续应用配方; 蒸汽不足, 配方不可应用或盆输出未清空时不消耗原料.
+	 *
+	 * <p>
+	 * {@code canContinueProcessing} 表示盆的待输出缓冲为空, 应用第一份后即不成立, 因此只在循环外判定一次.
 	 */
 	default void applyBasinRecipe() {
 		Recipe<?> recipe = getBasinRecipe();
@@ -79,14 +82,13 @@ public interface ISteamBasinMachine extends ISteamStorage {
 
 		Optional<BasinBlockEntity> basin = getBasin();
 		int parallel = getParallel();
-		if (basin.isEmpty() || parallel <= 0) {
+		if (basin.isEmpty() || parallel <= 0 || !basin.get().canContinueProcessing()) {
 			return;
 		}
 
-		boolean wasEmpty = basin.get().canContinueProcessing();
 		int applied = 0;
 		for (int i = 0; i < parallel; i++) {
-			if (!basin.get().canContinueProcessing() || !BasinRecipe.apply(basin.get(), recipe)) {
+			if (!BasinRecipe.apply(basin.get(), recipe)) {
 				break;
 			}
 			applied++;
@@ -101,7 +103,7 @@ public interface ISteamBasinMachine extends ISteamStorage {
 		basin.get().notifyChangeOfContents();
 		onBasinRecipeApplied(applied);
 
-		if (wasEmpty && matchBasinRecipe(recipe)) {
+		if (matchBasinRecipe(recipe)) {
 			continueWithPreviousRecipe();
 			sendData();
 		}
