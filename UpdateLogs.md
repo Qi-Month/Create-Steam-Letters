@@ -64,3 +64,5 @@
 - 调整 KubeJS 的 `solid_fuel` 与 `fluid_fuel` 配方的 `time` 参数为可选
 - 新增 KubeJS 燃料配方的 `timeSeconds` 与 `timeItem` 方法
 - 新增 `SlRecipeBuilders`, 可用 Java 代码登记 `solid_fuel` 与 `fluid_fuel` 配方
+- 修复 `1.21.1` 中 `蒸汽锯` 的 BlockEntity 没有注册 `ItemHandler Capability` 的问题
+- 修复接工作盆的机器并行加工不生效的问题
